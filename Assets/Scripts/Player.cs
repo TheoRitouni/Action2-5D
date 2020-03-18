@@ -5,39 +5,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 { 
-    private Rigidbody rig;
-    [SerializeField] private bool isHiddingPlaceBehind = false;
-    [SerializeField] private bool isHiddingPlaceBefore = false;
+    private Rigidbody                   rig;
+    private bool                        isHiddingPlaceBehind = false;
+    private bool                        isHiddingPlaceBefore = false;
+
+    private int                         jump = 0;
 
 
 
     [Header("Movements")]
-    [SerializeField] private float speed = 0f;
-    [SerializeField] private float jumpForce = 0f;
+    [SerializeField] private float      speed = 0f;
+    [SerializeField] private float      jumpForce = 0f;
+    [SerializeField] private int        numberOfJump = 0;
 
     [Header("Characteristics")]
-    [SerializeField] private float life = 0f;
+    [SerializeField] private float      life = 0f;
 
     [Header("Ground Checker")]
-    [SerializeField] private Transform groundedLeft = null;
-    [SerializeField] private Transform groundedRight = null;
+    [SerializeField] private Transform  groundedLeft = null;
+    [SerializeField] private Transform  groundedRight = null;
 
     [Header("Hidding Place Checker")]
-    [SerializeField] private Transform hiddingBehind = null;
-    [SerializeField] private Transform hiddingBefore = null;
-
-    //private bool isGroundedLeft, isGroundedRight;
+    [SerializeField] private Transform  hiddingBehind = null;
+    [SerializeField] private Transform  hiddingBefore = null;
 
     [Header("Features")]
-    [SerializeField] private bool hiddenBefore = false;
-    [SerializeField] private bool hiddenBehind = false;
+    [SerializeField] private bool       hiddenBefore = false;
+    [SerializeField] private bool       hiddenBehind = false;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody>();
     }
     
-    // Update is called once per frame
     void Update()
     {
         if (life > 0f) // If player is alive
@@ -56,8 +56,19 @@ public class Player : MonoBehaviour
         {
             transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
 
-            if (Input.GetButtonDown("Jump") && GroundCheck())
+            if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0))
+            {
+                rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
                 rig.AddForce(Vector3.up * jumpForce);
+                jump++;
+            }
+
+            if (GroundCheck())
+                jump = 0;
+
+            Debug.Log(GroundCheck());
+            
+            
         }
 
         if (Vertical >= 0.75f || Vertical <= -0.75f)
@@ -130,7 +141,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(hiddingBefore.position, transform.TransformDirection(-Vector3.forward), out hitBefore))
         {
-            Debug.Log(hitBefore.collider.name);
             if (hitBefore.collider.gameObject.CompareTag("HiddingPlace"))
                 isHiddingPlaceBefore = true;
             else
@@ -141,7 +151,6 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(hiddingBehind.position, transform.TransformDirection(Vector3.forward), out hitBehind))
         {
-            Debug.Log(hitBehind.collider.name);
             if (hitBehind.collider.gameObject.CompareTag("HiddingPlace"))
                 isHiddingPlaceBehind = true;
             else
