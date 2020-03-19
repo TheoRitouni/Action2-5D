@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   light: {fileID: 0}
   max: 0
+  min: 0
   toggle: 1
 --- !u!4 &65142477
 Transform:
@@ -285,15 +286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c81a2d8bc40ea42af46ab77e967586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos:
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
-  - {x: 0.5, y: -0.5, z: 0.5}
-  - {x: -0.5, y: -0.5, z: 0.5}
-  - {x: 0.5, y: 0.5, z: -0.5}
-  - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
+  tempPos: []
+  isCube: 0
+  isSphere: 0
   directional: {fileID: 548134521}
 --- !u!1 &513448779
 GameObject:
@@ -663,11 +658,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8368528158791040814, guid: 69adc26db5a05644491e20d807f01616,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040787, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -721,11 +711,6 @@ PrefabInstance:
     - target: {fileID: 8368528158791040787, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
-        type: 3}
-      propertyPath: numberOfJump
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

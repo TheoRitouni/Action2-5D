@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 8368528158791040812}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,12 +187,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   jumpForce: 200
+  numberOfJump: 2
   life: 100
   groundedLeft: {fileID: 8368528158384592986}
   groundedRight: {fileID: 8368528159402919048}
   hiddingBehind: {fileID: 8368528159651175235}
   hiddingBefore: {fileID: 8368528158604112751}
-  hidden: 0
+  hiddenBefore: 0
+  hiddenBehind: 0
 --- !u!1 &8368528159402919051
 GameObject:
   m_ObjectHideFlags: 0

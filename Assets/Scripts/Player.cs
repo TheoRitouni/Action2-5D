@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
 
 
     [Header("Movements")]
-    [SerializeField] private float      speed = 0f;
-    [SerializeField] private float      jumpForce = 0f;
-    [SerializeField] private int        numberOfJump = 0;
+    [SerializeField] [Range(0f, 20f)] private float      speed = 0f;
+    [SerializeField] [Range(100f, 1000f)] private float jumpForce = 0f;
+    [SerializeField] [Range(0, 10)] private int        numberOfJump = 0;
 
     [Header("Characteristics")]
     [SerializeField] private float      life = 0f;
@@ -64,11 +64,7 @@ public class Player : MonoBehaviour
             }
 
             if (GroundCheck())
-                jump = 0;
-
-            Debug.Log(GroundCheck());
-            
-            
+                jump = 0;        
         }
 
         if (Vertical >= 0.75f || Vertical <= -0.75f)
