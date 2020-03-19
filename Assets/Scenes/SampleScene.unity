@@ -332,21 +332,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 816283631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dac54fc53cf7aa4fafab714302a04b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d324ca93931a2949b6cf7875ed03726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   platformMove: 0
   dirX: 0
   dirY: 0
-  platformSpeed: 7.32
-  platformDist: 5
+  platformSpeed: 0.1
+  platformDist: 1
   platformTurn: 0
-  turnSpeed: 50
+  turnSpeed: 20
   timer: 0
   time: 2
   platformTurnAround: 0
-  pointPos: {x: 0, y: 5, z: 0}
-  turnAroundSpeed: 50
+  pointPos: {x: 0, y: 0, z: 0}
+  turnAroundSpeed: 20
   platformDestroy: 0
   destroyTimer: 2
   respawnTimer: 2
