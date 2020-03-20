@@ -6,9 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 { 
     private Rigidbody                   rig;
-
     private int                         jump = 0;
-
+    private List<Vector3> shadowPos = new List<Vector3>();
 
 
     [Header("Movements")]
@@ -23,12 +22,14 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform  groundedLeft = null;
     [SerializeField] private Transform  groundedRight = null;
 
-    //[Header("Features")]
+    [Header("Features")]
+    [SerializeField] private Transform directionalLight;
 
 
     private void Start()
     {
         rig = GetComponent<Rigidbody>();
+        SetBasicShadowPos();
     }
     
     void Update()
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         if (life > 0f) // If player is alive
         {
             PlayerMovement();
+            Debug.Log(CheckShadow());
         }
     }
 
@@ -55,6 +57,40 @@ public class Player : MonoBehaviour
 
         if (GroundCheck())
             jump = 0;
+    }
+
+    private bool CheckShadow()
+    {
+        RaycastHit hit;
+
+        bool check = true;
+
+        for (int i = 0; i < shadowPos.Count; i++)
+        { 
+            if (Physics.Raycast(transform.position - shadowPos[i], -directionalLight.forward, out hit))
+            {
+                Debug.DrawRay(transform.position - shadowPos[i], hit.point - (transform.position - shadowPos[i]), Color.green);
+            }
+            else
+            {
+                check = false;
+            }
+        }
+
+        return check;
+    }
+
+    public void SetBasicShadowPos()
+    {
+        shadowPos.Add(new Vector3(0f, 0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0f, -0.5f, 0.5f));
+        shadowPos.Add(new Vector3(0f, -0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0f, 0.5f, 0.5f));
+
+        shadowPos.Add(new Vector3(-0.5f, 0.5f, 0f));
+        shadowPos.Add(new Vector3(0.5f, -0.5f, 0f));
+        shadowPos.Add(new Vector3(-0.5f, -0.5f, 0f));
+        shadowPos.Add(new Vector3(0.5f, 0.5f, 0f));
     }
 
     private bool GroundCheck()
