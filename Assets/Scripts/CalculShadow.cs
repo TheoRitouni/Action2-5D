@@ -57,15 +57,26 @@ public class CalculShadow : MonoBehaviour
     public void SetBasicCubePos()
     {
         tempPos.Clear();
-        tempPos.Add(new Vector3(0.5f, 0.5f, 0.5f));
-        tempPos.Add(new Vector3(-0.5f, 0.5f, 0.5f));
-        tempPos.Add(new Vector3(0.5f, -0.5f, 0.5f));
-        tempPos.Add(new Vector3(-0.5f, -0.5f, 0.5f));
+        if (directional.forward.z > 0)
+        {
+            tempPos.Add(new Vector3(0.5f, -0.5f, 0.5f));
+            tempPos.Add(new Vector3(-0.5f, -0.5f, 0.5f));
 
-        tempPos.Add(new Vector3(0.5f, 0.5f, -0.5f));
-        tempPos.Add(new Vector3(-0.5f, 0.5f, -0.5f));
-        tempPos.Add(new Vector3(0.5f, -0.5f, -0.5f));
-        tempPos.Add(new Vector3(-0.5f, -0.5f, -0.5f));
+            tempPos.Add(new Vector3(0.5f, 0.5f, -0.5f));
+            tempPos.Add(new Vector3(-0.5f, 0.5f, -0.5f));
+        }
+        else
+        {
+            tempPos.Add(new Vector3(0.5f, 0.5f, 0.5f));
+            tempPos.Add(new Vector3(-0.5f, 0.5f, 0.5f));
+            tempPos.Add(new Vector3(0.5f, -0.5f, 0.5f));
+            tempPos.Add(new Vector3(-0.5f, -0.5f, 0.5f));
+
+            tempPos.Add(new Vector3(0.5f, 0.5f, -0.5f));
+            tempPos.Add(new Vector3(-0.5f, 0.5f, -0.5f));
+            tempPos.Add(new Vector3(0.5f, -0.5f, -0.5f));
+            tempPos.Add(new Vector3(-0.5f, -0.5f, -0.5f));
+        }
     }
 
     private void LocalScaleCubeChange()
