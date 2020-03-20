@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform  groundedLeft = null;
     [SerializeField] private Transform  groundedRight = null;
 
+    public float courage = 0;
+
     //[Header("Features")]
 
 
