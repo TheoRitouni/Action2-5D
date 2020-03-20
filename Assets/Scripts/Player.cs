@@ -6,8 +6,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 { 
     private Rigidbody                   rig;
-    private bool                        isHiddingPlaceBehind = false;
-    private bool                        isHiddingPlaceBefore = false;
 
     private int                         jump = 0;
 
@@ -25,13 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform  groundedLeft = null;
     [SerializeField] private Transform  groundedRight = null;
 
-    [Header("Hidding Place Checker")]
-    [SerializeField] private Transform  hiddingBehind = null;
-    [SerializeField] private Transform  hiddingBefore = null;
+    //[Header("Features")]
 
-    [Header("Features")]
-    [SerializeField] private bool       hiddenBefore = false;
-    [SerializeField] private bool       hiddenBehind = false;
 
     private void Start()
     {
@@ -42,7 +35,6 @@ public class Player : MonoBehaviour
     {
         if (life > 0f) // If player is alive
         {
-            HiddingPlaceCheck();
             PlayerMovement();
         }
     }
@@ -52,58 +44,17 @@ public class Player : MonoBehaviour
         float Horizontal = Input.GetAxis("Horizontal") * speed; // Used to move player
         float Vertical = Input.GetAxis("Vertical");             // Used to hide ourself in different parts
 
-        if (!hiddenBefore && !hiddenBehind)
+        transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0))
         {
-            transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
-
-            if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0))
-            {
-                rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
-                rig.AddForce(Vector3.up * jumpForce);
-                jump++;
-            }
-
-            if (GroundCheck())
-                jump = 0;        
+            rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
+            rig.AddForce(Vector3.up * jumpForce);
+            jump++;
         }
 
-        if (Vertical >= 0.75f || Vertical <= -0.75f)
-            HidePlayer(Vertical);
-    }
-
-    private void HidePlayer(float Vertical)
-    {
-        if (!hiddenBefore && !hiddenBehind)
-        {
-            if (Vertical >= 0.75f && isHiddingPlaceBehind)
-            {
-                hiddenBehind = true;
-                transform.Translate(new Vector3(0f, 0f, 4f));
-            }
-            else if (Vertical <= -0.75f && isHiddingPlaceBefore)
-            {
-                hiddenBefore = true;
-                transform.Translate(new Vector3(0f, 0f, -4f));
-            }
-        }
-
-        if (hiddenBefore)
-        {
-            if (Vertical >= 0.75f)
-            {
-                hiddenBefore = false;
-                transform.Translate(new Vector3(0f, 0f, 4f));
-            }
-        }
-
-        if (hiddenBehind)
-        {
-            if (Vertical <= -0.75f)
-            {
-                hiddenBehind = false;
-                transform.Translate(new Vector3(0f, 0f, -4f));
-            }
-        }
+        if (GroundCheck())
+            jump = 0;
     }
 
     private bool GroundCheck()
@@ -114,45 +65,19 @@ public class Player : MonoBehaviour
         bool isGroundedLeft = false;
         bool isGroundedRight = false;
 
-        if (Physics.Raycast(groundedLeft.position, transform.TransformDirection(-Vector3.up), out hitLeft))
-            isGroundedLeft = false;
-        else
+        if (Physics.Raycast(groundedLeft.position, transform.TransformDirection(-Vector3.up), out hitLeft, 1f))
             isGroundedLeft = true;
-
-        if (Physics.Raycast(groundedRight.position, transform.TransformDirection(-Vector3.up), out hitRight))
-            isGroundedRight = false;
         else
+            isGroundedLeft = false;
+
+        if (Physics.Raycast(groundedRight.position, transform.TransformDirection(-Vector3.up), out hitRight, 1f))
             isGroundedRight = true;
+        else
+            isGroundedRight = false;
 
         if (isGroundedRight || isGroundedLeft)
             return true;
         else
             return false;
-    }
-
-    private void HiddingPlaceCheck()
-    {
-        RaycastHit hitBehind;
-        RaycastHit hitBefore;
-
-        if (Physics.Raycast(hiddingBefore.position, transform.TransformDirection(-Vector3.forward), out hitBefore))
-        {
-            if (hitBefore.collider.gameObject.CompareTag("HiddingPlace"))
-                isHiddingPlaceBefore = true;
-            else
-                isHiddingPlaceBefore = false;
-        }
-        else
-            isHiddingPlaceBefore = false;
-
-        if (Physics.Raycast(hiddingBehind.position, transform.TransformDirection(Vector3.forward), out hitBehind))
-        {
-            if (hitBehind.collider.gameObject.CompareTag("HiddingPlace"))
-                isHiddingPlaceBehind = true;
-            else
-                isHiddingPlaceBehind = false;
-        }
-        else
-            isHiddingPlaceBehind = false;
     }
 }
