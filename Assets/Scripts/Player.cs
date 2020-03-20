@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform  groundedRight = null;
 
     [Header("Features")]
-    [SerializeField] private Transform directionalLight;
+    [SerializeField] private Transform directionalLight = null;
 
     [Header("Shadow and Light")]
     [SerializeField] private float TimerInShadow = 2f;

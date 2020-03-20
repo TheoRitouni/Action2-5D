@@ -225,14 +225,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tempPos:
-  - {x: 0.5, y: 0.5, z: 0.5}
-  - {x: -0.5, y: 0.5, z: 0.5}
   - {x: 0.5, y: -0.5, z: 0.5}
   - {x: -0.5, y: -0.5, z: 0.5}
   - {x: 0.5, y: 0.5, z: -0.5}
   - {x: -0.5, y: 0.5, z: -0.5}
-  - {x: 0.5, y: -0.5, z: -0.5}
-  - {x: -0.5, y: -0.5, z: -0.5}
   isCube: 1
   isSphere: 0
   directional: {fileID: 548134521}

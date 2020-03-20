@@ -1,26 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    [SerializeField] private bool platformMove = false;
-    [SerializeField] private bool dirX = false, dirY = false;
-    [SerializeField] private float platformSpeed = 0.1f;
-    [SerializeField] private float platformDist = 1f; 
-    [Space]
-    [SerializeField] private bool platformTurn = false;
-    [SerializeField] private float turnSpeed = 20f;
-    [SerializeField] private bool timer = false;
-    [SerializeField] private float time = 2f;
-    [Space]
-    [SerializeField] private bool platformTurnAround = false;
-    [SerializeField] Vector3 pointPos;
-    [SerializeField] private float turnAroundSpeed = 20f;
-    [Space]
-    [SerializeField] private bool platformDestroy = false;
-    [SerializeField] private float destroyTimer = 2f;
-    [SerializeField] private float respawnTimer = 2f;
+    public bool platformMove = false;
+    public bool dirX = false, dirY = false;
+    public float platformSpeed = 0.1f;
+    public float platformDist = 1f; 
+    
+    public bool platformTurn = false;
+    public float turnSpeed = 20f;
+    public bool timer = false;
+    public float time = 2f;
+    
+    public bool platformTurnAround = false;
+    public Vector3 pointPos = Vector3.zero;
+    public float turnAroundSpeed = 20f;
+
+    public bool platformDestroy = false;
+    public float destroyTimer = 2f;
+    public float respawnTimer = 2f;
 
     private Vector3 initialPos;
     private bool direction = false;
@@ -32,8 +33,6 @@ public class Platform : MonoBehaviour
     private float initialRespawnTime;
 
     
-
-    // Start is called before the first frame update
     void Start()
     {
         initialPos = gameObject.transform.position ;
@@ -42,7 +41,6 @@ public class Platform : MonoBehaviour
         initialRespawnTime = respawnTimer;
     }
 
-    // Update is called once per frame
     void Update()
     {
         DestroyPlatform();
@@ -147,5 +145,124 @@ public class Platform : MonoBehaviour
                 }
             }
         }
+    }
+}
+
+[CustomEditor(typeof(Platform)), CanEditMultipleObjects]
+public class PlatformEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        var script = (Platform)target;
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Moving Platform", GUILayout.Width(130));
+        script.platformMove = EditorGUILayout.Toggle(script.platformMove);
+        GUILayout.EndHorizontal();
+
+        if (script.platformMove)
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("DirX", GUILayout.Width(35));
+            script.dirX = EditorGUILayout.Toggle(script.dirX, GUILayout.Width(30));
+            GUILayout.Label("DirY", GUILayout.Width(35));
+            script.dirY = EditorGUILayout.Toggle(script.dirY);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Speed", GUILayout.Width(120));
+            script.platformSpeed = EditorGUILayout.FloatField(script.platformSpeed);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Platform Distance", GUILayout.Width(120));
+            script.platformDist = EditorGUILayout.FloatField(script.platformDist);
+            GUILayout.EndHorizontal();
+        }
+
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Turning Platform", GUILayout.Width(130));
+        script.platformTurn = EditorGUILayout.Toggle(script.platformTurn);
+        GUILayout.EndHorizontal();
+
+        if (script.platformTurn)
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Speed", GUILayout.Width(120));
+            script.turnSpeed = EditorGUILayout.FloatField(script.turnSpeed);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Timer", GUILayout.Width(120));
+            script.timer = EditorGUILayout.Toggle(script.timer);
+            GUILayout.EndHorizontal();
+
+            if (script.timer)
+            {
+                GUILayout.Space(5);
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(20);
+                GUILayout.Label("Time", GUILayout.Width(120));
+                script.time = EditorGUILayout.FloatField(script.time);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Turn Around Platform", GUILayout.Width(130));
+        script.platformTurnAround = EditorGUILayout.Toggle(script.platformTurnAround);
+        GUILayout.EndHorizontal();
+
+        if (script.platformTurnAround)
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            script.pointPos = EditorGUILayout.Vector3Field("Position point", script.pointPos);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Speed", GUILayout.Width(120));
+            script.turnAroundSpeed = EditorGUILayout.FloatField(script.turnAroundSpeed);
+            GUILayout.EndHorizontal();
+        }
+
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Destroyable Platform", GUILayout.Width(130));
+        script.platformDestroy = EditorGUILayout.Toggle(script.platformDestroy);
+        GUILayout.EndHorizontal();
+
+        if (script.platformDestroy)
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Destroy Timer", GUILayout.Width(120));
+            script.destroyTimer = EditorGUILayout.FloatField(script.destroyTimer);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Respawn Timer", GUILayout.Width(120));
+            script.respawnTimer = EditorGUILayout.FloatField(script.respawnTimer);
+            GUILayout.EndHorizontal();
+        }
+
     }
 }
