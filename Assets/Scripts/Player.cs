@@ -25,13 +25,24 @@ public class Player : MonoBehaviour
     [Header("Features")]
     [SerializeField] private Transform directionalLight;
 
+    [Header("Shadow and Light")]
+    [SerializeField] private float TimerInShadow = 2f;
+    [SerializeField] private float TimerInLight = 6f;
+
+    public float colorPlayer;
+
+
     public float courage = 0;
+    private bool inShadow ;
+    private MeshRenderer meshPlayer;
 
 
     private void Start()
     {
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
+        meshPlayer = gameObject.GetComponent<MeshRenderer>();
+
     }
     
     void Update()
@@ -39,7 +50,8 @@ public class Player : MonoBehaviour
         if (life > 0f) // If player is alive
         {
             PlayerMovement();
-            Debug.Log(CheckShadow());
+            inShadow = CheckShadow();
+            ColorOfPlayer();
         }
     }
 
@@ -84,15 +96,15 @@ public class Player : MonoBehaviour
 
     public void SetBasicShadowPos()
     {
-        shadowPos.Add(new Vector3(0f, 0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0f, -0.5f, 0.5f));
-        shadowPos.Add(new Vector3(0f, -0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0f, 0.5f, 0.5f));
+        shadowPos.Add(new Vector3(-0.5f, -0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0.5f , -0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0.5f , -0.5f,  0.5f));
+        shadowPos.Add(new Vector3(-0.5f, -0.5f,  0.5f));
 
-        shadowPos.Add(new Vector3(-0.5f, 0.5f, 0f));
-        shadowPos.Add(new Vector3(0.5f, -0.5f, 0f));
-        shadowPos.Add(new Vector3(-0.5f, -0.5f, 0f));
-        shadowPos.Add(new Vector3(0.5f, 0.5f, 0f));
+        shadowPos.Add(new Vector3(-0.5f, 0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0.5f , 0.5f, -0.5f));
+        shadowPos.Add(new Vector3(0.5f , 0.5f,  0.5f));
+        shadowPos.Add(new Vector3(-0.5f, 0.5f,  0.5f));
     }
 
     private bool GroundCheck()
@@ -117,5 +129,39 @@ public class Player : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    private void ColorOfPlayer()
+    {
+
+        if (meshPlayer.material.color.r <= 1)
+        {
+            if (inShadow == false)
+            {
+                colorPlayer += 1 / TimerInLight * Time.deltaTime;
+                meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+            }
+        }
+        if (meshPlayer.material.color.r >= 0)
+        {
+            if (inShadow == true)
+            { 
+                colorPlayer -= 1 / TimerInShadow * Time.deltaTime;
+                meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+            }
+        }
+
+        if(colorPlayer > 1) // if he get this value he die 
+        {
+            // death of player 
+            colorPlayer = 1;
+            meshPlayer.material.color = new Color(1, 1, 1, 255);
+        }
+        if (colorPlayer < 0f)
+        {
+            colorPlayer = 0;
+            meshPlayer.material.color = new Color(0, 0, 0, 255);
+        }
+
     }
 }
