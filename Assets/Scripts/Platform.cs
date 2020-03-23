@@ -8,7 +8,9 @@ public class Platform : MonoBehaviour
     public bool platformMove = false;
     public bool dirX = false, dirY = false;
     public float platformSpeed = 0.1f;
-    public float platformDist = 1f; 
+    public float platformDist = 1f;
+    public AnimationCurve moveCurve = null;
+    private float distParcouru = 0f;
     
     public bool platformTurn = false;
     public float turnSpeed = 20f;
@@ -35,10 +37,11 @@ public class Platform : MonoBehaviour
     
     void Start()
     {
-        initialPos = gameObject.transform.position ;
+        initialPos = gameObject.transform.position;
         initialTime = time;
         initialDestroyTime = destroyTimer;
         initialRespawnTime = respawnTimer;
+        distParcouru = 0.5f;
     }
 
     void Update()
@@ -51,15 +54,29 @@ public class Platform : MonoBehaviour
         {
             if (dirX == true)
             {
-                if (gameObject.transform.position.x > initialPos.x + platformDist)
+                if (gameObject.transform.position.x >= initialPos.x + platformDist / 2)
+                {
                     direction = true;
-                if (gameObject.transform.position.x < initialPos.x - platformDist)
+                }
+                if (gameObject.transform.position.x <= initialPos.x - platformDist / 2)
+                {
                     direction = false;
+                }
 
                 if (direction == false)
-                    gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
+                {
+                    float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
+                    gameObject.transform.Translate(new Vector3(platformSpeed * curve * Time.deltaTime, 0, 0));
+                    distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
+                }
                 if (direction == true)
-                    gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
+                {
+                    Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
+                    float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
+                    gameObject.transform.Translate(new Vector3(-platformSpeed * curve * Time.deltaTime, 0, 0));
+                    distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
+                }
+
             }
 
             if (dirY == true)
@@ -171,6 +188,14 @@ public class PlatformEditor : Editor
             script.dirY = EditorGUILayout.Toggle(script.dirY);
             GUILayout.EndHorizontal();
 
+            if (!script.dirX && !script.dirY)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(5);
+                EditorGUILayout.HelpBox("Choose one direction at least", MessageType.Error);
+                GUILayout.EndHorizontal();
+            }
+
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(20);
@@ -183,6 +208,18 @@ public class PlatformEditor : Editor
             GUILayout.Space(20);
             GUILayout.Label("Platform Distance", GUILayout.Width(120));
             script.platformDist = EditorGUILayout.FloatField(script.platformDist);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Speed Curve", GUILayout.Width(120));
+            script.moveCurve = EditorGUILayout.CurveField(script.moveCurve);
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            EditorGUILayout.HelpBox("You need to fill the curve between 0 and 1 in X axis", MessageType.Info);
             GUILayout.EndHorizontal();
         }
 
