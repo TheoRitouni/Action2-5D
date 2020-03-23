@@ -7,7 +7,10 @@ public class Player : MonoBehaviour
 { 
     private Rigidbody                   rig;
     private int                         jump = 0;
+    private bool isJumping = false;
     private List<Vector3> shadowPos = new List<Vector3>();
+
+    public AnimationCurve anim;
 
 
     [Header("Movements")]
@@ -42,7 +45,6 @@ public class Player : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
-
     }
     
     void Update()
@@ -58,11 +60,11 @@ public class Player : MonoBehaviour
     private void PlayerMovement()
     {
         float Horizontal = Input.GetAxis("Horizontal") * speed; // Used to move player
-        float Vertical = Input.GetAxis("Vertical");             // Used to hide ourself in different parts
+        float Vertical = Input.GetAxis("Vertical") * speed;     // Used to hide ourself in different parts
 
         transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
 
-        if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0))
+        if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
             rig.AddForce(Vector3.up * jumpForce);
