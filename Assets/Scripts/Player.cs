@@ -5,39 +5,40 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 { 
-    private Rigidbody                   rig;
-    private int                         jump = 0;
-    private bool isJumping = false;
-    private List<Vector3> shadowPos = new List<Vector3>();
-
-    public AnimationCurve anim;
-
+    private Rigidbody                                       rig;
+    private int                                             jump = 0;
+    private bool                                            isJumping = false;
+    private bool                                            inShadow;
+    private                                                 MeshRenderer meshPlayer;
+    private List<Vector3>                                   shadowPos = new List<Vector3>();
 
     [Header("Movements")]
-    [SerializeField] [Range(0f, 200f)] private float      speed = 0f;
-    [SerializeField] [Range(100f, 1000f)] private float jumpForce = 0f;
-    [SerializeField] [Range(0, 10)] private int        numberOfJump = 0;
+    [SerializeField] [Range(0f, 200f)] private float        speed = 0f;
+    [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
+    [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
 
     [Header("Characteristics")]
-    [SerializeField] private float      life = 0f;
+    [SerializeField] private float                          life = 0f;
 
     [Header("Ground Checker")]
-    [SerializeField] private Transform  groundedLeft = null;
-    [SerializeField] private Transform  groundedRight = null;
+    [SerializeField] private Transform                      groundedLeft = null;
+    [SerializeField] private Transform                      groundedRight = null;
 
     [Header("Features")]
-    [SerializeField] private Transform directionalLight = null;
+    [SerializeField] private Transform                      directionalLight = null;
 
     [Header("Shadow and Light")]
-    [SerializeField] private float TimerInShadow = 2f;
-    [SerializeField] private float TimerInLight = 6f;
+    [Tooltip("Time in sec to be completely Black")]
+    [SerializeField] private float                          TimerInShadow = 2f;
+    [Tooltip("Time in sec to be completely White")]
+    [SerializeField] private float                          TimerInLight = 6f;
 
-    public float colorPlayer;
+    public float                                            colorPlayer;
 
 
-    public float courage = 0;
-    private bool inShadow ;
-    private MeshRenderer meshPlayer;
+    public float                                            courage = 0;
+    
+    
 
 
     private void Start()
@@ -183,6 +184,11 @@ public class Player : MonoBehaviour
             colorPlayer = 0;
             meshPlayer.material.color = new Color(0, 0, 0, 255);
         }
+
+    }
+
+    public void Lose()
+    {
 
     }
 }
