@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
 
     [Header("Movements")]
-    [SerializeField] [Range(0f, 20f)] private float      speed = 0f;
+    [SerializeField] [Range(0f, 200f)] private float      speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int        numberOfJump = 0;
 
@@ -58,9 +58,12 @@ public class Player : MonoBehaviour
     private void PlayerMovement()
     {
         float Horizontal = Input.GetAxis("Horizontal") * speed; // Used to move player
-        float Vertical = Input.GetAxis("Vertical");             // Used to hide ourself in different parts
+        float Vertical = Input.GetAxis("Vertical") * speed;             // Used to hide ourself in different parts
 
-        transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
+
+        rig.velocity = new Vector3(Horizontal * Time.deltaTime, rig.velocity.y , Vertical * Time.deltaTime);
+        //transform.Translate(Vector3.right * Horizontal * Time.deltaTime);
+        //transform.Translate(Vector3.forward * Vertical * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0))
         {
@@ -75,20 +78,37 @@ public class Player : MonoBehaviour
 
     private bool CheckShadow()
     {
-        RaycastHit hit;
+        RaycastHit[] hits;
 
         bool check = true;
 
         for (int i = 0; i < shadowPos.Count; i++)
-        { 
-            if (Physics.Raycast(transform.position - shadowPos[i], -directionalLight.forward, out hit))
+        {
+            hits = Physics.RaycastAll(transform.position - shadowPos[i], -directionalLight.forward);
+            if (hits.Length > 0)
             {
-                Debug.DrawRay(transform.position - shadowPos[i], hit.point - (transform.position - shadowPos[i]), Color.green);
+
+                for (int j = 0; j < hits.Length; j++)
+                {
+                    if (!hits[j].collider.gameObject.CompareTag("Wall"))
+                    {
+                        Debug.DrawRay(transform.position - shadowPos[i], hits[j].point - (transform.position - shadowPos[i]), Color.green);
+                    }
+                    else
+                    {
+                        if (hits.Length < 2)
+                        {
+                            check = false;
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
                 check = false;
             }
+               
         }
 
         return check;
