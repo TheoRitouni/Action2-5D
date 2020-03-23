@@ -5,7 +5,7 @@ using UnityEngine;
 public class Camera : MonoBehaviour
 {
     private Player player;
-    private Vector3[] posPlayer;
+    private List<Vector3> listPosPlayer;
     private float initialTimeFollow;
     [SerializeField] private float timeFollow = 0.2f;
     // Start is called before the first frame update
@@ -13,6 +13,7 @@ public class Camera : MonoBehaviour
     {
         initialTimeFollow = timeFollow;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        listPosPlayer = new List<Vector3>();
     }
 
     // Update is called once per frame
