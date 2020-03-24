@@ -7,21 +7,22 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent navAgent = null;
-    private float naturalSpeed;
-    private int indexMovement = 0;
+    private int indexMovementA = 0;
+    private int indexMovementB = 0;
     private float errorMovementMargin = 0f;
     private bool playerInFov = false;
     private Player playerScript;
+    public bool pathA = true;
     [SerializeField] private bool showDebug = false;
     [SerializeField] private Transform player;
 
 
     [Header("Basics info")]
     [SerializeField] [Range(0f, 10f)] private float speed = 0f;
-    [Tooltip("If color of player if higher than this or equal, enemy go on him (speed * colorPlayer)")]
-    [SerializeField] [Range(0f, 1f)] private float seeColorPlayer = 0f;
-    [Tooltip("Movement point in order, it close the path alone, dont make last point in the first")]
-    [SerializeField] private Transform[] movementPoint = null;
+    [Tooltip("(Path A) Movement point in order, it close the path alone, dont make last point in the first")]
+    [SerializeField] private Transform[] movementPointA = null;
+    [Tooltip("(Path B) Movement point in order, it close the path alone, dont make last point in the first")]
+    [SerializeField] private Transform[] movementPointB = null;
 
     [Header("View")]
     [Tooltip("Sphere radius")]
@@ -36,7 +37,6 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         navAgent.speed = speed;
-        naturalSpeed = speed;
         errorMovementMargin = 0.01f;
     }
 
@@ -47,53 +47,83 @@ public class Enemy : MonoBehaviour
         if (navAgent.speed != speed)
             navAgent.speed = speed;
 
-        if (playerInFov && playerScript.colorPlayer >= seeColorPlayer)
+        if (playerInFov && !playerScript.inShadow)
         {
-            speed = naturalSpeed * playerScript.colorPlayer;
             navAgent.SetDestination(player.position);
         }
-        else if (movementPoint.Length > 1)
+        else if (pathA && movementPointA.Length > 1)
         {
-            if (speed != naturalSpeed)
-            {
-                speed = naturalSpeed;
-                navAgent.speed = speed;
-            }
-
             if (IsOnMovementPoint())
             {
-                indexMovement++;
-                if (indexMovement == movementPoint.Length)
-                    indexMovement = 0;
+                indexMovementA++;
+                if (indexMovementA == movementPointA.Length)
+                    indexMovementA = 0;
             }
             else if (navAgent.velocity.x == 0f)
             {
-                navAgent.SetDestination(movementPoint[indexMovement].position);
+                navAgent.SetDestination(movementPointA[indexMovementA].position);
+            }
+        }
+        else if (!pathA && movementPointB.Length > 1)
+        {
+            if (IsOnMovementPoint())
+            {
+                indexMovementB++;
+                if (indexMovementB == movementPointB.Length)
+                    indexMovementB = 0;
+            }
+            else if (navAgent.velocity.x == 0f)
+            {
+                navAgent.SetDestination(movementPointB[indexMovementB].position);
             }
         }
     }
 
     private bool IsOnMovementPoint()
     {
-        if (transform.position.x >= movementPoint[indexMovement].position.x - errorMovementMargin && transform.position.x <= movementPoint[indexMovement].position.x + errorMovementMargin &&
-            transform.position.z >= movementPoint[indexMovement].position.z - errorMovementMargin && transform.position.z <= movementPoint[indexMovement].position.z + errorMovementMargin)
-            return true;
+        if (pathA)
+        {
+            if (transform.position.x >= movementPointA[indexMovementA].position.x - errorMovementMargin && transform.position.x <= movementPointA[indexMovementA].position.x + errorMovementMargin &&
+                transform.position.z >= movementPointA[indexMovementA].position.z - errorMovementMargin && transform.position.z <= movementPointA[indexMovementA].position.z + errorMovementMargin)
+                return true;
+        }
         else
-            return false;
+        {
+            if (transform.position.x >= movementPointB[indexMovementB].position.x - errorMovementMargin && transform.position.x <= movementPointB[indexMovementB].position.x + errorMovementMargin &&
+                transform.position.z >= movementPointB[indexMovementB].position.z - errorMovementMargin && transform.position.z <= movementPointB[indexMovementB].position.z + errorMovementMargin)
+                return true;
+        }
+
+        return false;
     }
 
     private void OnDrawGizmos()
     {
         if (showDebug)
         {
-            Gizmos.color = Color.black;
-
-            for (int i = 0; i < movementPoint.Length; i++)
+            if (pathA)
             {
-                if (i + 1 != movementPoint.Length)
-                    Gizmos.DrawRay(movementPoint[i].position, movementPoint[i + 1].position - movementPoint[i].position);
-                else
-                    Gizmos.DrawRay(movementPoint[i].position, movementPoint[0].position - movementPoint[i].position);
+                Gizmos.color = Color.black;
+
+                for (int i = 0; i < movementPointA.Length; i++)
+                {
+                    if (i + 1 != movementPointA.Length)
+                        Gizmos.DrawRay(movementPointA[i].position, movementPointA[i + 1].position - movementPointA[i].position);
+                    else
+                        Gizmos.DrawRay(movementPointA[i].position, movementPointA[0].position - movementPointA[i].position);
+                }
+            }
+            else
+            {
+                Gizmos.color = Color.white;
+
+                for (int i = 0; i < movementPointB.Length; i++)
+                {
+                    if (i + 1 != movementPointB.Length)
+                        Gizmos.DrawRay(movementPointB[i].position, movementPointB[i + 1].position - movementPointB[i].position);
+                    else
+                        Gizmos.DrawRay(movementPointB[i].position, movementPointB[0].position - movementPointB[i].position);
+                }
             }
 
             Gizmos.color = Color.yellow;

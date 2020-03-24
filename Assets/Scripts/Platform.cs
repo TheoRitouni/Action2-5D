@@ -34,6 +34,8 @@ public class Platform : MonoBehaviour
     private float initialDestroyTime;
     private float initialRespawnTime;
 
+    public bool isActive = false;
+
     
     void Start()
     {
@@ -46,75 +48,78 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        DestroyPlatform();
-
-        // platform move on axes Y or X ;
-
-        if (platformMove == true)
+        if (isActive)
         {
-            if (dirX == true)
+            DestroyPlatform();
+
+            // platform move on axes Y or X ;
+
+            if (platformMove == true)
             {
-                if (gameObject.transform.position.x >= initialPos.x + platformDist / 2)
+                if (dirX == true)
                 {
-                    direction = true;
-                }
-                if (gameObject.transform.position.x <= initialPos.x - platformDist / 2)
-                {
-                    direction = false;
+                    if (gameObject.transform.position.x >= initialPos.x + platformDist / 2)
+                    {
+                        direction = true;
+                    }
+                    if (gameObject.transform.position.x <= initialPos.x - platformDist / 2)
+                    {
+                        direction = false;
+                    }
+
+                    if (direction == false)
+                    {
+                        float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
+                        gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
+                        distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
+                    }
+                    if (direction == true)
+                    {
+                        Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
+                        float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
+                        gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
+                        distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
+                    }
+
                 }
 
-                if (direction == false)
+                if (dirY == true)
                 {
-                    float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
-                    gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
-                    distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
-                }
-                if (direction == true)
-                {
-                    Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
-                    float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
-                    gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
-                    distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
-                }
+                    if (gameObject.transform.position.y > initialPos.y + platformDist)
+                        direction = true;
+                    if (gameObject.transform.position.y < initialPos.y - platformDist)
+                        direction = false;
 
+                    if (direction == false)
+                        gameObject.transform.Translate(new Vector3(0, platformSpeed * Time.deltaTime, 0));
+                    if (direction == true)
+                        gameObject.transform.Translate(new Vector3(0, -platformSpeed * Time.deltaTime, 0));
+                }
             }
 
-            if (dirY == true)
+            // platform turn with a timer
+            if (platformTurn == true)
             {
-                if (gameObject.transform.position.y > initialPos.y + platformDist)
-                    direction = true;
-                if (gameObject.transform.position.y < initialPos.y - platformDist)
-                    direction = false;
-
-                if (direction == false)
-                    gameObject.transform.Translate(new Vector3(0, platformSpeed * Time.deltaTime, 0));
-                if (direction == true)
-                    gameObject.transform.Translate(new Vector3(0, -platformSpeed * Time.deltaTime, 0));
-            }
-        }
-
-        // platform turn with a timer
-        if(platformTurn == true)
-        {
-            if (timer == false)
-                gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed * Time.deltaTime));
-            else
-            {
-                time -= Time.deltaTime ;
-
-                if(time < 0)
+                if (timer == false)
+                    gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed * Time.deltaTime));
+                else
                 {
-                    gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed));
-                    time = initialTime;
+                    time -= Time.deltaTime;
+
+                    if (time < 0)
+                    {
+                        gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed));
+                        time = initialTime;
+                    }
                 }
             }
-        }
 
-        // platform Turn Around a point
-        if(platformTurnAround == true)
-        {
-            gameObject.transform.RotateAround(pointPos, new Vector3(0, 0, 1), turnAroundSpeed * Time.deltaTime);
-            gameObject.transform.Rotate(new Vector3(0, 0, -turnAroundSpeed * Time.deltaTime));
+            // platform Turn Around a point
+            if (platformTurnAround == true)
+            {
+                gameObject.transform.RotateAround(pointPos, new Vector3(0, 0, 1), turnAroundSpeed * Time.deltaTime);
+                gameObject.transform.Rotate(new Vector3(0, 0, -turnAroundSpeed * Time.deltaTime));
+            }
         }
     }
 
@@ -172,6 +177,12 @@ public class PlatformEditor : Editor
     {
         var script = (Platform)target;
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Is Active", GUILayout.Width(130));
+        script.isActive = EditorGUILayout.Toggle(script.isActive);
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(20);
         GUILayout.BeginHorizontal();
         GUILayout.Label("Moving Platform", GUILayout.Width(130));
         script.platformMove = EditorGUILayout.Toggle(script.platformMove);
