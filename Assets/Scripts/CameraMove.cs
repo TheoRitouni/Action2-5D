@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-public class Camera : MonoBehaviour
+public class CameraMove : MonoBehaviour
 {
     private Player player;
 
