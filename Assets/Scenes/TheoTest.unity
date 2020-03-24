@@ -1529,7 +1529,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc7c771fa11a3b408bc2d065045c20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeFollow: 0.2
+  cameraFront: 0
+  speedCam: 3
+  limitOfCam: 0.7
+  latency: 1
+  smoothness: 0.2
+  speedLatency: 1
 --- !u!1 &984425607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,8 +2239,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 29.952223, y: 6.125085, z: 1}
-  m_Center: {x: 1.5500116, y: 2.5625424, z: 0}
+  m_Size: {x: 29.952223, y: 16.672623, z: 1}
+  m_Center: {x: 1.5500116, y: 7.8363113, z: 0}
 --- !u!4 &1897083866
 Transform:
   m_ObjectHideFlags: 0
