@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     private Rigidbody                                       rig;
     private int                                             jump = 0;
     private bool                                            isJumping = false;
-    private bool                                            inShadow;
     private                                                 MeshRenderer meshPlayer;
     private List<Vector3>                                   shadowPos = new List<Vector3>();
 
@@ -34,11 +33,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float                          TimerInLight = 6f;
 
     public float                                            colorPlayer;
-
-
     public float                                            courage = 0;
-    
-    
+    public bool                                             inShadow;
 
 
     private void Start()
