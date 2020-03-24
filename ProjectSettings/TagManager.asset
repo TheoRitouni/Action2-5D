@@ -8,6 +8,7 @@ TagManager:
   - HiddingPlace
   - Rail
   - Wall
+  - Umbrella
   layers:
   - Default
   - TransparentFX

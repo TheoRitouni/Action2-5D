@@ -32,8 +32,11 @@ public class Player : MonoBehaviour
     [Tooltip("Time in sec to be completely White")]
     [SerializeField] private float                          TimerInLight = 6f;
 
-    [HideInInspector] public bool umbrella;
-    private GameObject umbrel;
+
+    private bool umbrella = false;
+    [Space]
+    [SerializeField] private GameObject umbrel;
+    [Space]
 
     public float                                            colorPlayer;
     public float                                            courage = 0;
@@ -45,16 +48,13 @@ public class Player : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
-        umbrel = GameObject.FindGameObjectWithTag("Umbrella");
     }
     
     void Update()
     {
-        
-
         if (life > 0f) // If player is alive
         {
-            UmbrellaActiveOrNot()
+            UmbrellaActiveOrNot();
             PlayerMovement();
             inShadow = CheckShadow();
             ColorOfPlayer();
@@ -200,14 +200,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             umbrella = !umbrella;
-        }
-        if (umbrella == true)
-        {
-            umbrel.SetActive(true);
-        }
-        else
-        {
-            umbrel.SetActive(false);
+            umbrel.SetActive(umbrella);
+            if(umbrella == true )
+            {
+                speed = speed / 2;
+            }
+            else
+            {
+                speed = speed * 2;
+            }
         }
     }
 }
