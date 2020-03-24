@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     [Tooltip("Time in sec to be completely White")]
     [SerializeField] private float                          TimerInLight = 6f;
 
+    [HideInInspector] public bool umbrella;
+
     public float                                            colorPlayer;
 
 
@@ -50,6 +52,11 @@ public class Player : MonoBehaviour
     
     void Update()
     {
+        if(Input.GetKey(KeyCode.A))
+        {
+            umbrella = !umbrella;
+        }
+
         if (life > 0f) // If player is alive
         {
             PlayerMovement();
