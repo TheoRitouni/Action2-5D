@@ -253,6 +253,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8368528159326144178}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &68157397 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7555600439393780506}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94a9a05df0632d449840efd5afe23e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &171174346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,7 +1440,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc7c771fa11a3b408bc2d065045c20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeFollow: 0.2
+  cameraFront: 1
+  speedCam: 3
+  limitOfCam: 0.7
+  latency: 1
+  smoothness: 0.2
+  speedLatency: 1
 --- !u!1 &984425607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2098,6 +2115,8 @@ MonoBehaviour:
   - {fileID: 955621443}
   - {fileID: 446315496}
   oneTimeTriggers: []
+  ennemies:
+  - {fileID: 68157397}
 --- !u!4 &1624364580
 Transform:
   m_ObjectHideFlags: 0
@@ -2805,7 +2824,7 @@ PrefabInstance:
     - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
         type: 3}
       propertyPath: showDebug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd66ef59c0f742448a367dd3af052d4, type: 3}

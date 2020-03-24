@@ -69,16 +69,16 @@ public class Platform : MonoBehaviour
 
                     if (direction == false)
                     {
-                        float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
+                     //   float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
                         gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
-                        distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
+                        //distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
                     }
                     if (direction == true)
                     {
-                        Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
-                        float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
+                        //Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
+                        //float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
                         gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
-                        distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
+                        //distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
                     }
 
                 }

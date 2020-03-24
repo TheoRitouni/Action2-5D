@@ -121,15 +121,15 @@ public class Player : MonoBehaviour
 
     public void SetBasicShadowPos()
     {
-        shadowPos.Add(new Vector3(-0.5f, -0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0.5f , -0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0.5f , -0.5f,  0.5f));
-        shadowPos.Add(new Vector3(-0.5f, -0.5f,  0.5f));
+        shadowPos.Add(new Vector3(-0.49f, -0.49f, -0.49f));
+        shadowPos.Add(new Vector3(0.49f, -0.49f, -0.49f));
+        shadowPos.Add(new Vector3(0.49f, -0.49f, 0.49f));
+        shadowPos.Add(new Vector3(-0.49f, -0.49f, 0.49f));
 
-        shadowPos.Add(new Vector3(-0.5f, 0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0.5f , 0.5f, -0.5f));
-        shadowPos.Add(new Vector3(0.5f , 0.5f,  0.5f));
-        shadowPos.Add(new Vector3(-0.5f, 0.5f,  0.5f));
+        shadowPos.Add(new Vector3(-0.49f, 0.49f, -0.49f));
+        shadowPos.Add(new Vector3(0.49f, 0.49f, -0.49f));
+        shadowPos.Add(new Vector3(0.49f, 0.49f, 0.49f));
+        shadowPos.Add(new Vector3(-0.49f, 0.49f, 0.49f));
     }
 
     private bool GroundCheck()
