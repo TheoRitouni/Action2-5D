@@ -10,6 +10,7 @@ public class Platform : MonoBehaviour
     public float platformSpeed = 0.1f;
     public float platformDist = 1f;
     public AnimationCurve moveCurve = null;
+    public bool startDirLeft = false;
     private float distParcouru = 0f;
     
     public bool platformTurn = false;
@@ -44,6 +45,7 @@ public class Platform : MonoBehaviour
         initialDestroyTime = destroyTimer;
         initialRespawnTime = respawnTimer;
         distParcouru = 0.5f;
+        direction = startDirLeft;
     }
 
     void Update()
@@ -58,18 +60,18 @@ public class Platform : MonoBehaviour
             {
                 if (dirX == true)
                 {
-                    if (gameObject.transform.position.x >= initialPos.x + platformDist / 2)
+                    if (gameObject.transform.position.x >= initialPos.x + platformDist / 2 && !direction)
                     {
                         direction = true;
                     }
-                    if (gameObject.transform.position.x <= initialPos.x - platformDist / 2)
+                    if (gameObject.transform.position.x <= initialPos.x - platformDist / 2 && direction)
                     {
                         direction = false;
                     }
 
                     if (direction == false)
                     {
-                     //   float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
+                        //float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
                         gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
                         //distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
                     }
@@ -206,6 +208,13 @@ public class PlatformEditor : Editor
                 EditorGUILayout.HelpBox("Choose one direction at least", MessageType.Error);
                 GUILayout.EndHorizontal();
             }
+
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Starting Direction Left", GUILayout.Width(130));
+            script.startDirLeft = EditorGUILayout.Toggle(script.startDirLeft);
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
