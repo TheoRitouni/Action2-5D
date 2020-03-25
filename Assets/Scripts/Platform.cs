@@ -10,7 +10,7 @@ public class Platform : MonoBehaviour
     public float platformSpeed = 0.1f;
     public float platformDist = 1f;
     public AnimationCurve moveCurve = null;
-    private float distParcouru = 0f;
+    //private float distParcouru = 0f;
     
     public bool platformTurn = false;
     public float turnSpeed = 20f;
@@ -43,7 +43,7 @@ public class Platform : MonoBehaviour
         initialTime = time;
         initialDestroyTime = destroyTimer;
         initialRespawnTime = respawnTimer;
-        distParcouru = 0.5f;
+        //distParcouru = 0.5f;
     }
 
     void Update()

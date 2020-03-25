@@ -17,7 +17,7 @@ public class CameraMove : MonoBehaviour
     [Header("Location of Camera")]
     [SerializeField] private bool cameraFront = false;
     [SerializeField] [Range(0f, 10f)] private float speedCam = 3f;
-    [SerializeField] [Range(0f, 2f)] private float limitOfCam = 0.7f;
+    [SerializeField] [Range(0f, 5f)] private float limitOfCam = 0.7f;
     [Space]
     [SerializeField] private bool latency = false;
     [SerializeField] private float smoothness = 0.2f;

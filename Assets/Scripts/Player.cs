@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private bool umbrella = false;
     [Space]
     [Header("Umbrella")]
-    [SerializeField] private GameObject umbrel;
+    [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
     private float initialTimerUmbrella = 0f;
     [Space]
