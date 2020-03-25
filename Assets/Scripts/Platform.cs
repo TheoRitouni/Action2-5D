@@ -6,7 +6,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public bool platformMove = false;
-    public bool dirX = false, dirY = false;
+    public bool dirX = false, dirY = false, dirZ = false;
     public float platformSpeed = 0.1f;
     public float platformDist = 1f;
     public AnimationCurve moveCurve = null;
@@ -96,6 +96,19 @@ public class Platform : MonoBehaviour
                         gameObject.transform.Translate(new Vector3(0, platformSpeed * Time.deltaTime, 0));
                     if (direction == true)
                         gameObject.transform.Translate(new Vector3(0, -platformSpeed * Time.deltaTime, 0));
+                }
+
+                if (dirZ == true)
+                {
+                    if (gameObject.transform.position.z > initialPos.z + platformDist)
+                        direction = true;
+                    if (gameObject.transform.position.z < initialPos.z - platformDist)
+                        direction = false;
+
+                    if (direction == false)
+                        gameObject.transform.Translate(new Vector3(0, 0, platformSpeed * Time.deltaTime));
+                    if (direction == true)
+                        gameObject.transform.Translate(new Vector3(0, 0, -platformSpeed * Time.deltaTime));
                 }
             }
 
@@ -198,10 +211,12 @@ public class PlatformEditor : Editor
             GUILayout.Label("DirX", GUILayout.Width(35));
             script.dirX = EditorGUILayout.Toggle(script.dirX, GUILayout.Width(30));
             GUILayout.Label("DirY", GUILayout.Width(35));
-            script.dirY = EditorGUILayout.Toggle(script.dirY);
+            script.dirY = EditorGUILayout.Toggle(script.dirY, GUILayout.Width(30));
+            GUILayout.Label("DirZ", GUILayout.Width(35));
+            script.dirZ = EditorGUILayout.Toggle(script.dirZ);
             GUILayout.EndHorizontal();
 
-            if (!script.dirX && !script.dirY)
+            if (!script.dirX && !script.dirY && !script.dirZ)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(5);
@@ -212,7 +227,7 @@ public class PlatformEditor : Editor
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(20);
-            GUILayout.Label("Starting Direction Left", GUILayout.Width(130));
+            GUILayout.Label("Starting Negative Direction", GUILayout.Width(130));
             script.startDirLeft = EditorGUILayout.Toggle(script.startDirLeft);
             GUILayout.EndHorizontal();
 
