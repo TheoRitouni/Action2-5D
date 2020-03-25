@@ -56,8 +56,6 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        
-
         if (life > 0f) // If player is alive
         {
             UmbrellaActiveOrNot();
@@ -209,14 +207,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             umbrella = !umbrella;
-        }
-        if (umbrella == true)
-        {
-            umbrel.SetActive(true);
-        }
-        else
-        {
-            umbrel.SetActive(false);
+            umbrel.SetActive(umbrella);
+            if(umbrella == true )
+            {
+                speed = speed / 2;
+            }
+            else
+            {
+                speed = speed * 2;
+            }
         }
     }
 }
