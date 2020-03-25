@@ -160,10 +160,16 @@ MonoBehaviour:
   groundedLeft: {fileID: 8368528158384592986}
   groundedRight: {fileID: 8368528159402919048}
   directionalLight: {fileID: 0}
-  TimerInShadow: 2
-  TimerInLight: 6
+  timerInShadow: 2
+  timerInLight: 6
+  umbrel: {fileID: 0}
+  timerUmbrella: 1
+  barPlayer: {fileID: 0}
+  barUmbrella: {fileID: 0}
   colorPlayer: 0
   courage: 0
+  inShadow: 0
+  maxCourage: 3
 --- !u!1 &8368528159402919051
 GameObject:
   m_ObjectHideFlags: 0

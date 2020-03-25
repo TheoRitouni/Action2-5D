@@ -305,6 +305,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8368528159326144178}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &112919895 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+    type: 3}
+  m_PrefabInstance: {fileID: 8368528159326144178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9c6b207af9aa04f96959d7271bf69a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &171174346
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1132,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addCourage: 1
+  changeOfColor: 0
+  speedChangeColor: 3
+  movement: 0
+  dist: 0.2
+  speedCollectible: 0.2
 --- !u!135 &561133897
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1894,6 +1911,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addCourage: 1
+  changeOfColor: 0
+  speedChangeColor: 3
+  movement: 0
+  dist: 0.2
+  speedCollectible: 0.2
 --- !u!135 &1041627448
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1999,6 +2021,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addCourage: 1
+  changeOfColor: 0
+  speedChangeColor: 3
+  movement: 0
+  dist: 0.2
+  speedCollectible: 0.2
 --- !u!135 &1063009297
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2197,6 +2224,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorImageBar: {fileID: 1324927614}
   rectWhiteBar: {fileID: 1324927613}
+  player: {fileID: 112919895}
+  part: 0
 --- !u!1 &1153729536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,6 +2663,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addCourage: 1
+  changeOfColor: 0
+  speedChangeColor: 3
+  movement: 0
+  dist: 0.2
+  speedCollectible: 0.2
 --- !u!135 &1579414135
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3503,6 +3537,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 61183979}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: pathA
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7555600439289479893, guid: 7dd66ef59c0f742448a367dd3af052d4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3557,21 +3606,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 61183979}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: showDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: pathA
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd66ef59c0f742448a367dd3af052d4, type: 3}
@@ -3662,10 +3696,5 @@ PrefabInstance:
       propertyPath: barUmbrella
       value: 
       objectReference: {fileID: 1094290441}
-    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
-        type: 3}
-      propertyPath: maxCourage
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69adc26db5a05644491e20d807f01616, type: 3}

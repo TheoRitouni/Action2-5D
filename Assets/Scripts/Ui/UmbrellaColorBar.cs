@@ -8,15 +8,14 @@ public class UmbrellaColorBar : MonoBehaviour
     [SerializeField] private Image colorImageBar;
 
     [SerializeField] private RectTransform rectWhiteBar;
-    private Player player;
-    private float part;
+    [SerializeField] private Player player;
+    public float part;
 
     private float timer = 0.75f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         part = rectWhiteBar.sizeDelta.y / player.maxCourage;
     }
     private void Update()

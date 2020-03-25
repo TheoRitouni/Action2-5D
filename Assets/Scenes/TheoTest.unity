@@ -499,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorImageBar: {fileID: 142689610}
   rectWhiteBar: {fileID: 142689609}
+  player: {fileID: 1775901047}
 --- !u!1 &273083151
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,6 +2697,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1775901047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+    type: 3}
+  m_PrefabInstance: {fileID: 8368528159326144178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9c6b207af9aa04f96959d7271bf69a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1844656427
 GameObject:
   m_ObjectHideFlags: 0
@@ -3591,7 +3604,7 @@ PrefabInstance:
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: maxCourage
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8368528159402919048, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
