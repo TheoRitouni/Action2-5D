@@ -33,11 +33,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float                          TimerInLight = 6f;
 
     [HideInInspector] public bool umbrella;
-    private GameObject umbrel;
+    [SerializeField] private GameObject umbrel;
+    [SerializeField] private PlayerColorBar barPlayer;
+    [SerializeField] private UmbrellaColorBar barUmbrella;
 
-    public float                                            colorPlayer;
-    public float                                            courage = 0;
-    public bool                                             inShadow;
+    [HideInInspector] public float                          colorPlayer;
+    private float                                           courage = 0f;
+    public float Courage { get { return courage; } set { courage = value; barUmbrella.RefreshBar(); } }
+
+    public float                                            maxCourage = 0f;
+    
+    [HideInInspector] public bool                           inShadow;
 
 
     private void Start()
@@ -45,7 +51,7 @@ public class Player : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
-        umbrel = GameObject.FindGameObjectWithTag("Umbrella");
+        Courage = 0;
     }
     
     void Update()
@@ -54,7 +60,7 @@ public class Player : MonoBehaviour
 
         if (life > 0f) // If player is alive
         {
-            UmbrellaActiveOrNot()
+            UmbrellaActiveOrNot();
             PlayerMovement();
             inShadow = CheckShadow();
             ColorOfPlayer();
@@ -158,13 +164,13 @@ public class Player : MonoBehaviour
 
     private void ColorOfPlayer()
     {
-
         if (meshPlayer.material.color.r <= 1)
         {
             if (inShadow == false)
             {
                 colorPlayer += 1 / TimerInLight * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                barPlayer.RefreshBar();
             }
         }
         if (meshPlayer.material.color.r >= 0)
@@ -173,6 +179,7 @@ public class Player : MonoBehaviour
             { 
                 colorPlayer -= 1 / TimerInShadow * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                barPlayer.RefreshBar();
             }
         }
 
@@ -181,11 +188,13 @@ public class Player : MonoBehaviour
             // death of player 
             colorPlayer = 1;
             meshPlayer.material.color = new Color(1, 1, 1, 255);
+            barPlayer.RefreshBar();
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
             meshPlayer.material.color = new Color(0, 0, 0, 255);
+            barPlayer.RefreshBar();
         }
 
     }
