@@ -23,7 +23,7 @@ public class Collectible : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            player.courage += addCourage;
+            player.Courage += addCourage;
             Destroy(gameObject);
         }
     }
