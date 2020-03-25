@@ -17,7 +17,7 @@ public class Lever : MonoBehaviour
     [SerializeField] private List<OneTimeTrigger> oneTimeTriggers = new List<OneTimeTrigger>();
     [SerializeField] private List<Enemy> ennemies = new List<Enemy>();
 
-    [SerializeField] private List<GameObject> objectsOnPlate = new List<GameObject>();
+    private List<GameObject> objectsOnPlate = new List<GameObject>();
 
     private bool isOn = false;
 

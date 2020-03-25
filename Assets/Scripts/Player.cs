@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
+    [SerializeField] private PlayerColorBar barPlayer;
+    [SerializeField] private UmbrellaColorBar barUmbrella;
     private float initialTimerUmbrella = 0f;
     [Space]
 
@@ -46,6 +48,11 @@ public class Player : MonoBehaviour
     public float                                            courage = 0;
     public bool                                             inShadow;
 
+    public float Courage { get { return courage; } set { courage = value; barUmbrella.RefreshBar(); } }
+
+    public float maxCourage = 0f;
+
+
 
     private void Start()
     {
@@ -53,6 +60,7 @@ public class Player : MonoBehaviour
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
         initialTimerUmbrella = timerUmbrella;
+        Courage = 0;
     }
     
     void Update()
@@ -163,13 +171,13 @@ public class Player : MonoBehaviour
 
     private void ColorOfPlayer()
     {
-
         if (meshPlayer.material.color.r <= 1)
         {
             if (inShadow == false)
             {
                 colorPlayer += 1 / timerInLight * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                barPlayer.RefreshBar();
             }
         }
         if (meshPlayer.material.color.r >= 0)
@@ -178,6 +186,7 @@ public class Player : MonoBehaviour
             { 
                 colorPlayer -= 1 / timerInShadow * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                barPlayer.RefreshBar();
             }
         }
 
@@ -186,11 +195,13 @@ public class Player : MonoBehaviour
             // death of player 
             colorPlayer = 1;
             meshPlayer.material.color = new Color(1, 1, 1, 255);
+            barPlayer.RefreshBar();
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
             meshPlayer.material.color = new Color(0, 0, 0, 255);
+            barPlayer.RefreshBar();
         }
 
     }
