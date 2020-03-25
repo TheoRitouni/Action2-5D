@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private List<Vector3>                                   shadowPos = new List<Vector3>();
 
     [Header("Movements")]
-    [SerializeField] [Range(0f, 200f)] private float        speed = 0f;
+    [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
 
@@ -28,15 +28,19 @@ public class Player : MonoBehaviour
 
     [Header("Shadow and Light")]
     [Tooltip("Time in sec to be completely Black")]
-    [SerializeField] private float                          TimerInShadow = 2f;
+    [SerializeField] private float                          timerInShadow = 2f;
     [Tooltip("Time in sec to be completely White")]
-    [SerializeField] private float                          TimerInLight = 6f;
+    [SerializeField] private float                          timerInLight = 6f;
 
 
     private bool umbrella = false;
     [Space]
+    [Header("Umbrella")]
     [SerializeField] private GameObject umbrel;
+    [SerializeField] private float timerUmbrella = 1f;
+    private float initialTimerUmbrella = 0f;
     [Space]
+
 
     public float                                            colorPlayer;
     public float                                            courage = 0;
@@ -48,6 +52,7 @@ public class Player : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
+        initialTimerUmbrella = timerUmbrella;
     }
     
     void Update()
@@ -163,7 +168,7 @@ public class Player : MonoBehaviour
         {
             if (inShadow == false)
             {
-                colorPlayer += 1 / TimerInLight * Time.deltaTime;
+                colorPlayer += 1 / timerInLight * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
             }
         }
@@ -171,7 +176,7 @@ public class Player : MonoBehaviour
         {
             if (inShadow == true)
             { 
-                colorPlayer -= 1 / TimerInShadow * Time.deltaTime;
+                colorPlayer -= 1 / timerInShadow * Time.deltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
             }
         }
@@ -197,8 +202,10 @@ public class Player : MonoBehaviour
 
     public void UmbrellaActiveOrNot()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        timerUmbrella -= Time.deltaTime;
+        if (Input.GetButton("JoystickRightClick") && timerUmbrella < 0 )
         {
+            timerUmbrella = initialTimerUmbrella;
             umbrella = !umbrella;
             umbrel.SetActive(umbrella);
             if(umbrella == true )
@@ -207,6 +214,8 @@ public class Player : MonoBehaviour
             }
             else
             {
+                umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
+                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
                 speed = speed * 2;
             }
         }

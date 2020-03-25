@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Umbrella : MonoBehaviour
 {
-    [SerializeField] private float limitOfUmbrella = 15;
-    [SerializeField] private float speedOfUmbrella = 2f;
+    [Header("Umbrella Settings")]
+    [SerializeField] [Range(0f, 90f)] private float limitOfUmbrella = 45;
+    [SerializeField] [Range(0f, 20f)] private float speedOfUmbrella = 2f;
     private Player player;
+    private Vector3 savePosUmbrella;
+    private Quaternion saveRotUmbrella;
 
-    private float distX = 0f;
-    private float distZ = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,39 +20,46 @@ public class Umbrella : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        // limiter la rotation
-        if (Input.GetKey(KeyCode.M))
-        {
-            if (distX < limitOfUmbrella)
-                distX = -speedOfUmbrella;
-            gameObject.transform.RotateAround(player.transform.position, Vector3.forward, distX);
-            
-        }
-        if (Input.GetKey(KeyCode.K))
-        {
-            if (distX > -limitOfUmbrella)
-                distX = speedOfUmbrella;
-            gameObject.transform.RotateAround(player.transform.position, Vector3.forward, distX);
-            
-        }
-        
+        float horizontalLeft = Input.GetAxis("JoystickRightHorizontal") * speedOfUmbrella;
+        float verticalLeft = Input.GetAxis("JoystickRightVertical") * speedOfUmbrella;
 
-        if (Input.GetKey(KeyCode.O))
+        savePosUmbrella = gameObject.transform.position;
+        saveRotUmbrella = gameObject.transform.rotation;
+
+        if ( horizontalLeft != 0)
         {
-            if (distZ < limitOfUmbrella)
-                distZ = speedOfUmbrella;
-            gameObject.transform.RotateAround(player.transform.position, Vector3.right, distZ);
-            
+            gameObject.transform.RotateAround(player.transform.position, Vector3.forward, horizontalLeft);  
         }
-        if (Input.GetKey(KeyCode.L))
+        if (verticalLeft != 0)
         {
-            if (distZ > -limitOfUmbrella)
-                distZ = -speedOfUmbrella;
-            gameObject.transform.RotateAround(player.transform.position, Vector3.right, distZ);
-            
+            gameObject.transform.RotateAround(player.transform.position, Vector3.right, verticalLeft);
         }
+
+
+        if (gameObject.transform.rotation.eulerAngles.z > limitOfUmbrella && gameObject.transform.rotation.eulerAngles.z < 180)
+        {
+            gameObject.transform.position = savePosUmbrella;
+            gameObject.transform.rotation = Quaternion.Euler(saveRotUmbrella.eulerAngles.x, saveRotUmbrella.eulerAngles.y, limitOfUmbrella);
         
-        
+        }
+        if (gameObject.transform.rotation.eulerAngles.z <  360 - limitOfUmbrella && gameObject.transform.rotation.eulerAngles.z > 180 )
+        {
+            gameObject.transform.position = savePosUmbrella;
+            gameObject.transform.rotation = Quaternion.Euler(saveRotUmbrella.eulerAngles.x, saveRotUmbrella.eulerAngles.y, -limitOfUmbrella);
+        }
+
+        if (gameObject.transform.rotation.eulerAngles.x > limitOfUmbrella && gameObject.transform.rotation.eulerAngles.x < 180)
+        {
+            gameObject.transform.position = savePosUmbrella;
+            gameObject.transform.rotation = Quaternion.Euler(limitOfUmbrella, saveRotUmbrella.eulerAngles.y, saveRotUmbrella.eulerAngles.z);
+        }
+        if (gameObject.transform.rotation.eulerAngles.x < 360 - limitOfUmbrella && gameObject.transform.rotation.eulerAngles.x > 180)
+        {
+            gameObject.transform.position = savePosUmbrella;
+            gameObject.transform.rotation = Quaternion.Euler(-limitOfUmbrella, saveRotUmbrella.eulerAngles.y, saveRotUmbrella.eulerAngles.z);
+        }
+
+
+
     }
 }

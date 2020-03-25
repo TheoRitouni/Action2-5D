@@ -2271,16 +2271,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 840429662}
     m_Modifications:
-    - target: {fileID: 69642455335842565, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
-        type: 3}
-      propertyPath: limitOfUmbrella
-      value: 10.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 69642455335842565, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
-        type: 3}
-      propertyPath: speedOfUmbrella
-      value: 2.45
-      objectReference: {fileID: 0}
     - target: {fileID: 5887584253777649390, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
         type: 3}
       propertyPath: m_Name
@@ -2290,6 +2280,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 69642455335842565, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
+        type: 3}
+      propertyPath: limitOfUmbrella
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 69642455335842565, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
+        type: 3}
+      propertyPath: speedOfUmbrella
+      value: 2.45
       objectReference: {fileID: 0}
     - target: {fileID: 5887584253777649391, guid: 63b4fa0eda4b4854dbc36c1d99c3b113,
         type: 3}
