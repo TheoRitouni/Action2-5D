@@ -44,11 +44,14 @@ public class Player : MonoBehaviour
     [Space]
 
 
-    public float                                            colorPlayer;
-    public float                                            courage = 0;
     public bool                                             inShadow;
 
-    public float Courage { get { return courage; } set { courage = value; barUmbrella.RefreshBar(); } }
+    [HideInInspector] public float                          colorPlayer;
+    private float                                           courage = 0f;
+    public float Courage { 
+        get { return courage; } 
+        set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
+    }
 
     public float maxCourage = 0f;
 

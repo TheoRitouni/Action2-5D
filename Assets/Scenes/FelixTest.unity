@@ -156,6 +156,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -164,6 +165,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -652,6 +654,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -660,6 +663,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -808,6 +812,7 @@ MonoBehaviour:
   platformMove: 1
   dirX: 1
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -816,6 +821,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -1544,9 +1550,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformMove: 1
-  dirX: 1
+  dirX: 0
   dirY: 0
-  platformSpeed: 5
+  dirZ: 1
+  platformSpeed: 2
   platformDist: 2
   moveCurve:
     serializedVersion: 2
@@ -1554,6 +1561,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -3696,5 +3704,13 @@ PrefabInstance:
       propertyPath: barUmbrella
       value: 
       objectReference: {fileID: 1094290441}
+<<<<<<< HEAD
+=======
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: maxCourage
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> 0b64d48b91702c6731ac438798776a41232a2b1d
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69adc26db5a05644491e20d807f01616, type: 3}
