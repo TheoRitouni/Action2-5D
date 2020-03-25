@@ -156,6 +156,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -164,6 +165,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -640,6 +642,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -648,6 +651,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -796,6 +800,7 @@ MonoBehaviour:
   platformMove: 1
   dirX: 1
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -804,6 +809,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -1527,9 +1533,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformMove: 1
-  dirX: 1
+  dirX: 0
   dirY: 0
-  platformSpeed: 5
+  dirZ: 1
+  platformSpeed: 2
   platformDist: 2
   moveCurve:
     serializedVersion: 2
@@ -1537,6 +1544,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -3503,6 +3511,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 61183979}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
+        type: 3}
+      propertyPath: pathA
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7555600439289479893, guid: 7dd66ef59c0f742448a367dd3af052d4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3557,21 +3580,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 61183979}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: showDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7555600437731137240, guid: 7dd66ef59c0f742448a367dd3af052d4,
-        type: 3}
-      propertyPath: pathA
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dd66ef59c0f742448a367dd3af052d4, type: 3}
@@ -3665,7 +3673,7 @@ PrefabInstance:
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: maxCourage
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69adc26db5a05644491e20d807f01616, type: 3}
