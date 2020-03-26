@@ -35,7 +35,7 @@ public class Umbrella : MonoBehaviour
             gameObject.transform.RotateAround(player.transform.position, Vector3.right, verticalLeft);
         }
 
-
+        // limit rotation of umbrella
         if (gameObject.transform.rotation.eulerAngles.z > limitOfUmbrella && gameObject.transform.rotation.eulerAngles.z < 180)
         {
             gameObject.transform.position = savePosUmbrella;

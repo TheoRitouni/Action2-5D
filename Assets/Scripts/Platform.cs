@@ -63,28 +63,15 @@ public class Platform : MonoBehaviour
             {
                 if (dirX == true)
                 {
-                    if (gameObject.transform.position.x >= initialPos.x + platformDist / 2 && !direction)
-                    {
-                        direction = true;
-                    }
-                    if (gameObject.transform.position.x <= initialPos.x - platformDist / 2 && direction)
-                    {
-                        direction = false;
-                    }
+                    if (gameObject.transform.position.x > initialPos.x + platformDist )    
+                        direction = true;                  
+                    if (gameObject.transform.position.x < initialPos.x  )                   
+                        direction = false;                   
 
-                    if (direction == false)
-                    {
-                        //float curve = moveCurve.Evaluate(distParcouru / (initialPos.x + platformDist / 2));
-                        gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
-                        //distParcouru = transform.position.x - platformDist / 2 - initialPos.x;
-                    }
-                    if (direction == true)
-                    {
-                        //Debug.Log(distParcouru / (initialPos.x - platformDist / 2));
-                        //float curve = moveCurve.Evaluate(distParcouru / (initialPos.x - platformDist / 2));
-                        gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
-                        //distParcouru = initialPos.x - platformDist / 2 - transform.position.x;
-                    }
+                    if (direction == false)                   
+                        gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));                   
+                    if (direction == true)                    
+                        gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));                    
 
                 }
 
