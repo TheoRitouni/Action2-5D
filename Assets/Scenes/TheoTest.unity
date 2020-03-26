@@ -155,6 +155,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -163,6 +164,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -500,6 +502,7 @@ MonoBehaviour:
   colorImageBar: {fileID: 142689610}
   rectWhiteBar: {fileID: 142689609}
   player: {fileID: 1775901047}
+  part: 0
 --- !u!1 &273083151
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +690,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -695,6 +699,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -813,6 +818,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -821,6 +827,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0
@@ -898,7 +905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437632270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.82, y: 4.42, z: 3.61}
+  m_LocalPosition: {x: 2.87, y: 4.42, z: 3.61}
   m_LocalScale: {x: 2, y: 0.5, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1013,6 +1020,7 @@ MonoBehaviour:
   platformMove: 0
   dirX: 0
   dirY: 0
+  dirZ: 0
   platformSpeed: 5
   platformDist: 2
   moveCurve:
@@ -1021,6 +1029,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  startDirLeft: 0
   platformTurn: 0
   turnSpeed: 20
   timer: 0

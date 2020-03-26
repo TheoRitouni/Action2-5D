@@ -37,9 +37,12 @@ public class Platform : MonoBehaviour
 
     public bool isActive = false;
 
+    private Player player;
+
     
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         initialPos = gameObject.transform.position;
         initialTime = time;
         initialDestroyTime = destroyTimer;
@@ -150,6 +153,19 @@ public class Platform : MonoBehaviour
                     platAtDestroy = true;
                 }
             }
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            player.transform.parent = transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            player.transform.parent = null;
         }
     }
 
