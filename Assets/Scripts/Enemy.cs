@@ -6,6 +6,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
+    private LevelManager levelManager;
+
     private NavMeshAgent navAgent = null;
     private int indexMovementA = 0;
     private int indexMovementB = 0;
@@ -29,7 +31,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] [Range(5f, 50f)] private float maxRadius = 0f;
     [Tooltip("Between the purple vector and one of blue vector, so the ° between the 2 blue vectors is (Max Radius x2)")]
     [SerializeField] [Range(10f, 85f)] private float maxAngle = 0f;
-    
+
+    private void Awake()
+    {
+        levelManager = FindObjectOfType<LevelManager>();
+    }
 
     void Start()
     {
@@ -42,41 +48,47 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        playerInFov = InFov();
+        if (!levelManager.pause)
+        {
+            playerInFov = InFov();
 
-        if (navAgent.speed != speed)
-            navAgent.speed = speed;
+            if (navAgent.speed != speed)
+                navAgent.speed = speed;
 
-        if (playerInFov && !playerScript.inShadow)
-        {
-            navAgent.SetDestination(player.position);
+            if (playerInFov && !playerScript.inShadow && !levelManager.dead)
+            {
+                navAgent.SetDestination(player.position);
+            }
+            else if (pathA && movementPointA.Length > 1)
+            {
+                if (IsOnMovementPoint())
+                {
+                    indexMovementA++;
+                    if (indexMovementA == movementPointA.Length)
+                        indexMovementA = 0;
+                }
+                else if (navAgent.velocity.x == 0f)
+                {
+                    navAgent.SetDestination(movementPointA[indexMovementA].position);
+                }
+            }
+            else if (!pathA && movementPointB.Length > 1)
+            {
+                if (IsOnMovementPoint())
+                {
+                    indexMovementB++;
+                    if (indexMovementB == movementPointB.Length)
+                        indexMovementB = 0;
+                }
+                else if (navAgent.velocity.x == 0f)
+                {
+                    navAgent.SetDestination(movementPointB[indexMovementB].position);
+                }
+            }
         }
-        else if (pathA && movementPointA.Length > 1)
-        {
-            if (IsOnMovementPoint())
-            {
-                indexMovementA++;
-                if (indexMovementA == movementPointA.Length)
-                    indexMovementA = 0;
-            }
-            else if (navAgent.velocity.x == 0f)
-            {
-                navAgent.SetDestination(movementPointA[indexMovementA].position);
-            }
-        }
-        else if (!pathA && movementPointB.Length > 1)
-        {
-            if (IsOnMovementPoint())
-            {
-                indexMovementB++;
-                if (indexMovementB == movementPointB.Length)
-                    indexMovementB = 0;
-            }
-            else if (navAgent.velocity.x == 0f)
-            {
-                navAgent.SetDestination(movementPointB[indexMovementB].position);
-            }
-        }
+        else if (navAgent.speed != 0)
+            navAgent.speed = 0;
+        
     }
 
     private bool IsOnMovementPoint()

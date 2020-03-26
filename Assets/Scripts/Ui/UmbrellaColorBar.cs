@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UmbrellaColorBar : MonoBehaviour
 {
+    private LevelManager levelManager;
+
     [SerializeField] private Image colorImageBar;
 
     [SerializeField] private RectTransform rectWhiteBar;
@@ -13,19 +15,23 @@ public class UmbrellaColorBar : MonoBehaviour
 
     private float timer = 0.75f;
 
-    // Start is called before the first frame update
     void Awake()
     {
         part = rectWhiteBar.sizeDelta.y / player.maxCourage;
+        levelManager = FindObjectOfType<LevelManager>();
     }
+
     private void Update()
     {
-        if (timer > 0f)
-            timer -= Time.deltaTime;
-        else
+        if (!levelManager.pause)
         {
-            timer = 0.75f;
-            colorImageBar.color = Random.ColorHSV(0, 1, 1, 1, 0.75f, 1, 1, 1);
+            if (timer > 0f)
+                timer -= Time.deltaTime;
+            else
+            {
+                timer = 0.75f;
+                colorImageBar.color = Random.ColorHSV(0, 1, 1, 1, 0.75f, 1, 1, 1);
+            }
         }
     }
 

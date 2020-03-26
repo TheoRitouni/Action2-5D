@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LaunchLevel : MonoBehaviour
 {
-    private int actualLevel = 0;
+    public int actualLevel = 0;
 
     private void Awake()
     {
@@ -27,5 +27,18 @@ public class LaunchLevel : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(actualLevel);
+    }
+
+    public void LoadMainMenu()
+    {
+        actualLevel = 0;
+        
+        SceneManager.LoadSceneAsync(0);
+        Destroy(gameObject);
     }
 }

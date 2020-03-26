@@ -4,7 +4,9 @@ using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{ 
+{
+    private LevelManager levelManager;
+
     private Rigidbody                                       rig;
     private int                                             jump = 0;
     private bool                                            isJumping = false;
@@ -15,9 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
-
-    [Header("Characteristics")]
-    [SerializeField] private float                          life = 0f;
 
     [Header("Ground Checker")]
     [SerializeField] private Transform                      groundedLeft = null;
@@ -55,6 +54,10 @@ public class Player : MonoBehaviour
 
     public float maxCourage = 0f;
 
+    private void Awake()
+    {
+        levelManager = FindObjectOfType<LevelManager>();
+    }
 
 
     private void Start()
@@ -68,7 +71,7 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        if (life > 0f) // If player is alive
+        if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
             UmbrellaActiveOrNot();
             PlayerMovement();
@@ -195,10 +198,10 @@ public class Player : MonoBehaviour
 
         if(colorPlayer > 1) // if he get this value he die 
         {
-            // death of player 
             colorPlayer = 1;
             meshPlayer.material.color = new Color(1, 1, 1, 255);
             barPlayer.RefreshBar();
+            Lose();
         }
         if (colorPlayer < 0f)
         {
@@ -211,13 +214,13 @@ public class Player : MonoBehaviour
 
     public void Lose()
     {
-
+        levelManager.dead = true;
     }
 
     public void UmbrellaActiveOrNot()
     {
         timerUmbrella -= Time.deltaTime;
-        if (Input.GetButton("JoystickRightClick") && timerUmbrella < 0 )
+        if (Input.GetButtonDown("JoystickRightClick") && timerUmbrella < 0 )
         {
             timerUmbrella = initialTimerUmbrella;
             umbrella = !umbrella;

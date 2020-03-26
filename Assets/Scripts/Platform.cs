@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    private LevelManager levelManager;
+
     public bool platformMove = false;
     public bool dirX = false, dirY = false, dirZ = false;
     public float platformSpeed = 0.1f;
@@ -39,7 +41,11 @@ public class Platform : MonoBehaviour
 
     private Player player;
 
-    
+    private void Awake()
+    {
+        levelManager = FindObjectOfType<LevelManager>();
+    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -53,7 +59,7 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        if (isActive)
+        if (isActive && !levelManager.pause)
         {
             DestroyPlatform();
 
