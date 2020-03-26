@@ -25,6 +25,14 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private float smoothness = 0.2f;
     [SerializeField] [Range(0f, 5f)] private float speedLatency = 1f;
 
+    [Header("Zoom of Camera")]
+    [SerializeField] [Range(1f, 3f)] private float powerZoom = 2f;
+    [SerializeField] [Range(1f, 20f)] private float speedZoom = 5f;
+    private float distCamY = 4.5f;
+    private float distCamZ = 9.5f;
+    private float initialDistCamY;
+    private float initialDistCamZ;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -36,12 +44,37 @@ public class CameraMove : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         posX = player.transform.position.x + limitOfCam;
         PosPLayerDelay = player.transform.position;
+        initialDistCamY = distCamY;
+        initialDistCamZ = distCamZ;
     }
 
     void Update()
     {
         if (!levelManager.dead && !levelManager.pause)
-        {
+        { 
+            if(player.RoofOnPlayer)
+            {
+                if(distCamY > initialDistCamY / powerZoom)
+                {
+                    distCamY -= speedZoom  / distCamZ * Time.deltaTime;
+                }
+                if (distCamZ > initialDistCamZ / powerZoom)
+                {
+                    distCamZ -= speedZoom  / distCamY * Time.deltaTime;
+                }
+            }
+            else
+            {
+                if (distCamY < initialDistCamY)
+                {
+                    distCamY += speedZoom / distCamZ * Time.deltaTime;
+                }
+                if (distCamZ < initialDistCamZ)
+                {
+                    distCamZ += speedZoom / distCamY * Time.deltaTime;
+                }
+            }
+
             if (latency == true)
             {
                 smoothness -= Time.deltaTime;
@@ -91,28 +124,30 @@ public class CameraMove : MonoBehaviour
 
             if (latency == true && cameraFront == false)
             {
-                PosPLayerDelay += latencyDir * Time.deltaTime * speedLatency;
-                transform.position = new Vector3(PosPLayerDelay.x, PosPLayerDelay.y + 4.5f, PosPLayerDelay.z - 9.5f);
+                PosPLayerDelay += latencyDir * Time.deltaTime * speedLatency ;
+                transform.position = new Vector3(PosPLayerDelay.x , PosPLayerDelay.y + distCamY, PosPLayerDelay.z - distCamZ);
                 transform.LookAt(PosPLayerDelay);
             }
-            if (cameraFront == true && latency == false)
+            else if(cameraFront == true && latency == false)
             {
                 posCam.x = player.transform.position.x + posX;
                 posCam.y = player.transform.position.y;
                 posCam.z = player.transform.position.z;
-                transform.position = new Vector3(posCam.x, player.transform.position.y + 4.5f, player.transform.position.z - 9.5f);
+                transform.position = new Vector3(posCam.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
                 transform.LookAt(posCam);
             }
-
-            if (latency == true && cameraFront == true)
+            else if (latency == true && cameraFront == true)
             {
                 PosPLayerDelay += latencyDir * Time.deltaTime * speedLatency;
                 posCam.x = PosPLayerDelay.x + posX;
                 posCam.y = PosPLayerDelay.y;
                 posCam.z = PosPLayerDelay.z;
-                transform.position = new Vector3(PosPLayerDelay.x + posX, PosPLayerDelay.y + 4.5f, PosPLayerDelay.z - 9.5f);
+                transform.position = new Vector3(PosPLayerDelay.x + posX, PosPLayerDelay.y + distCamY, PosPLayerDelay.z - distCamZ);
                 transform.LookAt(posCam);
             }
+
         }
+
+
     }
 }

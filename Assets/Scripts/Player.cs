@@ -54,11 +54,15 @@ public class Player : MonoBehaviour
 
     public float maxCourage = 0f;
 
+    [Header("Camera Zoom")]
+    [SerializeField] private float distanceToRoof = 2f;
+    private bool roofAbovePlayer = false;
+    public bool RoofOnPlayer { get { return roofAbovePlayer; } }
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
     }
-
 
     private void Start()
     {
@@ -77,6 +81,7 @@ public class Player : MonoBehaviour
             PlayerMovement();
             inShadow = CheckShadow();
             ColorOfPlayer();
+            RoofAbovePLayer();
         }
     }
 
@@ -219,7 +224,10 @@ public class Player : MonoBehaviour
 
     public void UmbrellaActiveOrNot()
     {
-        timerUmbrella -= Time.deltaTime;
+        if (timerUmbrella > 0)
+        {
+            timerUmbrella -= Time.deltaTime;
+        }
         if (Input.GetButtonDown("JoystickRightClick") && timerUmbrella < 0 )
         {
             timerUmbrella = initialTimerUmbrella;
@@ -236,5 +244,28 @@ public class Player : MonoBehaviour
                 speed = speed * 2;
             }
         }
+    }
+
+    private void RoofAbovePLayer()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position,Vector3.up, out hit, distanceToRoof))
+        {
+            if (!hit.collider.gameObject.CompareTag("Umbrella"))
+            {
+                roofAbovePlayer = true;
+                Debug.DrawRay(transform.position, hit.point - transform.position, Color.red);
+            }
+            else
+            {
+                roofAbovePlayer = false;
+            }
+        }
+        else
+        {
+            roofAbovePlayer = false;
+        }
+
     }
 }
