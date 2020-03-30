@@ -63,6 +63,9 @@ public class Player : MonoBehaviour
     private bool roofAbovePlayer = false;
     public bool RoofOnPlayer { get { return roofAbovePlayer; } }
 
+    private bool squat = false;
+    private float sizeSquat = 0.5f;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -81,8 +84,12 @@ public class Player : MonoBehaviour
     {
         if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
-            UmbrellaActiveOrNot();
+            if (!squat)
+            {
+                UmbrellaActiveOrNot();
+            }
             PlayerMovement();
+            PlayerSquat();
             inShadow = CheckShadow();
             ColorOfPlayer();
             RoofAbovePLayer();
@@ -96,6 +103,7 @@ public class Player : MonoBehaviour
 
         rig.velocity = new Vector3(Horizontal * Time.deltaTime, rig.velocity.y , Vertical * Time.deltaTime);
 
+
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
             if(jump == 0) // umbrella off if you jump
@@ -108,7 +116,9 @@ public class Player : MonoBehaviour
         }
 
         if (GroundCheck())
+        {
             jump = 0;
+        }
     }
 
     private bool CheckShadow()
@@ -151,15 +161,38 @@ public class Player : MonoBehaviour
 
     public void SetBasicShadowPos()
     {
-        shadowPos.Add(new Vector3(-0.49f, -0.49f, -0.49f));
-        shadowPos.Add(new Vector3(0.49f, -0.49f, -0.49f));
-        shadowPos.Add(new Vector3(0.49f, -0.49f, 0.49f));
-        shadowPos.Add(new Vector3(-0.49f, -0.49f, 0.49f));
+        if (squat == false)
+        {
+            if (shadowPos.Count != 0)
+            {
+                shadowPos.Clear();
+            }
+            shadowPos.Add(new Vector3(-0.49f, -0.49f, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, -0.49f, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, -0.49f, 0.49f));
+            shadowPos.Add(new Vector3(-0.49f, -0.49f, 0.49f));
 
-        shadowPos.Add(new Vector3(-0.49f, 0.49f, -0.49f));
-        shadowPos.Add(new Vector3(0.49f, 0.49f, -0.49f));
-        shadowPos.Add(new Vector3(0.49f, 0.49f, 0.49f));
-        shadowPos.Add(new Vector3(-0.49f, 0.49f, 0.49f));
+            shadowPos.Add(new Vector3(-0.49f, 0.49f, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, 0.49f, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, 0.49f, 0.49f));
+            shadowPos.Add(new Vector3(-0.49f, 0.49f, 0.49f));
+        }
+        else
+        {
+            if (shadowPos.Count != 0)
+            {
+                shadowPos.Clear();
+            }
+            shadowPos.Add(new Vector3(-0.49f, -0.49f + sizeSquat/2, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, -0.49f + sizeSquat/2, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, -0.49f + sizeSquat/2, 0.49f));
+            shadowPos.Add(new Vector3(-0.49f, -0.49f + sizeSquat/2, 0.49f));
+
+            shadowPos.Add(new Vector3(-0.49f, 0.49f - sizeSquat/2, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, 0.49f - sizeSquat/2, -0.49f));
+            shadowPos.Add(new Vector3(0.49f, 0.49f - sizeSquat/2, 0.49f));
+            shadowPos.Add(new Vector3(-0.49f, 0.49f - sizeSquat/2, 0.49f));
+        }
     }
 
     private bool GroundCheck()
@@ -170,12 +203,12 @@ public class Player : MonoBehaviour
         bool isGroundedLeft = false;
         bool isGroundedRight = false;
 
-        if (Physics.Raycast(groundedLeft.position, transform.TransformDirection(-Vector3.up), out hitLeft, 1f))
+        if (Physics.Raycast(groundedLeft.position, transform.TransformDirection(-Vector3.up), out hitLeft, 0.51f))
             isGroundedLeft = true;
         else
             isGroundedLeft = false;
 
-        if (Physics.Raycast(groundedRight.position, transform.TransformDirection(-Vector3.up), out hitRight, 1f))
+        if (Physics.Raycast(groundedRight.position, transform.TransformDirection(-Vector3.up), out hitRight, 0.51f))
             isGroundedRight = true;
         else
             isGroundedRight = false;
@@ -225,7 +258,7 @@ public class Player : MonoBehaviour
 
     public void Lose()
     {
-       // levelManager.dead = true;
+        levelManager.dead = true;
     }
 
     public void UmbrellaActiveOrNot()
@@ -265,7 +298,7 @@ public class Player : MonoBehaviour
         }
 
         // Planer
-        if (umbrella == true && jump > 0)
+        if (umbrella == true && GroundCheck() == false)
         {
             rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y / fallOfPlaner, rig.velocity.z);
             if (planer == false)
@@ -274,7 +307,7 @@ public class Player : MonoBehaviour
                 speed = speed * speedOfPlaner;
             }
         }
-        if (planer == true && jump == 0)
+        if (planer == true && GroundCheck() == true)
         {
             planer = false;
             speed = speed / speedOfPlaner;
@@ -304,4 +337,49 @@ public class Player : MonoBehaviour
 
     }
 
+    private void PlayerSquat()
+    {
+        if(Input.GetButtonDown("CircleButton"))
+        {
+            Transform saveParent = gameObject.transform.parent;
+            gameObject.transform.parent = null;
+            // manage umbrella with squat
+            if (umbrella == true)
+            {
+                timerUmbrella = initialTimerUmbrella;
+                umbrella = !umbrella;
+                umbrel.SetActive(umbrella);
+
+                if (planer == true)
+                {
+                    planer = false;
+                    speed = speed / speedOfPlaner;
+                }
+
+                umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
+                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
+                speed = speed * 2;
+            }
+
+            // squat
+            if (gameObject.transform.localScale.y > sizeSquat)
+            {
+               
+                gameObject.transform.localScale = new Vector3(transform.localScale.x , sizeSquat, transform.localScale.z);
+                gameObject.transform.Translate(0, - sizeSquat / 2, 0);
+                squat = true;
+                SetBasicShadowPos();
+                speed = speed / 2;
+            }
+            else
+            {
+                gameObject.transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+                squat = false;
+                SetBasicShadowPos();
+                speed = speed * 2;
+            }
+
+            gameObject.transform.parent = saveParent;
+        }
+    }
 }
