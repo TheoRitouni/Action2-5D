@@ -84,15 +84,21 @@ public class Player : MonoBehaviour
     {
         if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
-            if (!squat)
+            if (!squat && !roofAbovePlayer)
             {
                 UmbrellaActiveOrNot();
             }
+
             PlayerMovement();
-            PlayerSquat();
+            RoofAbovePLayer();
+
+            if (!roofAbovePlayer)
+            {
+                PlayerSquat();
+            }
+
             inShadow = CheckShadow();
             ColorOfPlayer();
-            RoofAbovePLayer();
         }
     }
 
