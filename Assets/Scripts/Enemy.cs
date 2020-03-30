@@ -199,4 +199,13 @@ public class Enemy : MonoBehaviour
 
         return false;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (levelManager.dead)
+            return;
+
+        if (collision.gameObject.CompareTag("Player"))
+            levelManager.dead = true;
+    }
 }
