@@ -267,8 +267,10 @@ public class Player : MonoBehaviour
 
     public void Lose()
     {
-        if(debug)
+        if (!debug)
+        {
             levelManager.dead = true;
+        }
     }
 
     public void UmbrellaActiveOrNot()

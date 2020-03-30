@@ -194,6 +194,8 @@ public class Platform : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(Platform)), CanEditMultipleObjects]
 public class PlatformEditor : Editor
 {
@@ -347,3 +349,5 @@ public class PlatformEditor : Editor
 
     }
 }
+
+#endif
