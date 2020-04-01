@@ -66,6 +66,9 @@ public class Player : MonoBehaviour
     private bool squat = false;
     private float sizeSquat = 0.5f;
 
+    [Space]
+    [SerializeField] private bool debug = false;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -84,15 +87,21 @@ public class Player : MonoBehaviour
     {
         if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
-            if (!squat)
+            if (!squat && !roofAbovePlayer)
             {
                 UmbrellaActiveOrNot();
             }
+
             PlayerMovement();
-            PlayerSquat();
+            RoofAbovePLayer();
+
+            if (!roofAbovePlayer)
+            {
+                PlayerSquat();
+            }
+
             inShadow = CheckShadow();
             ColorOfPlayer();
-            RoofAbovePLayer();
         }
     }
 
@@ -104,7 +113,7 @@ public class Player : MonoBehaviour
         rig.velocity = new Vector3(Horizontal * Time.deltaTime, rig.velocity.y , Vertical * Time.deltaTime);
 
 
-        if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space)) && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
             if(jump == 0) // umbrella off if you jump
             {
@@ -258,7 +267,10 @@ public class Player : MonoBehaviour
 
     public void Lose()
     {
-        levelManager.dead = true;
+        if (!debug)
+        {
+            levelManager.dead = true;
+        }
     }
 
     public void UmbrellaActiveOrNot()
@@ -267,7 +279,7 @@ public class Player : MonoBehaviour
         {
             timerUmbrella -= Time.deltaTime;
         }
-        if ((Input.GetAxis("RightTrigger") > 0 && timerUmbrella < 0 ) || (umbrellaJump == true && umbrella == true))
+        if (((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0 ) || (umbrellaJump == true && umbrella == true))
         {
             if(umbrellaJump == true)
             {
@@ -339,7 +351,7 @@ public class Player : MonoBehaviour
 
     private void PlayerSquat()
     {
-        if(Input.GetButtonDown("CircleButton"))
+        if(Input.GetButtonDown("CircleButton") || Input.GetKeyDown(KeyCode.LeftShift))
         {
             Transform saveParent = gameObject.transform.parent;
             gameObject.transform.parent = null;

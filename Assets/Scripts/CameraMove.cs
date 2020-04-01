@@ -24,6 +24,10 @@ public class CameraMove : MonoBehaviour
     [SerializeField] private bool latency = false;
     [SerializeField] private float smoothness = 0.2f;
     [SerializeField] [Range(0f, 5f)] private float speedLatency = 1f;
+    //private float moveDur = 0f;
+    //[SerializeField] private float TimeLatency = 6f;
+    //private float initSpeedLatency = 0f;
+    //[SerializeField] private AnimationCurve curveLatency;
 
     [Header("Zoom of Camera")]
     [SerializeField] [Range(1f, 3f)] private float powerZoom = 2f;
@@ -32,6 +36,7 @@ public class CameraMove : MonoBehaviour
     private float distCamZ = 9.5f;
     private float initialDistCamY;
     private float initialDistCamZ;
+
 
     private void Awake()
     {
@@ -46,10 +51,21 @@ public class CameraMove : MonoBehaviour
         PosPLayerDelay = player.transform.position;
         initialDistCamY = distCamY;
         initialDistCamZ = distCamZ;
+        //initSpeedLatency = speedLatency;
     }
 
     void Update()
     {
+        // curve for smoothness //
+
+        //if (PosPLayerDelay.magnitude < player.transform.position.magnitude + 0.01 && PosPLayerDelay.magnitude > player.transform.position.magnitude - 0.01)
+        //{
+        //    moveDur = 0;
+        //}
+        //moveDur += Time.deltaTime;
+        //speedLatency = curveLatency.Evaluate(moveDur/ TimeLatency) * initSpeedLatency;
+        
+        // ========= // 
         if (!levelManager.dead && !levelManager.pause)
         { 
             if(player.RoofOnPlayer)

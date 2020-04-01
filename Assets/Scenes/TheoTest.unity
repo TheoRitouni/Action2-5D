@@ -996,8 +996,8 @@ Transform:
   - {fileID: 222378946}
   - {fileID: 1985709981}
   - {fileID: 311731768}
-  - {fileID: 768225826}
   - {fileID: 1345161640}
+  - {fileID: 768225826}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4009,13 +4009,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraFront: 1
-  speedCam: 3
-  limitOfCam: 0.85
+  speedCam: 5
+  limitOfCam: 2.3
   latency: 1
   smoothness: 0.2
-  speedLatency: 1
+  speedLatency: 1.7
   powerZoom: 1.5
-  speedZoom: 5
+  speedZoom: 11
 --- !u!1 &968669293
 GameObject:
   m_ObjectHideFlags: 0
@@ -7102,8 +7102,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733238981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.76, y: 2.6399994, z: -1.5400009}
-  m_LocalScale: {x: 2, y: 0.5, z: 2}
+  m_LocalPosition: {x: -1.76, y: 2.44, z: -0.87}
+  m_LocalScale: {x: 2, y: 0.5, z: 2.5414}
   m_Children: []
   m_Father: {fileID: 1029564638}
   m_RootOrder: 6
@@ -9265,7 +9265,7 @@ PrefabInstance:
     - target: {fileID: 8368528158791040787, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.08
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040787, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
@@ -9320,7 +9320,7 @@ PrefabInstance:
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: jumpForce
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
@@ -9345,7 +9345,7 @@ PrefabInstance:
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: speed
-      value: 180
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
@@ -9365,22 +9365,52 @@ PrefabInstance:
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: maxCourage
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: distanceToRoof
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: speedOfPlaner
-      value: 2.32
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}
       propertyPath: fallOfPlaner
-      value: 1.121
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: numberOfJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: timerInLight
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: timerInShadow
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: timerUmbrella
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368528158791040812, guid: 69adc26db5a05644491e20d807f01616,
+        type: 3}
+      propertyPath: inShadow
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8368528159402919048, guid: 69adc26db5a05644491e20d807f01616,
         type: 3}

@@ -33,6 +33,15 @@ public class Umbrella : MonoBehaviour
             float horizontalLeft = Input.GetAxis("JoystickRightHorizontal") * speedOfUmbrella;
             float verticalLeft = Input.GetAxis("JoystickRightVertical") * speedOfUmbrella;
 
+            if (Input.GetKey(KeyCode.M))
+                horizontalLeft = -1;
+            if (Input.GetKey(KeyCode.K))
+                horizontalLeft = 1;
+            if (Input.GetKey(KeyCode.L))
+                verticalLeft = -1;
+            if (Input.GetKey(KeyCode.O))
+                verticalLeft = 1;
+
             savePosUmbrella = gameObject.transform.position;
             saveRotUmbrella = gameObject.transform.rotation;
 
