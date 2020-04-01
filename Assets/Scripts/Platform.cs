@@ -26,6 +26,7 @@ public class Platform : MonoBehaviour
 
     public bool platformDestroy = false;
     public float destroyTimer = 2f;
+    public bool platformRespawn = false;
     public float respawnTimer = 2f;
 
     private Vector3 initialPos;
@@ -136,11 +137,12 @@ public class Platform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(platformDestroy == true)
+        if (platformDestroy == true)
         {
             // destroy if you have a contact with platform
             if (platAtDestroy == false)
             {
+                
                 if (collision.gameObject.CompareTag("Player"))
                 {
                     platAtDestroy = true;
@@ -164,6 +166,7 @@ public class Platform : MonoBehaviour
 
     private void DestroyPlatform()
     {
+
         if (platformDestroy == true)
         {
             // destroy if you have a contact with platform
@@ -179,15 +182,19 @@ public class Platform : MonoBehaviour
                 }
             }
 
-            // respawn platform
-            if (gameObject.GetComponent<MeshRenderer>().enabled == false)
+            if (platformRespawn)
             {
-                respawnTimer -= Time.deltaTime;
-                if (respawnTimer < 0)
+                // respawn platform
+                if (gameObject.GetComponent<MeshRenderer>().enabled == false)
                 {
-                    respawnTimer = initialRespawnTime;
-                    gameObject.GetComponent<MeshRenderer>().enabled = true;
-                    gameObject.GetComponent<BoxCollider>().enabled = true;
+                    respawnTimer -= Time.deltaTime;
+
+                    if (respawnTimer < 0)
+                    {
+                        respawnTimer = initialRespawnTime;
+                        gameObject.GetComponent<MeshRenderer>().enabled = true;
+                        gameObject.GetComponent<BoxCollider>().enabled = true;
+                    }
                 }
             }
         }
@@ -342,9 +349,19 @@ public class PlatformEditor : Editor
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(20);
-            GUILayout.Label("Respawn Timer", GUILayout.Width(120));
-            script.respawnTimer = EditorGUILayout.FloatField(script.respawnTimer);
+            GUILayout.Label("Respawn Platform", GUILayout.Width(120));
+            script.platformRespawn = EditorGUILayout.Toggle(script.platformRespawn);
             GUILayout.EndHorizontal();
+
+            if (script.platformRespawn)
+            {
+                GUILayout.Space(5);
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(20);
+                GUILayout.Label("Respawn Timer", GUILayout.Width(120));
+                script.respawnTimer = EditorGUILayout.FloatField(script.respawnTimer);
+                GUILayout.EndHorizontal();
+            }
         }
 
     }

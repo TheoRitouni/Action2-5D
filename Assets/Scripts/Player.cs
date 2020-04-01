@@ -44,25 +44,24 @@ public class Player : MonoBehaviour
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
+    [HideInInspector] public bool inShadow;
+    [HideInInspector] public float colorPlayer;
+
     [Space]
-
-
-    public bool                                             inShadow;
-
-    [HideInInspector] public float                          colorPlayer;
-    private float                                           courage = 0f;
+    [Header("Courage")]
+    public float maxCourage = 0f;
+    [SerializeField] private float secToAddInLight = 1f;
+    private float courage = 0f;
     public float Courage { 
         get { return courage; } 
         set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
     }
 
-    public float maxCourage = 0f;
 
     [Header("Camera Zoom")]
     [SerializeField] private float distanceToRoof = 2f;
     private bool roofAbovePlayer = false;
     public bool RoofOnPlayer { get { return roofAbovePlayer; } }
-
     private bool squat = false;
     private float sizeSquat = 0.5f;
 
@@ -102,6 +101,7 @@ public class Player : MonoBehaviour
 
             inShadow = CheckShadow();
             ColorOfPlayer();
+            ManageCourage();
         }
     }
 
@@ -392,6 +392,15 @@ public class Player : MonoBehaviour
             }
 
             gameObject.transform.parent = saveParent;
+        }
+    }
+
+    private void ManageCourage()
+    {
+        if ( courage == maxCourage)
+        {
+            Courage = 0;
+            timerInLight += secToAddInLight;
         }
     }
 }
