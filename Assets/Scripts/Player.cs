@@ -118,6 +118,7 @@ public class Player : MonoBehaviour
             {
                 umbrellaJump = true;
             }
+
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
             rig.AddForce(Vector3.up * jumpForce);
             jump++;
@@ -211,7 +212,7 @@ public class Player : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(groundChecker[i].position, transform.TransformDirection(-Vector3.up), out hit, 0.51f))
+            if (Physics.Raycast(groundChecker[i].position, transform.TransformDirection(-Vector3.up), out hit, 0.60f))
                 isGrounded = true;
         }
 
