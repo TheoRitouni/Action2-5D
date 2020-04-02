@@ -13,7 +13,7 @@ public class CameraMove : MonoBehaviour
     private Vector3 latencyDir;
 
     private Vector3 posCam;
-    private float posX;
+    private float posX = 0;
     private bool dirRight = true;
 
     [Header("Location of Camera")]
@@ -53,13 +53,13 @@ public class CameraMove : MonoBehaviour
         PosPLayerDelay = player.transform.position;
         initialDistCamY = distCamY;
         initialDistCamZ = distCamZ;
-       
+
         //initSpeedLatency = speedLatency;
     }
 
     void Update()
     {
-        if(camstart)
+        if (camstart)
         {
             camstart = false;
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
@@ -72,7 +72,7 @@ public class CameraMove : MonoBehaviour
         //}
         //moveDur += Time.deltaTime;
         //speedLatency = curveLatency.Evaluate(moveDur/ TimeLatency) * initSpeedLatency;
-        
+
         // ========= // 
         if (!levelManager.dead && !levelManager.pause)
         { 
@@ -132,6 +132,10 @@ public class CameraMove : MonoBehaviour
                             posX += speedCam / 2 * Time.deltaTime;
                         }
                     }
+                    if (posX > limitOfCam)
+                    {
+                        posX = limitOfCam;
+                    }
                 }
                 if (dirRight == false)
                 {
@@ -142,6 +146,10 @@ public class CameraMove : MonoBehaviour
                         {
                             posX -= speedCam / 2 * Time.deltaTime;
                         }
+                    }
+                    if (posX < -limitOfCam)
+                    {
+                        posX = -limitOfCam;
                     }
                 }
             }
@@ -170,6 +178,7 @@ public class CameraMove : MonoBehaviour
                 transform.LookAt(posCam);
             }
 
+            
         }
 
 
