@@ -19,8 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
 
     [Header("Ground Checker")]
-    [SerializeField] private Transform                      groundedLeft = null;
-    [SerializeField] private Transform                      groundedRight = null;
+    [SerializeField] private List<Transform>                groundChecker;
 
     [Header("Features")]
     [SerializeField] private Transform                      directionalLight = null;
@@ -44,25 +43,24 @@ public class Player : MonoBehaviour
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
+    [HideInInspector] public bool inShadow;
+    [HideInInspector] public float colorPlayer;
+
     [Space]
-
-
-    public bool                                             inShadow;
-
-    [HideInInspector] public float                          colorPlayer;
-    private float                                           courage = 0f;
+    [Header("Courage")]
+    public float maxCourage = 0f;
+    [SerializeField] private float secToAddInLight = 1f;
+    private float courage = 0f;
     public float Courage { 
         get { return courage; } 
         set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
     }
 
-    public float maxCourage = 0f;
 
     [Header("Camera Zoom")]
     [SerializeField] private float distanceToRoof = 2f;
     private bool roofAbovePlayer = false;
     public bool RoofOnPlayer { get { return roofAbovePlayer; } }
-
     private bool squat = false;
     private float sizeSquat = 0.5f;
 
@@ -102,6 +100,7 @@ public class Player : MonoBehaviour
 
             inShadow = CheckShadow();
             ColorOfPlayer();
+            ManageCourage();
         }
     }
 
@@ -113,12 +112,13 @@ public class Player : MonoBehaviour
         rig.velocity = new Vector3(Horizontal * Time.deltaTime, rig.velocity.y , Vertical * Time.deltaTime);
 
 
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space)) && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
+        if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
             if(jump == 0) // umbrella off if you jump
             {
                 umbrellaJump = true;
             }
+
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
             rig.AddForce(Vector3.up * jumpForce);
             jump++;
@@ -206,26 +206,17 @@ public class Player : MonoBehaviour
 
     private bool GroundCheck()
     {
-        RaycastHit hitLeft;
-        RaycastHit hitRight;
+        bool isGrounded = false;
 
-        bool isGroundedLeft = false;
-        bool isGroundedRight = false;
+        for (int i = 0; i < groundChecker.Count; i++)
+        {
+            RaycastHit hit;
 
-        if (Physics.Raycast(groundedLeft.position, transform.TransformDirection(-Vector3.up), out hitLeft, 0.51f))
-            isGroundedLeft = true;
-        else
-            isGroundedLeft = false;
+            if (Physics.Raycast(groundChecker[i].position, transform.TransformDirection(-Vector3.up), out hit, 0.60f))
+                isGrounded = true;
+        }
 
-        if (Physics.Raycast(groundedRight.position, transform.TransformDirection(-Vector3.up), out hitRight, 0.51f))
-            isGroundedRight = true;
-        else
-            isGroundedRight = false;
-
-        if (isGroundedRight || isGroundedLeft)
-            return true;
-        else
-            return false;
+        return isGrounded;
     }
 
     private void ColorOfPlayer()
@@ -392,6 +383,15 @@ public class Player : MonoBehaviour
             }
 
             gameObject.transform.parent = saveParent;
+        }
+    }
+
+    private void ManageCourage()
+    {
+        if ( courage == maxCourage)
+        {
+            Courage = 0;
+            timerInLight += secToAddInLight;
         }
     }
 }
