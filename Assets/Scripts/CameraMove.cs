@@ -37,6 +37,8 @@ public class CameraMove : MonoBehaviour
     private float initialDistCamY;
     private float initialDistCamZ;
 
+    private bool camstart = true;
+
 
     private void Awake()
     {
@@ -51,12 +53,17 @@ public class CameraMove : MonoBehaviour
         PosPLayerDelay = player.transform.position;
         initialDistCamY = distCamY;
         initialDistCamZ = distCamZ;
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
+       
         //initSpeedLatency = speedLatency;
     }
 
     void Update()
     {
+        if(camstart)
+        {
+            camstart = false;
+            transform.position = new Vector3(player.transform.position.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
+        }
         // curve for smoothness //
 
         //if (PosPLayerDelay.magnitude < player.transform.position.magnitude + 0.01 && PosPLayerDelay.magnitude > player.transform.position.magnitude - 0.01)
