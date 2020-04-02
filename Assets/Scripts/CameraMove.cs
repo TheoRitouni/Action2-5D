@@ -51,6 +51,7 @@ public class CameraMove : MonoBehaviour
         PosPLayerDelay = player.transform.position;
         initialDistCamY = distCamY;
         initialDistCamZ = distCamZ;
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
         //initSpeedLatency = speedLatency;
     }
 

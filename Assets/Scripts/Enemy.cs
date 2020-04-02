@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     [Tooltip("Sphere radius")]
     [SerializeField] [Range(5f, 50f)] private float maxRadius = 0f;
     [Tooltip("Between the purple vector and one of blue vector, so the ° between the 2 blue vectors is (Max Radius x2)")]
-    [SerializeField] [Range(10f, 85f)] private float maxAngle = 0f;
+    [SerializeField] [Range(1f, 85f)] private float maxAngle = 0f;
 
     private void Awake()
     {
