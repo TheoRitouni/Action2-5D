@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TheoTest.unity
     guid: fd0ea2817b3e4b74c9f1ac71c273c357
+  - enabled: 1
+    path: Assets/Scenes/RemyTest.unity
+    guid: cb42d767bc2d2a947978353a7ae399e1
   m_configObjects: {}
