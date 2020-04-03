@@ -38,9 +38,14 @@ public class Platform : MonoBehaviour
     private float initialDestroyTime;
     private float initialRespawnTime;
 
+    public bool bumper = false;
+    private bool playerOnBumper = false;
+    public float bumperForce = 500;
+
     public bool isActive = false;
 
     private Player player;
+    private Rigidbody rig;
 
     private void Awake()
     {
@@ -50,6 +55,7 @@ public class Platform : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        rig = player.GetComponent<Rigidbody>();
         initialPos = gameObject.transform.position;
         initialTime = time;
         initialDestroyTime = destroyTimer;
@@ -63,6 +69,7 @@ public class Platform : MonoBehaviour
         if (isActive && !levelManager.pause)
         {
             DestroyPlatform();
+            BumperPlatform();
 
             // platform move on axes Y or X ;
 
@@ -152,14 +159,24 @@ public class Platform : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (bumper)
+            {
+                playerOnBumper = true;
+            }
             player.transform.parent = transform;
         }
+
+        
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            if (bumper)
+            {
+                playerOnBumper = false;
+            }
             player.transform.parent = null;
         }
     }
@@ -198,6 +215,22 @@ public class Platform : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void BumperPlatform()
+    {
+        if(playerOnBumper)
+        {
+            rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); 
+            rig.AddForce(Vector3.up * bumperForce);   
+        }
+
+
+        if (rig.velocity.y > bumperForce / 53 && bumper)
+        {
+            rig.velocity = new Vector3(rig.velocity.x, bumperForce / 53, rig.velocity.z);
+        }
+
     }
 }
 
@@ -362,6 +395,23 @@ public class PlatformEditor : Editor
                 script.respawnTimer = EditorGUILayout.FloatField(script.respawnTimer);
                 GUILayout.EndHorizontal();
             }
+        }
+
+        // bumper
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Bumper Platform", GUILayout.Width(130));
+        script.bumper = EditorGUILayout.Toggle(script.bumper);
+        GUILayout.EndHorizontal();
+
+        if(script.bumper)
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.Label("Bumper Force", GUILayout.Width(120));
+            script.bumperForce = EditorGUILayout.FloatField(script.bumperForce);
+            GUILayout.EndHorizontal();
         }
 
     }
