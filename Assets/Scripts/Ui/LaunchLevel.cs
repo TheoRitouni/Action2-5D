@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LaunchLevel : MonoBehaviour
 {
     public int actualLevel = 0;
+    /*[HideInInspector]*/ public Vector3 checkpoint;
 
     private void Awake()
     {
@@ -14,12 +15,14 @@ public class LaunchLevel : MonoBehaviour
 
     public void LoadLevel(int level)
     {
+        checkpoint = Vector3.zero;
         actualLevel = level;
         SceneManager.LoadSceneAsync(actualLevel);
     }
 
     public void LoadnextLevel()
     {
+        checkpoint = Vector3.zero;
         actualLevel = actualLevel + 1;
         SceneManager.LoadSceneAsync(actualLevel);
     }
@@ -37,6 +40,7 @@ public class LaunchLevel : MonoBehaviour
     public void LoadMainMenu()
     {
         actualLevel = 0;
+        checkpoint = Vector3.zero;
         
         SceneManager.LoadSceneAsync(0);
         Destroy(gameObject);
