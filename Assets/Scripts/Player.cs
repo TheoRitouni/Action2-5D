@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private bool                                            isJumping = false;
     private                                                 MeshRenderer meshPlayer;
     private List<Vector3>                                   shadowPos = new List<Vector3>();
+    private LaunchLevel managerLevel;
 
     [Header("Movements")]
     [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
@@ -75,11 +76,15 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
+
+        if (managerLevel.checkpoint != Vector3.zero)
+            gameObject.transform.position = managerLevel.checkpoint;
     }
     
     void Update()
