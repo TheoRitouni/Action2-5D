@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
     [SerializeField] private UmbrellaColorBar barUmbrella;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
+    [SerializeField] private float divSpeedPlayer = 1f;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
@@ -283,7 +284,7 @@ public class Player : MonoBehaviour
 
             if(umbrella == true )
             {
-                speed = speed / 2;
+                speed = speed / divSpeedPlayer;
             }
             else
             {
@@ -295,7 +296,7 @@ public class Player : MonoBehaviour
                 }
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
                 umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
-                speed = speed * 2;
+                speed = speed * divSpeedPlayer;
 
             }
         }
