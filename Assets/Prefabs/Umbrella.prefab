@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 5887584252380988267}
   - component: {fileID: 5887584252380988310}
   - component: {fileID: 5887584252380988265}
+  - component: {fileID: 77492504}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Umbrella
@@ -623,6 +624,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &77492504
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887584252380988266}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 1, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5887584253301321815
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +753,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5887584253777649390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -0.023, y: 2, z: 0.5320499}
+=======
+  m_LocalPosition: {x: 16.15347, y: 0.9999999, z: 1.9998299}
+>>>>>>> e540ab4998cbebbde6d3ffe84fe191efdd8984a8
   m_LocalScale: {x: 1.5, y: 1, z: 1.5}
   m_Children:
   - {fileID: 5887584253301321812}
@@ -767,8 +785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10e6a7bebe02dc4ba04052a8d5c8cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  limitOfUmbrella: 0.8
-  speedOfUmbrella: 0.01
+  limitOfUmbrella: 45
+  speedOfUmbrella: 2.45
 --- !u!1 &6924512669224480126
 GameObject:
   m_ObjectHideFlags: 0

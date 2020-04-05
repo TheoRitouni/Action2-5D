@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Basics info")]
     [SerializeField] [Range(0f, 10f)] private float speed = 0f;
+	[SerializeField] [Range(0f, 10f)] private float speedFollowPlayer = 0f;
     [Tooltip("(Path A) Movement point in order, it close the path alone, dont make last point in the first")]
     [SerializeField] private Transform[] movementPointA = null;
     [Tooltip("(Path B) Movement point in order, it close the path alone, dont make last point in the first")]
@@ -52,11 +53,14 @@ public class Enemy : MonoBehaviour
         {
             playerInFov = InFov();
 
-            if (navAgent.speed != speed)
+            if (navAgent.speed != speed && !playerInFov)
                 navAgent.speed = speed;
 
             if (playerInFov && !playerScript.inShadow && !levelManager.dead)
             {
+				if (navAgent.speed != speedFollowPlayer)
+					navAgent.speed = speedFollowPlayer;
+				
                 navAgent.SetDestination(player.position);
             }
             else if (pathA && movementPointA.Length > 1)

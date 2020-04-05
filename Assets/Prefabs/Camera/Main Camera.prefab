@@ -97,8 +97,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraFront: 1
-  speedCam: 3
-  limitOfCam: 0.7
+  speedCam: 5
+  limitOfCam: 2.3
   latency: 1
   smoothness: 0.2
-  speedLatency: 1
+  speedLatency: 1.7
+  powerZoom: 1.5
+  speedZoom: 11

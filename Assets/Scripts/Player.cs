@@ -12,11 +12,14 @@ public class Player : MonoBehaviour
     private bool                                            isJumping = false;
     private                                                 MeshRenderer meshPlayer;
     private List<Vector3>                                   shadowPos = new List<Vector3>();
+    private LaunchLevel managerLevel;
 
     [Header("Movements")]
     [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
+    [SerializeField] [Range(1f, 5f)] private float         gravityModifier = 2f;
+    [SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
 
     [Header("Ground Checker")]
     [SerializeField] private List<Transform>                groundChecker;
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
     [SerializeField] private UmbrellaColorBar barUmbrella;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
+    [SerializeField] private float divSpeedPlayer = 1f;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
@@ -74,14 +78,18 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         meshPlayer = gameObject.GetComponent<MeshRenderer>();
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
+
+        if (managerLevel.checkpoint != Vector3.zero)
+            gameObject.transform.position = managerLevel.checkpoint;
     }
-    
-    void Update()
+
+    void FixedUpdate()
     {
         if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
@@ -106,11 +114,18 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-        float Horizontal = Input.GetAxis("Horizontal") * speed; // Used to move player
-        float Vertical = Input.GetAxis("Vertical") * speed;     // Used to hide ourself in different parts
+        float Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
+        float Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     // Used to hide ourself in different parts
 
-        rig.velocity = new Vector3(Horizontal * Time.deltaTime, rig.velocity.y , Vertical * Time.deltaTime);
+        rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
+        if(rig.velocity.y < 0 && !umbrella)
+        {
+            if(rig.velocity.y > -velocityYmin)
+                rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y * gravityModifier, rig.velocity.z); 
+            if(rig.velocity.y <= -velocityYmin)
+                rig.velocity = new Vector3(rig.velocity.x, -velocityYmin , rig.velocity.z);
+        }
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
@@ -127,6 +142,7 @@ public class Player : MonoBehaviour
         if (GroundCheck())
         {
             jump = 0;
+            rig.mass = 1;
         }
     }
 
@@ -225,7 +241,7 @@ public class Player : MonoBehaviour
         {
             if (inShadow == false)
             {
-                colorPlayer += 1 / timerInLight * Time.deltaTime;
+                colorPlayer += 1 / timerInLight * Time.fixedDeltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
                 barPlayer.RefreshBar();
             }
@@ -234,7 +250,7 @@ public class Player : MonoBehaviour
         {
             if (inShadow == true)
             { 
-                colorPlayer -= 1 / timerInShadow * Time.deltaTime;
+                colorPlayer -= 1 / timerInShadow * Time.fixedDeltaTime;
                 meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
                 barPlayer.RefreshBar();
             }
@@ -268,7 +284,7 @@ public class Player : MonoBehaviour
     {
         if (timerUmbrella > 0)
         {
-            timerUmbrella -= Time.deltaTime;
+            timerUmbrella -= Time.fixedDeltaTime;
         }
         if (((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0 ) || (umbrellaJump == true && umbrella == true))
         {
@@ -283,7 +299,7 @@ public class Player : MonoBehaviour
 
             if(umbrella == true )
             {
-                speed = speed / 2;
+                speed = speed / divSpeedPlayer;
             }
             else
             {
@@ -295,7 +311,7 @@ public class Player : MonoBehaviour
                 }
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
                 umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
-                speed = speed * 2;
+                speed = speed * divSpeedPlayer;
 
             }
         }
