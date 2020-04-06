@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
 
     [Space]
     [SerializeField] private bool debug = false;
+    [SerializeField] private bool checkPoint = false;
 
     private void Awake()
     {
@@ -85,8 +86,11 @@ public class Player : MonoBehaviour
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
 
-        if (managerLevel.checkpoint != Vector3.zero)
-            gameObject.transform.position = managerLevel.checkpoint;
+        if (checkPoint)
+        {
+            if (managerLevel.checkpoint != Vector3.zero)
+                gameObject.transform.position = managerLevel.checkpoint;
+        }
     }
 
     void FixedUpdate()

@@ -5654,6 +5654,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315504959}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1342968091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1342968094}
+  - component: {fileID: 1342968093}
+  - component: {fileID: 1342968092}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1342968092
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342968091}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.6009884, z: 4.3769}
+  m_Center: {x: 0, y: -0.8004942, z: 0.32899737}
+--- !u!114 &1342968093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342968091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4892eaa2f8a752d47849a855fa49cd8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1342968094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342968091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.215863, y: 2.22, z: -0.37}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1343355694
 GameObject:
   m_ObjectHideFlags: 0
@@ -9580,6 +9637,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: directionalLight
+      value: 
+      objectReference: {fileID: 548134521}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: barPlayer
+      value: 
+      objectReference: {fileID: 1863401467}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: barUmbrella
+      value: 
+      objectReference: {fileID: 96970207}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: speedOfPlaner
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: velocityYmin
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: gravityModifier
+      value: 1.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: divSpeedPlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8528414318443359328, guid: 8893d5e583ac4e041b9abba62c6e82a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9634,41 +9726,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: directionalLight
-      value: 
-      objectReference: {fileID: 548134521}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: barPlayer
-      value: 
-      objectReference: {fileID: 1863401467}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: barUmbrella
-      value: 
-      objectReference: {fileID: 96970207}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: speedOfPlaner
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: velocityYmin
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: gravityModifier
-      value: 1.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
-        type: 3}
-      propertyPath: divSpeedPlayer
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8893d5e583ac4e041b9abba62c6e82a0, type: 3}
