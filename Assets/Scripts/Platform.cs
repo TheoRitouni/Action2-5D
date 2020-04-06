@@ -75,6 +75,8 @@ public class Platform : MonoBehaviour
 
             if (platformMove == true)
             {
+               
+
                 if (dirX == true)
                 {
                     if (gameObject.transform.position.x > initialPos.x + platformDist )    
@@ -142,6 +144,8 @@ public class Platform : MonoBehaviour
         }
     }
 
+    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (platformDestroy == true)
@@ -179,6 +183,11 @@ public class Platform : MonoBehaviour
             }
             player.transform.parent = null;
         }
+
+        if (player.transform.parent != null)
+        {
+            player.transform.parent = null;
+        }
     }
 
     private void DestroyPlatform()
@@ -192,6 +201,10 @@ public class Platform : MonoBehaviour
                 destroyTimer -= Time.deltaTime;
                 if (destroyTimer < 0)
                 {
+                    if(player.transform.parent != null)
+                    {
+                        player.transform.parent = null;
+                    }
                     platAtDestroy = false;
                     destroyTimer = initialDestroyTime;
                     gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -222,15 +235,13 @@ public class Platform : MonoBehaviour
         if(playerOnBumper)
         {
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); 
-            rig.AddForce(Vector3.up * bumperForce);   
+            rig.AddForce(Vector3.up * bumperForce);
+
+            if (rig.velocity.y > bumperForce / 53 && bumper)
+            {
+                rig.velocity = new Vector3(rig.velocity.x, bumperForce / 53, rig.velocity.z);
+            }
         }
-
-
-        if (rig.velocity.y > bumperForce / 53 && bumper)
-        {
-            rig.velocity = new Vector3(rig.velocity.x, bumperForce / 53, rig.velocity.z);
-        }
-
     }
 }
 

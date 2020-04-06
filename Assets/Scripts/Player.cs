@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
+    [SerializeField] private bool UmbrellaOnIfJump = false;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
@@ -70,6 +71,10 @@ public class Player : MonoBehaviour
 
     [Space]
     [SerializeField] private bool debug = false;
+    [SerializeField] private bool checkPoint = false;
+
+    private float Horizontal = 0f;
+    private float Vertical = 0f;
 
     private void Awake()
     {
@@ -85,11 +90,22 @@ public class Player : MonoBehaviour
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
 
-        if (managerLevel.checkpoint != Vector3.zero)
-            gameObject.transform.position = managerLevel.checkpoint;
+        if (checkPoint)
+        {
+            if (managerLevel.checkpoint != Vector3.zero)
+                gameObject.transform.position = managerLevel.checkpoint;
+        }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
+        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     // Used to hide ourself in different parts
+
+        
+    }
+
+    void Update()
     {
         if (!levelManager.dead && !levelManager.pause) // If player is alive
         {
@@ -114,12 +130,11 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-        float Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
-        float Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     // Used to hide ourself in different parts
+         
 
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
-        if(rig.velocity.y < 0 && !umbrella)
+        if(rig.velocity.y < -1.5f && !umbrella)
         {
             if(rig.velocity.y > -velocityYmin)
                 rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y * gravityModifier, rig.velocity.z); 
@@ -129,11 +144,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
-            if(jump == 0) // umbrella off if you jump
+            if (!UmbrellaOnIfJump)
             {
-                umbrellaJump = true;
+                if (jump == 0) // umbrella off if you jump
+                {
+                    umbrellaJump = true;
+                }
             }
-
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
             rig.AddForce(Vector3.up * jumpForce);
             jump++;
@@ -142,7 +159,6 @@ public class Player : MonoBehaviour
         if (GroundCheck())
         {
             jump = 0;
-            rig.mass = 1;
         }
     }
 
@@ -362,26 +378,26 @@ public class Player : MonoBehaviour
         {
             Transform saveParent = gameObject.transform.parent;
             gameObject.transform.parent = null;
-            // manage umbrella with squat
+            //manage umbrella with squat
             if (umbrella == true)
             {
                 timerUmbrella = initialTimerUmbrella;
                 umbrella = !umbrella;
                 umbrel.SetActive(umbrella);
-
+            
                 if (planer == true)
                 {
                     planer = false;
                     speed = speed / speedOfPlaner;
                 }
-
+            
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
                 umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
-                speed = speed * 2;
+                speed = speed * divSpeedPlayer;
             }
 
             // squat
-            if (gameObject.transform.localScale.y > sizeSquat)
+            if (gameObject.transform.localScale.y > sizeSquat + 0.1f)
             {
                
                 gameObject.transform.localScale = new Vector3(transform.localScale.x , sizeSquat, transform.localScale.z);
