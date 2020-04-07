@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
-    [SerializeField] [Range(1f, 5f)] private float         gravityModifier = 2f;
-    [SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
+    [SerializeField] [Range(0f, 300f)] private float         gravityModifier = 100f;
+    //[SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
 
     [Header("Ground Checker")]
     [SerializeField] private List<Transform>                groundChecker;
@@ -101,8 +101,7 @@ public class Player : MonoBehaviour
     {
         Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
         Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     // Used to hide ourself in different parts
-
-        
+     
     }
 
     void Update()
@@ -131,15 +130,15 @@ public class Player : MonoBehaviour
     private void PlayerMovement()
     {
          
-
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
-        if(rig.velocity.y < -1.5f && !umbrella)
+        if(rig.velocity.y < 0f && !umbrella)
         {
-            if(rig.velocity.y > -velocityYmin)
-                rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y * gravityModifier, rig.velocity.z); 
-            if(rig.velocity.y <= -velocityYmin)
-                rig.velocity = new Vector3(rig.velocity.x, -velocityYmin , rig.velocity.z);
+            rig.AddForce(Vector3.down * gravityModifier);
+            //if(rig.velocity.y > -velocityYmin)
+            //    rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y * gravityModifier, rig.velocity.z); 
+            //if(rig.velocity.y <= -velocityYmin)
+            //    rig.velocity = new Vector3(rig.velocity.x, -velocityYmin , rig.velocity.z);
         }
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)

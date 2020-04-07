@@ -798,10 +798,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformMove: 1
-  dirX: 1
+  dirX: 0
   dirY: 0
-  dirZ: 0
-  platformSpeed: 2
+  dirZ: 1
+  platformSpeed: 1
   platformDist: 1
   moveCurve:
     serializedVersion: 2
@@ -819,7 +819,7 @@ MonoBehaviour:
   turnAroundSpeed: 20
   platformDestroy: 0
   destroyTimer: 2
-  platformRespawn: 0
+  platformRespawn: 1
   respawnTimer: 2
   bumper: 0
   bumperForce: 500
@@ -831,7 +831,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916091817}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5f73403bdb928e04d8e689613b0d352c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -919,6 +919,11 @@ PrefabInstance:
       propertyPath: UmbrellaOnIfJump
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: gravityModifier
+      value: 117
+      objectReference: {fileID: 0}
     - target: {fileID: 8528414318443359328, guid: 8893d5e583ac4e041b9abba62c6e82a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -983,6 +988,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528414319244752491, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528414319244752491, guid: 8893d5e583ac4e041b9abba62c6e82a0,
+        type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8528414319581746343, guid: 8893d5e583ac4e041b9abba62c6e82a0,
         type: 3}

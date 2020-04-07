@@ -13,7 +13,6 @@ public class Platform : MonoBehaviour
     public float platformDist = 1f;
     public AnimationCurve moveCurve = null;
     public bool startDirLeft = false;
-    private float distParcouru = 0f;
     
     public bool platformTurn = false;
     public float turnSpeed = 20f;
@@ -60,7 +59,6 @@ public class Platform : MonoBehaviour
         initialTime = time;
         initialDestroyTime = destroyTimer;
         initialRespawnTime = respawnTimer;
-        distParcouru = 0.5f;
         direction = startDirLeft;
     }
 
@@ -70,77 +68,9 @@ public class Platform : MonoBehaviour
         {
             DestroyPlatform();
             BumperPlatform();
-
-            // platform move on axes Y or X ;
-
-            if (platformMove == true)
-            {
-               
-
-                if (dirX == true)
-                {
-                    if (gameObject.transform.position.x > initialPos.x + platformDist )    
-                        direction = true;                  
-                    if (gameObject.transform.position.x < initialPos.x  - platformDist)                   
-                        direction = false;                   
-
-                    if (direction == false)                   
-                        gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));                   
-                    if (direction == true)                    
-                        gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));                    
-
-                }
-
-                if (dirY == true)
-                {
-                    if (gameObject.transform.position.y > initialPos.y + platformDist)
-                        direction = true;
-                    if (gameObject.transform.position.y < initialPos.y - platformDist)
-                        direction = false;
-
-                    if (direction == false)
-                        gameObject.transform.Translate(new Vector3(0, platformSpeed * Time.deltaTime, 0));
-                    if (direction == true)
-                        gameObject.transform.Translate(new Vector3(0, -platformSpeed * Time.deltaTime, 0));
-                }
-
-                if (dirZ == true)
-                {
-                    if (gameObject.transform.position.z > initialPos.z + platformDist)
-                        direction = true;
-                    if (gameObject.transform.position.z < initialPos.z - platformDist)
-                        direction = false;
-
-                    if (direction == false)
-                        gameObject.transform.Translate(new Vector3(0, 0, platformSpeed * Time.deltaTime));
-                    if (direction == true)
-                        gameObject.transform.Translate(new Vector3(0, 0, -platformSpeed * Time.deltaTime));
-                }
-            }
-
-            // platform turn with a timer
-            if (platformTurn == true)
-            {
-                if (timer == false)
-                    gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed * Time.deltaTime));
-                else
-                {
-                    time -= Time.deltaTime;
-
-                    if (time < 0)
-                    {
-                        gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed));
-                        time = initialTime;
-                    }
-                }
-            }
-
-            // platform Turn Around a point
-            if (platformTurnAround == true)
-            {
-                gameObject.transform.RotateAround(pointPos, new Vector3(0, 0, 1), turnAroundSpeed * Time.deltaTime);
-                gameObject.transform.Rotate(new Vector3(0, 0, -turnAroundSpeed * Time.deltaTime));
-            }
+            PlatformMove();
+            TurnPlatformOnTimer();
+            TurnAroundAPoint();
         }
     }
 
@@ -168,6 +98,8 @@ public class Platform : MonoBehaviour
                 playerOnBumper = true;
             }
             player.transform.parent = transform;
+
+            rig.interpolation = RigidbodyInterpolation.None;
         }
 
         
@@ -182,6 +114,7 @@ public class Platform : MonoBehaviour
                 playerOnBumper = false;
             }
             player.transform.parent = null;
+            rig.interpolation = RigidbodyInterpolation.Interpolate;
         }
 
         if (player.transform.parent != null)
@@ -235,12 +168,83 @@ public class Platform : MonoBehaviour
         if(playerOnBumper)
         {
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); 
-            rig.AddForce(Vector3.up * bumperForce);
+            rig.AddForce(Vector3.up * bumperForce);          
+        }
+    }
 
-            if (rig.velocity.y > bumperForce / 53 && bumper)
+    private void PlatformMove()
+    {
+        if (platformMove == true)
+        {
+
+
+            if (dirX == true)
             {
-                rig.velocity = new Vector3(rig.velocity.x, bumperForce / 53, rig.velocity.z);
+                if (gameObject.transform.position.x > initialPos.x + platformDist)
+                    direction = true;
+                if (gameObject.transform.position.x < initialPos.x - platformDist)
+                    direction = false;
+
+                if (direction == false)
+                    gameObject.transform.Translate(new Vector3(platformSpeed * Time.deltaTime, 0, 0));
+                if (direction == true)
+                    gameObject.transform.Translate(new Vector3(-platformSpeed * Time.deltaTime, 0, 0));
+
             }
+
+            if (dirY == true)
+            {
+                if (gameObject.transform.position.y > initialPos.y + platformDist)
+                    direction = true;
+                if (gameObject.transform.position.y < initialPos.y - platformDist)
+                    direction = false;
+
+                if (direction == false)
+                    gameObject.transform.Translate(new Vector3(0, platformSpeed * Time.deltaTime, 0));
+                if (direction == true)
+                    gameObject.transform.Translate(new Vector3(0, -platformSpeed * Time.deltaTime, 0));
+            }
+
+            if (dirZ == true)
+            {
+                if (gameObject.transform.position.z > initialPos.z + platformDist)
+                    direction = true;
+                if (gameObject.transform.position.z < initialPos.z - platformDist)
+                    direction = false;
+
+                if (direction == false)
+                    gameObject.transform.Translate(new Vector3(0, 0, platformSpeed * Time.deltaTime));
+                if (direction == true)
+                    gameObject.transform.Translate(new Vector3(0, 0, -platformSpeed * Time.deltaTime));
+            }
+        }
+    }
+
+    private void TurnPlatformOnTimer()
+    {
+        if (platformTurn == true)
+        {
+            if (timer == false)
+                gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed * Time.deltaTime));
+            else
+            {
+                time -= Time.deltaTime;
+
+                if (time < 0)
+                {
+                    gameObject.transform.Rotate(new Vector3(0, 0, turnSpeed));
+                    time = initialTime;
+                }
+            }
+        }
+    }
+
+    private void TurnAroundAPoint()
+    {
+        if (platformTurnAround == true)
+        {
+            gameObject.transform.RotateAround(pointPos, new Vector3(0, 0, 1), turnAroundSpeed * Time.deltaTime);
+            gameObject.transform.Rotate(new Vector3(0, 0, -turnAroundSpeed * Time.deltaTime));
         }
     }
 }
