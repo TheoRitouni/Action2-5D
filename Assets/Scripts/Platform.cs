@@ -177,9 +177,12 @@ public class Platform : MonoBehaviour
         if (platformMove == true)
         {
 
+            float distance = Vector3.Distance(initialPos, gameObject.transform.position);
+            platformSpeed = moveCurve.Evaluate(distance);
 
             if (dirX == true)
             {
+
                 if (gameObject.transform.position.x > initialPos.x + platformDist)
                     direction = true;
                 if (gameObject.transform.position.x < initialPos.x - platformDist)
