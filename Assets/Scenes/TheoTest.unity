@@ -9472,22 +9472,22 @@ PrefabInstance:
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.031583607
+      value: -0.13782866
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9678579
+      value: -0.693544
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.19234332
+      value: -0.13782866
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.15892646
+      value: 0.693544
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
@@ -9502,7 +9502,7 @@ PrefabInstance:
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -161.35
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911637, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
@@ -9517,12 +9517,17 @@ PrefabInstance:
     - target: {fileID: 133234534916911638, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: dirX
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 133234534916911638, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
       propertyPath: positive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 133234534916911638, guid: dc88017fc67aff2428987a452088d137,
+        type: 3}
+      propertyPath: negative
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 133234535351659576, guid: dc88017fc67aff2428987a452088d137,
         type: 3}
@@ -9660,7 +9665,7 @@ PrefabInstance:
     - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
         type: 3}
       propertyPath: checkPoint
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8528414319558445802, guid: 8893d5e583ac4e041b9abba62c6e82a0,
         type: 3}
