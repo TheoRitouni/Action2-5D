@@ -60,6 +60,7 @@ public class Platform : MonoBehaviour
         initialDestroyTime = destroyTimer;
         initialRespawnTime = respawnTimer;
         direction = startDirLeft;
+
     }
 
     void Update()
@@ -176,9 +177,11 @@ public class Platform : MonoBehaviour
     {
         if (platformMove == true)
         {
-
-            float distance = Vector3.Distance(initialPos, gameObject.transform.position);
-            platformSpeed = moveCurve.Evaluate(distance);
+            if (moveCurve.length > 0)
+            {
+                float distance = Vector3.Distance(initialPos, gameObject.transform.position);
+                platformSpeed = moveCurve.Evaluate(distance);
+            }
 
             if (dirX == true)
             {

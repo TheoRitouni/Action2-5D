@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
     [SerializeField] [Range(0f, 300f)] private float         gravityModifier = 100f;
+    [SerializeField] private bool                           jumpWithSquat = false;
     //[SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
 
     [Header("Ground Checker")]
@@ -132,17 +133,24 @@ public class Player : MonoBehaviour
          
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
-        if(rig.velocity.y < 0f && !umbrella)
+        
+        Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        if (targetDirection.magnitude != 0)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            gameObject.transform.parent = null;
+            gameObject.transform.rotation = targetRotation;
+        }
+
+        if (rig.velocity.y < 0f && !umbrella)
         {
             rig.AddForce(Vector3.down * gravityModifier);
-            //if(rig.velocity.y > -velocityYmin)
-            //    rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y * gravityModifier, rig.velocity.z); 
-            //if(rig.velocity.y <= -velocityYmin)
-            //    rig.velocity = new Vector3(rig.velocity.x, -velocityYmin , rig.velocity.z);
         }
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
+            
+
             if (!UmbrellaOnIfJump)
             {
                 if (jump == 0) // umbrella off if you jump
@@ -153,6 +161,16 @@ public class Player : MonoBehaviour
             rig.velocity = new Vector3(rig.velocity.x, 0f, rig.velocity.z); // TODO: maybe if velocity y > 0 keep actual + new else if velocity < 0 reset to 0
             rig.AddForce(Vector3.up * jumpForce);
             jump++;
+
+            gameObject.transform.parent = null;
+
+            if (gameObject.transform.localScale.y < 1 && !jumpWithSquat)
+            {
+                gameObject.transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+                squat = false;
+                SetBasicShadowPos();
+                speed = speed * 2;
+            }
         }
 
         if (GroundCheck())
