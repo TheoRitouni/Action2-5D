@@ -4,23 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 7239a3ee53c6af3468ca3790345a5f40
-  - enabled: 0
-    path: Assets/Scenes/Tuto_Remy.unity
-    guid: 44e1adc56d8d1b141806c40198ebbf9c
-  - enabled: 1
-    path: Assets/Scenes/Level_Hugo.unity
-    guid: 890b5ff32fad9fd4ab01844f77f4918c
-  - enabled: 1
-    path: Assets/Scenes/Level_Remy.unity
-    guid: cb42d767bc2d2a947978353a7ae399e1
-  - enabled: 1
-    path: Assets/Scenes/JulesTest.unity
-    guid: 69fae8c27e35ced4288cdec90e17fea7
-  - enabled: 1
-    path: Assets/Scenes/Level_Julie.unity
-    guid: b603b7f6123a9054082b2fe1d6aefdcd
+  m_Scenes: []
   m_configObjects: {}
