@@ -53,7 +53,7 @@ public class EnemyStatic : MonoBehaviour
     void Update()
     {
 
-        if (!levelManager.pause)
+        if (!levelManager.pause && !levelManager.win)
         {
             if(dirX)
                 dirY = false;

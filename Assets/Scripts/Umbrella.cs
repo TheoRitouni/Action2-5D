@@ -28,7 +28,7 @@ public class Umbrella : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!levelManager.pause && !levelManager.dead)
+        if (!levelManager.pause && !levelManager.dead && !levelManager.win)
         {
             float horizontalLeft = Input.GetAxis("JoystickRightHorizontal") * speedOfUmbrella;
             float verticalLeft = Input.GetAxis("JoystickRightVertical") * speedOfUmbrella;
