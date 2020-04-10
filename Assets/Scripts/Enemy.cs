@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (!levelManager.pause)
+        if (!levelManager.pause && !levelManager.win)
         {
             playerInFov = InFov();
 
