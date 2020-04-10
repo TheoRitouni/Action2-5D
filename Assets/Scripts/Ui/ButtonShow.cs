@@ -26,4 +26,17 @@ public class ButtonShow : MonoBehaviour
         firstMenu.SetActive(!firstMenu.activeSelf);
         menuShow.SetActive(!menuShow.activeSelf);
     }
+
+    public void ResetLevel()
+    {
+        if (PlayerPrefs.GetInt("levelAt", 1) != 1)
+        {
+            PlayerPrefs.SetInt("levelAt", 1);
+            for (int i = 0; i < buttonsSelection.Count; i++)
+            {
+                if (i + 1 > 1)
+                    buttonsSelection[i].interactable = false;
+            }
+        }
+    }
 }
