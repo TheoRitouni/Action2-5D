@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: a886511aefed48a4a97cabea9d3606f2
-=======
-guid: 6fd359eff46b4674ea9a38b240120ff5
->>>>>>> 9697bd17e1f7df41973c8d4269500eb11772c005
+guid: 8fa7f1821ad5256468a3b0773f050737
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -76,7 +72,102 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Shaddy_Character3DModel(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: -6.123234e-17}
+      scale: {x: 50, y: 50, z: 50}
+    - name: Legs
+      parentName: Shaddy_Character3DModel(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pLegRight
+      parentName: Legs
+      position: {x: -0.00045759184, y: 0, z: 0.0034999999}
+      rotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
+      scale: {x: 0.2, y: 0.4, z: 0.3}
+    - name: pLegLeft
+      parentName: Legs
+      position: {x: -0.00045759184, y: 0, z: -0.0034999999}
+      rotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
+      scale: {x: 0.2, y: 0.4, z: 0.3}
+    - name: pBody
+      parentName: Shaddy_Character3DModel(Clone)
+      position: {x: 0.0004754538, y: 0.008284006, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8, y: 0.8, z: 0.8}
+    - name: Hands
+      parentName: pBody
+      position: {x: -0.0005943171, y: -0.010355009, z: -3.3087223e-25}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.25, y: 1.25, z: 1.25}
+    - name: pHandLeft
+      parentName: Hands
+      position: {x: 0.00045787814, y: 0.0063096588, z: -0.008420931}
+      rotation: {x: 0.12260166, y: -0.6745424, z: -0.12144225, w: 0.7177835}
+      scale: {x: 0.15, y: 0.25, z: 0.2}
+    - name: pHandRight
+      parentName: Hands
+      position: {x: 0.00045787814, y: 0.0063096588, z: 0.00842}
+      rotation: {x: -0.12367284, y: -0.6725467, z: 0.14146994, w: 0.7158019}
+      scale: {x: 0.15, y: 0.25, z: 0.2}
+    - name: Eyes
+      parentName: pBody
+      position: {x: -0.0005943171, y: -0.010355009, z: -3.3087223e-25}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.25, y: 1.25, z: 1.25}
+    - name: EyeRight
+      parentName: Eyes
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pEyeBallRight
+      parentName: EyeRight
+      position: {x: -0.0070344964, y: 0.009756522, z: 0.00228}
+      rotation: {x: 0, y: -0, z: -0.109298535, w: 0.994009}
+      scale: {x: 0.05, y: 0.15, z: 0.07}
+    - name: pEyeRight
+      parentName: EyeRight
+      position: {x: -0.00638, y: 0.009938891, z: 0.0023209143}
+      rotation: {x: 0, y: -0, z: -0.109298535, w: 0.994009}
+      scale: {x: 0.1, y: 0.25, z: 0.125}
+    - name: EyeLeft
+      parentName: Eyes
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pEyeBallLeft
+      parentName: EyeLeft
+      position: {x: -0.0070344964, y: 0.009756522, z: -0.002283257}
+      rotation: {x: 0, y: -0, z: -0.109298535, w: 0.994009}
+      scale: {x: 0.05, y: 0.15, z: 0.07}
+    - name: pEyeLeft
+      parentName: EyeLeft
+      position: {x: -0.0063761394, y: 0.009938891, z: -0.00232}
+      rotation: {x: 0, y: -0, z: -0.109298535, w: 0.994009}
+      scale: {x: 0.1, y: 0.25, z: 0.125}
+    - name: Hair
+      parentName: pBody
+      position: {x: 0.00022648148, y: -0.010355009, z: 0.0000036472713}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.25, y: 1.25, z: 1.25}
+    - name: pCone1
+      parentName: Hair
+      position: {x: -0.0015939628, y: 0.016370418, z: 0.0044034687}
+      rotation: {x: 0.32246462, y: -0.7010588, z: -0.2826986, w: 0.56974965}
+      scale: {x: 0.15071566, y: 0.32025144, z: 0.17318867}
+    - name: pCone2
+      parentName: Hair
+      position: {x: 0.00081753265, y: 0.017084045, z: 0.00090219255}
+      rotation: {x: 0.19553429, y: -0.60599744, z: -0.116696686, w: 0.762178}
+      scale: {x: 0.22183003, y: 0.31709483, z: 0.18625565}
+    - name: pCone3
+      parentName: Hair
+      position: {x: -0.00046016634, y: 0.016867822, z: -0.0028309824}
+      rotation: {x: -0.29366684, y: 0.60098356, z: -0.17446944, w: 0.7225918}
+      scale: {x: 0.15071566, y: 0.32025144, z: 0.17318867}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5

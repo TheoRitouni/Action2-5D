@@ -65,7 +65,7 @@ public class Platform : MonoBehaviour
 
     void Update()
     {
-        if (isActive && !levelManager.pause)
+        if (isActive && !levelManager.pause && !levelManager.win)
         {
             DestroyPlatform();
             BumperPlatform();
