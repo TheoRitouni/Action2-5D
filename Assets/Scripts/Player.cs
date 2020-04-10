@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private Rigidbody                                       rig;
     private int                                             jump = 0;
     private bool                                            isJumping = false;
-    private                                                 MeshRenderer meshPlayer;
+    [SerializeField] private Material                       materialPlayer;
     private List<Vector3>                                   shadowPos = new List<Vector3>();
     private LaunchLevel managerLevel;
 
@@ -87,7 +87,6 @@ public class Player : MonoBehaviour
         managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
-        meshPlayer = gameObject.GetComponent<MeshRenderer>();
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
 
@@ -225,15 +224,15 @@ public class Player : MonoBehaviour
             {
                 shadowPos.Clear();
             }
-            shadowPos.Add(new Vector3(-0.49f, -0.49f, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, -0.49f, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, -0.49f, 0.49f));
-            shadowPos.Add(new Vector3(-0.49f, -0.49f, 0.49f));
+            shadowPos.Add(new Vector3(-0.365f, -0.44f, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, -0.44f, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, -0.44f, 0.39f));
+            shadowPos.Add(new Vector3(-0.365f, -0.44f, 0.39f));
 
-            shadowPos.Add(new Vector3(-0.49f, 0.49f, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, 0.49f, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, 0.49f, 0.49f));
-            shadowPos.Add(new Vector3(-0.49f, 0.49f, 0.49f));
+            shadowPos.Add(new Vector3(-0.365f, 0.44f, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, 0.44f, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, 0.44f, 0.39f));
+            shadowPos.Add(new Vector3(-0.365f, 0.44f, 0.39f));
         }
         else
         {
@@ -241,15 +240,15 @@ public class Player : MonoBehaviour
             {
                 shadowPos.Clear();
             }
-            shadowPos.Add(new Vector3(-0.49f, -0.49f + sizeSquat/2, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, -0.49f + sizeSquat/2, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, -0.49f + sizeSquat/2, 0.49f));
-            shadowPos.Add(new Vector3(-0.49f, -0.49f + sizeSquat/2, 0.49f));
+            shadowPos.Add(new Vector3(-0.365f, -0.44f + sizeSquat/2, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, -0.44f + sizeSquat/2, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, -0.44f + sizeSquat/2, 0.39f));
+            shadowPos.Add(new Vector3(-0.365f, -0.44f + sizeSquat/2, 0.39f));
 
-            shadowPos.Add(new Vector3(-0.49f, 0.49f - sizeSquat/2, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, 0.49f - sizeSquat/2, -0.49f));
-            shadowPos.Add(new Vector3(0.49f, 0.49f - sizeSquat/2, 0.49f));
-            shadowPos.Add(new Vector3(-0.49f, 0.49f - sizeSquat/2, 0.49f));
+            shadowPos.Add(new Vector3(-0.365f, 0.44f - sizeSquat/2, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, 0.44f - sizeSquat/2, -0.39f));
+            shadowPos.Add(new Vector3(0.365f, 0.44f - sizeSquat/2, 0.39f));
+            shadowPos.Add(new Vector3(-0.365f, 0.44f - sizeSquat/2, 0.39f));
         }
     }
 
@@ -270,21 +269,21 @@ public class Player : MonoBehaviour
 
     private void ColorOfPlayer()
     {
-        if (meshPlayer.material.color.r <= 1)
+        if (materialPlayer.color.r <= 1)
         {
             if (inShadow == false)
             {
                 colorPlayer += 1 / timerInLight * Time.fixedDeltaTime;
-                meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
                 barPlayer.RefreshBar();
             }
         }
-        if (meshPlayer.material.color.r >= 0)
+        if (materialPlayer.color.r >= 0)
         {
             if (inShadow == true)
             { 
                 colorPlayer -= 1 / timerInShadow * Time.fixedDeltaTime;
-                meshPlayer.material.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+                materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
                 barPlayer.RefreshBar();
             }
         }
@@ -292,14 +291,14 @@ public class Player : MonoBehaviour
         if(colorPlayer > 1) // if he get this value he die 
         {
             colorPlayer = 1;
-            meshPlayer.material.color = new Color(1, 1, 1, 255);
+            materialPlayer.color = new Color(1, 1, 1, 255);
             barPlayer.RefreshBar();
             Lose();
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
-            meshPlayer.material.color = new Color(0, 0, 0, 255);
+            materialPlayer.color = new Color(0, 0, 0, 255);
             barPlayer.RefreshBar();
         }
 

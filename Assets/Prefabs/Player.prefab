@@ -795,8 +795,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.73905194, y: 0.887566, z: 0.779995}
-  m_Center: {x: -0.007743776, y: 0.36022824, z: -0.026261717}
+  m_Size: {x: 0.75, y: 0.9, z: 0.8}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8528414319244752491
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -825,6 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9c6b207af9aa04f96959d7271bf69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialPlayer: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
   speed: 200
   jumpForce: 370
   numberOfJump: 1
@@ -838,7 +839,7 @@ MonoBehaviour:
   directionalLight: {fileID: 0}
   timerInShadow: 1.5
   timerInLight: 7
-  umbrel: {fileID: 0}
+  umbrel: {fileID: 8528414319581746343}
   timerUmbrella: 1
   barPlayer: {fileID: 0}
   barUmbrella: {fileID: 0}
@@ -1280,7 +1281,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8fa7f1821ad5256468a3b0773f050737,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8fa7f1821ad5256468a3b0773f050737,
         type: 3}
@@ -1327,6 +1328,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4523596532470030049, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
+    - target: {fileID: -2074453276323477369, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
+    - target: {fileID: 4348105202682393795, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
+    - target: {fileID: -8205571362833684013, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
+    - target: {fileID: -8552561451178082016, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
+    - target: {fileID: -4865821882900452367, guid: 8fa7f1821ad5256468a3b0773f050737,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a742baa0675b7784180f2740a2a9b555, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fa7f1821ad5256468a3b0773f050737, type: 3}
 --- !u!4 &7042777763393481506 stripped
