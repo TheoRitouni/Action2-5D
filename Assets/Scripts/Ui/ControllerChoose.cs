@@ -20,13 +20,13 @@ public class ControllerChoose : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetButtonDown("Jump"))
+            ButtonClick();
+
         if (smooth > 0f)
             smooth -= Time.deltaTime;
         else if (leftRight)
         {
-            if (Input.GetButtonDown("Jump"))
-                ButtonClick();
-
             float Horizontal = Input.GetAxis("Horizontal");
             if (Horizontal >= 0.75f)
             {
@@ -53,9 +53,6 @@ public class ControllerChoose : MonoBehaviour
         }
         else if (!leftRight)
         {
-            if (Input.GetButtonDown("Jump"))
-                ButtonClick();
-
             float Horizontal = -Input.GetAxis("Vertical");
             if (Horizontal >= 0.75f)
             {
@@ -82,13 +79,10 @@ public class ControllerChoose : MonoBehaviour
         }
     }
 
-    public void Reset()
-    {
-        uiButton.transform.position = Vector3.zero;
-    }
-
     private void ButtonClick()
     {
-        buttons[buttonsIndex].GetComponent<Button>().onClick.Invoke();
+        Button button = buttons[buttonsIndex].GetComponent<Button>();
+        if (button.interactable)
+            button.onClick.Invoke();
     }
 }
