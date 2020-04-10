@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!levelManager.dead && !levelManager.pause) // If player is alive
+        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
         {
             if (!squat && !roofAbovePlayer)
             {

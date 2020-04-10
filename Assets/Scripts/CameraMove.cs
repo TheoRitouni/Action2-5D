@@ -63,7 +63,7 @@ public class CameraMove : MonoBehaviour
             transform.position = new Vector3(player.transform.position.x, player.transform.position.y + distCamY, player.transform.position.z - distCamZ);
         }
 
-        if (!levelManager.dead && !levelManager.pause)
+        if (!levelManager.dead && !levelManager.pause && !levelManager.win)
         {
             ZoomValue();
             LatencyValue();
