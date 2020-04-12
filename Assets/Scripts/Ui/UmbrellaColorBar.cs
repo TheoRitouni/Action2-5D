@@ -10,13 +10,15 @@ public class UmbrellaColorBar : MonoBehaviour
     [SerializeField] private Image colorImageBar;
 
     [SerializeField] private RectTransform rectWhiteBar;
-    [SerializeField] private Player player;
+    private Player player;
     public float part;
 
     private float timer = 0.75f;
 
     void Awake()
     {
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         part = rectWhiteBar.sizeDelta.y / player.maxCourage;
         levelManager = FindObjectOfType<LevelManager>();
     }

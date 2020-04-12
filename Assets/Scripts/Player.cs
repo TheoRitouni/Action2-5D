@@ -42,13 +42,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float timerUmbrella = 1f;
     [SerializeField] private PlayerColorBar barPlayer;
     [SerializeField] private UmbrellaColorBar barUmbrella;
+    [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
     [SerializeField] private bool UmbrellaOnIfJump = false;
+    [SerializeField] private float umbrellaTimeOpen = 5f;
+    [SerializeField] private float reloadUmbrellaTime = 2f;
+    private bool umbrellaForcON = false;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
     private bool umbrellaJump = false;
+    [HideInInspector] public float valueBarUmbrella = 0f;
     [HideInInspector] public bool inShadow;
     [HideInInspector] public float colorPlayer;
 
@@ -100,7 +105,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
-        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     // Used to hide ourself in different parts
+        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     
      
     }
 
@@ -314,55 +319,11 @@ public class Player : MonoBehaviour
 
     public void UmbrellaActiveOrNot()
     {
-        if (timerUmbrella > 0)
-        {
-            timerUmbrella -= Time.fixedDeltaTime;
-        }
-        if (((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0 ) || (umbrellaJump == true && umbrella == true))
-        {
-            if(umbrellaJump == true)
-            {
-                umbrellaJump = false;
-            }
-
-            timerUmbrella = initialTimerUmbrella;
-            umbrella = !umbrella;
-            umbrel.SetActive(umbrella);
-
-            if(umbrella == true )
-            {
-                speed = speed / divSpeedPlayer;
-            }
-            else
-            {
-                // reset plane if you tunr off umbrella in air 
-                if(planer == true)
-                {
-                    planer = false;
-                    speed = speed / speedOfPlaner;
-                }
-                umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
-                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
-                speed = speed * divSpeedPlayer;
-
-            }
-        }
-
+        ManageUmbrellaBar();
+        // Umbrella input and condition 
+        UmbrellaInput();
         // Planer
-        if (umbrella == true && GroundCheck() == false)
-        {
-            rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y / fallOfPlaner, rig.velocity.z);
-            if (planer == false)
-            {
-                planer = true;
-                speed = speed * speedOfPlaner;
-            }
-        }
-        if (planer == true && GroundCheck() == true)
-        {
-            planer = false;
-            speed = speed / speedOfPlaner;
-        }
+        PlanerCalcul();
     }
 
     private void RoofAbovePLayer()
@@ -440,6 +401,85 @@ public class Player : MonoBehaviour
         {
             Courage = 0;
             timerInLight += secToAddInLight;
+        }
+    }
+
+    private void ManageUmbrellaBar()
+    {
+        // manage bar of umbrella 
+        if (umbrella && valueBarUmbrella < 1)
+        {
+            valueBarUmbrella += 1 / umbrellaTimeOpen * Time.deltaTime;
+        }
+        if ((!umbrella && inShadow) && valueBarUmbrella > 0)
+        {
+            valueBarUmbrella -= 1 / reloadUmbrellaTime * Time.deltaTime;
+        }
+        umbrellaBar.RefreshBar();
+
+        if (valueBarUmbrella > 1) // turn off umbrella
+        {
+            valueBarUmbrella = 1;
+            umbrellaForcON = true;
+        }
+        if (valueBarUmbrella < 0)
+            valueBarUmbrella = 0;
+    }
+
+    private void PlanerCalcul()
+    {
+        if (umbrella == true && GroundCheck() == false)
+        {
+            rig.velocity = new Vector3(rig.velocity.x, rig.velocity.y / fallOfPlaner, rig.velocity.z);
+            if (planer == false)
+            {
+                planer = true;
+                speed = speed * speedOfPlaner;
+            }
+        }
+        if (planer == true && GroundCheck() == true)
+        {
+            planer = false;
+            speed = speed / speedOfPlaner;
+        }
+    }
+
+    private void UmbrellaInput()
+    {
+        if (timerUmbrella > 0)
+        {
+            timerUmbrella -= Time.fixedDeltaTime;
+        }
+        if ((((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0) && valueBarUmbrella < 1)
+            || (umbrellaJump == true && umbrella == true) || umbrellaForcON)
+        {
+            umbrellaForcON = false;
+            if (umbrellaJump == true)
+            {
+                umbrellaJump = false;
+            }
+
+            timerUmbrella = initialTimerUmbrella;
+            umbrella = !umbrella;
+            umbrel.SetActive(umbrella);
+
+            if (umbrella == true)
+            {
+                speed = speed / divSpeedPlayer;
+            }
+            else
+            {
+                // reset plane if you tunr off umbrella in air 
+                if (planer == true)
+                {
+                    planer = false;
+                    speed = speed / speedOfPlaner;
+                }
+                umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
+                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
+                speed = speed * divSpeedPlayer;
+
+            }
         }
     }
 }
