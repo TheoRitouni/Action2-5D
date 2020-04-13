@@ -9,6 +9,13 @@ TagManager:
   - Rail
   - Wall
   - Umbrella
+  - UmbrellaBar
+  - UmbrellaColorBar
+  - PlayerColorBar
+  - DirLight
+  - DeadScreen
+  - PauseScreen
+  - WinScreen
   layers:
   - Default
   - TransparentFX
