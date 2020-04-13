@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float timerUmbrella = 1f;
     [SerializeField] private PlayerColorBar barPlayer;
     [SerializeField] private UmbrellaColorBar barUmbrella;
-    [SerializeField] private UmbrellaBar umbrellaBar;
+   // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
@@ -82,6 +82,8 @@ public class Player : MonoBehaviour
     private float Horizontal = 0f;
     private float Vertical = 0f;
 
+    private Animator anim;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -89,10 +91,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+       
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
         barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
         barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
-        umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
+        //umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
         managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
@@ -104,6 +107,8 @@ public class Player : MonoBehaviour
             if (managerLevel.checkpoint != Vector3.zero)
                 gameObject.transform.position = managerLevel.checkpoint;
         }
+
+        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -138,16 +143,32 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-         
+         if(Horizontal == 0 && Vertical == 0 )
+        {
+            anim.SetBool("RunAnim", false);
+        }
+        else
+        {
+            if (GroundCheck())
+            {
+                anim.SetBool("RunAnim", true);
+            }
+            else
+            {
+                anim.SetBool("RunAnim", false);
+            }
+        }
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
-        
         Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         if (targetDirection.magnitude != 0)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
+            
             gameObject.transform.parent = null;
             gameObject.transform.rotation = targetRotation;
+
+
         }
 
         if (rig.velocity.y < 0f && !umbrella)
@@ -155,9 +176,11 @@ public class Player : MonoBehaviour
             rig.AddForce(Vector3.down * gravityModifier);
         }
 
+
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
-            
+
+            anim.SetBool("JumpAnim", true);
 
             if (!UmbrellaOnIfJump)
             {
@@ -181,10 +204,13 @@ public class Player : MonoBehaviour
             }
         }
 
+
         if (GroundCheck())
         {
             jump = 0;
+            anim.SetBool("JumpAnim", false);
         }
+
     }
 
     private bool CheckShadow()
@@ -323,7 +349,7 @@ public class Player : MonoBehaviour
 
     public void UmbrellaActiveOrNot()
     {
-        ManageUmbrellaBar();
+        //ManageUmbrellaBar();
         // Umbrella input and condition 
         UmbrellaInput();
         // Planer
@@ -410,7 +436,7 @@ public class Player : MonoBehaviour
 
     private void ManageUmbrellaBar()
     {
-        // manage bar of umbrella 
+       /* // manage bar of umbrella 
         if (umbrella && valueBarUmbrella < 1)
         {
             valueBarUmbrella += 1 / umbrellaTimeOpen * Time.deltaTime;
@@ -427,7 +453,7 @@ public class Player : MonoBehaviour
             umbrellaForcON = true;
         }
         if (valueBarUmbrella < 0)
-            valueBarUmbrella = 0;
+            valueBarUmbrella = 0; */
     }
 
     private void PlanerCalcul()
