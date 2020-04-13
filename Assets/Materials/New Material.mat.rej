@@ -1,9 +1,0 @@
-diff a/Assets/Materials/New Material.mat b/Assets/Materials/New Material.mat	(rejected hunks)
-@@ -73,6 +73,7 @@
-     - _UVSec: 0
-     - _ZWrite: 1
-     m_Colors:
-+<<<<<<< HEAD
-     - _Color: {r: 0.43428543, g: 0.43428543, b: 0.43428543, a: 255}
- =======
-     - _Color: {r: 0, g: 0, b: 0, a: 255}
