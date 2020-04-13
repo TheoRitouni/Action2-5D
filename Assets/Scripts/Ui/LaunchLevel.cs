@@ -49,8 +49,13 @@ public class LaunchLevel : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        actualLevel = 0;
-        checkpoint = Vector3.zero;
+        if (SceneManager.GetActiveScene().buildIndex != SceneManager.sceneCountInBuildSettings - 1)
+        {
+            if (actualLevel > PlayerPrefs.GetInt("levelAt"))
+                PlayerPrefs.SetInt("levelAt", actualLevel);
+            actualLevel = 0;
+            checkpoint = Vector3.zero;
+        }
         
         SceneManager.LoadSceneAsync(0);
         Destroy(gameObject);
