@@ -2,7 +2,6 @@
 %TAG !u! tag:unity3d.com,2011:
 <<<<<<< HEAD
 --- !u!1101 &-8449409189591043236
-=======
 --- !u!1101 &-7930022441544052398
 >>>>>>> 2bb1681aefa9c67ca699bf0f80f3ff4aa06464f0
 AnimatorStateTransition:
