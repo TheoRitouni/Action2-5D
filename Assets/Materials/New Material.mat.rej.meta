@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Materials/New Material.mat.rej.meta
+guid: 0df30b320a84b2041b54abd3c929b24c
+DefaultImporter:
+  externalObjects: {}
+=======
+guid: 5c3470e791a54c248ba02785b1e0c9e3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+>>>>>>> d1adb8f78e58e7f91babb768d9697a858392f167:Assets/Animations/Player_JumpIdle.anim.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
