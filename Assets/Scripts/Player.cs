@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] private List<Transform>                groundChecker;
 
     [Header("Features")]
-    [SerializeField] private Transform                      directionalLight = null;
+    private Transform                      directionalLight = null;
 
     [Header("Shadow and Light")]
     [Tooltip("Time in sec to be completely Black")]
@@ -40,9 +40,9 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    [SerializeField] private PlayerColorBar barPlayer;
-    [SerializeField] private UmbrellaColorBar barUmbrella;
-    [SerializeField] private UmbrellaBar umbrellaBar;
+     private PlayerColorBar barPlayer;
+     private UmbrellaColorBar barUmbrella;
+     private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
@@ -89,6 +89,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
+        barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
+        barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
+        umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
         managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
