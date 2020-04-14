@@ -161,10 +161,10 @@ public class Player : MonoBehaviour
         if (targetDirection.magnitude != 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
-            
-            gameObject.transform.parent = null;
-            gameObject.transform.rotation = targetRotation;
 
+            
+            gameObject.transform.localRotation = targetRotation;
+            
 
         }
 
@@ -380,8 +380,6 @@ public class Player : MonoBehaviour
     {
         if(Input.GetButtonDown("CircleButton") || Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Transform saveParent = gameObject.transform.parent;
-            gameObject.transform.parent = null;
             //manage umbrella with squat
             if (umbrella == true)
             {
@@ -418,7 +416,6 @@ public class Player : MonoBehaviour
                 speed = speed * 2;
             }
 
-            gameObject.transform.parent = saveParent;
         }
     }
 
