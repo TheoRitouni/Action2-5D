@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     private LevelManager levelManager;
 
+    private Animator                                        animator;
     private Rigidbody                                       rig;
     private int                                             jump = 0;
     private bool                                            isJumping = false;
@@ -82,8 +83,6 @@ public class Player : MonoBehaviour
     private float Horizontal = 0f;
     private float Vertical = 0f;
 
-    private Animator anim;
-
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -91,7 +90,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-       
+        animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
         barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
         barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
@@ -107,8 +106,6 @@ public class Player : MonoBehaviour
             if (managerLevel.checkpoint != Vector3.zero)
                 gameObject.transform.position = managerLevel.checkpoint;
         }
-
-        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -142,32 +139,32 @@ public class Player : MonoBehaviour
     }
 
     private void PlayerMovement()
-    {
-         if(Horizontal == 0 && Vertical == 0 )
+    {  
+        rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
+
+        if (Horizontal == 0 && Vertical == 0)
         {
-            anim.SetBool("RunAnim", false);
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
         }
         else
         {
-            if (GroundCheck())
-            {
-                anim.SetBool("RunAnim", true);
-            }
-            else
-            {
-                anim.SetBool("RunAnim", false);
-            }
+            Debug.Log(animator.GetBool("Walk"));
+            bool gc = GroundCheck();
+            if (gc && !animator.GetBool("Walk"))
+                animator.SetBool("Walk", true);
+            else if (!gc)
+                animator.SetBool("Walk", false);
         }
-        rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
         Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         if (targetDirection.magnitude != 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
-            
-            gameObject.transform.parent = null;
-            gameObject.transform.rotation = targetRotation;
 
+            
+            gameObject.transform.localRotation = targetRotation;
+            
 
         }
 
@@ -180,7 +177,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
 
-            anim.SetBool("JumpAnim", true);
+            //anim.SetBool("JumpAnim", true);
 
             if (!UmbrellaOnIfJump)
             {
@@ -208,7 +205,7 @@ public class Player : MonoBehaviour
         if (GroundCheck())
         {
             jump = 0;
-            anim.SetBool("JumpAnim", false);
+            //anim.SetBool("JumpAnim", false);
         }
 
     }
@@ -383,8 +380,6 @@ public class Player : MonoBehaviour
     {
         if(Input.GetButtonDown("CircleButton") || Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Transform saveParent = gameObject.transform.parent;
-            gameObject.transform.parent = null;
             //manage umbrella with squat
             if (umbrella == true)
             {
@@ -421,7 +416,6 @@ public class Player : MonoBehaviour
                 speed = speed * 2;
             }
 
-            gameObject.transform.parent = saveParent;
         }
     }
 
