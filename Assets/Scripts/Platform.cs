@@ -156,7 +156,7 @@ public class Platform : MonoBehaviour
                     }
                     platAtDestroy = false;
                     destroyTimer = initialDestroyTime;
-                    gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
                     gameObject.GetComponent<BoxCollider>().enabled = false;
                 }
             }
@@ -164,14 +164,14 @@ public class Platform : MonoBehaviour
             if (platformRespawn)
             {
                 // respawn platform
-                if (gameObject.GetComponent<MeshRenderer>().enabled == false)
+                if (gameObject.GetComponent<BoxCollider>().enabled == false)
                 {
                     respawnTimer -= Time.deltaTime;
 
                     if (respawnTimer < 0)
                     {
                         respawnTimer = initialRespawnTime;
-                        gameObject.GetComponent<MeshRenderer>().enabled = true;
+                        gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
                         gameObject.GetComponent<BoxCollider>().enabled = true;
                     }
                 }
