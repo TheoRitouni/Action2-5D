@@ -110,9 +110,14 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
-        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     
-     
+        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
+        {
+            Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
+            Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
+
+            ColorOfPlayer();
+        }
+
     }
 
     void Update()
@@ -133,7 +138,7 @@ public class Player : MonoBehaviour
             }
 
             inShadow = CheckShadow();
-            ColorOfPlayer();
+            
             ManageCourage();
         }
     }
@@ -472,7 +477,7 @@ public class Player : MonoBehaviour
     {
         if (timerUmbrella > 0)
         {
-            timerUmbrella -= Time.fixedDeltaTime;
+            timerUmbrella -= Time.deltaTime;
         }
         if ((((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0) && valueBarUmbrella < 1)
             || (umbrellaJump == true && umbrella == true) || umbrellaForcON)
