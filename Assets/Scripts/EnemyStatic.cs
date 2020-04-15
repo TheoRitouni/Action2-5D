@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyStatic : MonoBehaviour
 {
+    private Player playerScript;
     private LevelManager levelManager;
     private Light spotlight;
     private bool playerInFov = false;
@@ -37,6 +38,7 @@ public class EnemyStatic : MonoBehaviour
     void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         spotlight = gameObject.GetComponentInChildren<Light>();
         spotlight.range = maxRadius;
@@ -64,7 +66,7 @@ public class EnemyStatic : MonoBehaviour
             MovementCalc();
             AddRotationOnAxis();
 
-            if (playerInFov)
+            if (playerInFov && playerScript.colorPlayer != 0)
             {
                 if (levelManager.dead)
                     return;
