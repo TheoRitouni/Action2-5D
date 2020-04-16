@@ -9,8 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+<<<<<<< HEAD
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
+=======
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+>>>>>>> b0aa1081683ae8de619778ff7a2611b0b9a2f112
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -73,5 +78,10 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+<<<<<<< HEAD
     - _Color: {r: 0.8666667, g: 0.7769952, b: 0.054901958, a: 1}
     - _EmissionColor: {r: 0.72156864, g: 0.6938844, b: 0.0039215893, a: 1}
+=======
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+>>>>>>> b0aa1081683ae8de619778ff7a2611b0b9a2f112
