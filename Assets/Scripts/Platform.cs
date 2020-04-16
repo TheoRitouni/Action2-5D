@@ -46,6 +46,10 @@ public class Platform : MonoBehaviour
     private Player player;
     private Rigidbody rig;
 
+    private BoxCollider boxCollider;
+    private Transform child;
+    private bool boxCollOk = true;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -53,6 +57,8 @@ public class Platform : MonoBehaviour
 
     void Start()
     {
+        child = gameObject.transform.GetChild(0);
+        boxCollider = gameObject.GetComponent<BoxCollider>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         rig = player.GetComponent<Rigidbody>();
         initialPos = gameObject.transform.position;
@@ -61,12 +67,21 @@ public class Platform : MonoBehaviour
         initialRespawnTime = respawnTimer;
         direction = startDirLeft;
 
+        
+
     }
 
     void Update()
     {
         if (isActive && !levelManager.pause && !levelManager.win)
         {
+            if(boxCollOk)
+            {
+                boxCollOk = false;
+                print(child.localScale);
+                boxCollider.size = child.localScale;
+            }
+
             DestroyPlatform();
             BumperPlatform();
             PlatformMove();
@@ -141,7 +156,7 @@ public class Platform : MonoBehaviour
                     }
                     platAtDestroy = false;
                     destroyTimer = initialDestroyTime;
-                    gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
                     gameObject.GetComponent<BoxCollider>().enabled = false;
                 }
             }
@@ -149,14 +164,14 @@ public class Platform : MonoBehaviour
             if (platformRespawn)
             {
                 // respawn platform
-                if (gameObject.GetComponent<MeshRenderer>().enabled == false)
+                if (gameObject.GetComponent<BoxCollider>().enabled == false)
                 {
                     respawnTimer -= Time.deltaTime;
 
                     if (respawnTimer < 0)
                     {
                         respawnTimer = initialRespawnTime;
-                        gameObject.GetComponent<MeshRenderer>().enabled = true;
+                        gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
                         gameObject.GetComponent<BoxCollider>().enabled = true;
                     }
                 }
