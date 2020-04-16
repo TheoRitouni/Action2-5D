@@ -110,9 +110,14 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
-        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     
-     
+        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
+        {
+            Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
+            Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
+
+            ColorOfPlayer();
+        }
+
     }
 
     void Update()
@@ -133,7 +138,7 @@ public class Player : MonoBehaviour
             }
 
             inShadow = CheckShadow();
-            ColorOfPlayer();
+            
             ManageCourage();
         }
     }
@@ -161,10 +166,10 @@ public class Player : MonoBehaviour
         if (targetDirection.magnitude != 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
-            
-            gameObject.transform.parent = null;
-            gameObject.transform.rotation = targetRotation;
 
+            
+            gameObject.transform.localRotation = targetRotation;
+            
 
         }
 
@@ -380,8 +385,6 @@ public class Player : MonoBehaviour
     {
         if(Input.GetButtonDown("CircleButton") || Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Transform saveParent = gameObject.transform.parent;
-            gameObject.transform.parent = null;
             //manage umbrella with squat
             if (umbrella == true)
             {
@@ -418,7 +421,6 @@ public class Player : MonoBehaviour
                 speed = speed * 2;
             }
 
-            gameObject.transform.parent = saveParent;
         }
     }
 
@@ -475,7 +477,7 @@ public class Player : MonoBehaviour
     {
         if (timerUmbrella > 0)
         {
-            timerUmbrella -= Time.fixedDeltaTime;
+            timerUmbrella -= Time.deltaTime;
         }
         if ((((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0) && valueBarUmbrella < 1)
             || (umbrellaJump == true && umbrella == true) || umbrellaForcON)
