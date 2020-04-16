@@ -41,8 +41,8 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    [SerializeField] private PlayerColorBar barPlayer;
-    [SerializeField] private UmbrellaColorBar barUmbrella;
+    private PlayerColorBar barPlayer;
+    private UmbrellaColorBar barUmbrella;
    // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
@@ -149,11 +149,10 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Debug.Log(animator.GetBool("Walk"));
             bool gc = GroundCheck();
             if (gc && !animator.GetBool("Walk"))
                 animator.SetBool("Walk", true);
-            else if (!gc)
+            else if (!gc && animator.GetBool("Walk"))
                 animator.SetBool("Walk", false);
         }
 
