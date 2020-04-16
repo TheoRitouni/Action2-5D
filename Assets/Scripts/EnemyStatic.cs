@@ -188,4 +188,15 @@ public class EnemyStatic : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+            if (levelManager.dead)
+                return;
+
+            if (collision.gameObject.CompareTag("Player"))
+                levelManager.dead = true;
+       
+    }
+
 }
