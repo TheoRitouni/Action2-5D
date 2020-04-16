@@ -140,6 +140,7 @@ public class Player : MonoBehaviour
             inShadow = CheckShadow();
             
             ManageCourage();
+            
         }
     }
 
