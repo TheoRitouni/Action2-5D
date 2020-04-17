@@ -12,8 +12,17 @@ public class ControllerChoose : MonoBehaviour
     private int buttonsIndex = 0;
     private float smooth = 0.25f;
 
+    // Sounds
+    private AudioSource audioSource;
+    private AudioClip buttonHover;
+    private AudioClip buttonClick;
+
     private void Start()
     {
+        audioSource = GetComponentInParent<AudioSource>();
+        buttonHover = Resources.Load("Sounds/ButtonHover") as AudioClip;
+        buttonClick = Resources.Load("Sounds/ButtonClick") as AudioClip;
+
         uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
         uiButton.transform.position = buttons[buttonsIndex].transform.position;
     }
@@ -38,6 +47,7 @@ public class ControllerChoose : MonoBehaviour
                 uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
                 uiButton.transform.position = buttons[buttonsIndex].transform.position;
                 smooth = 0.25f;
+                audioSource.PlayOneShot(buttonHover);
             }
             else if (Horizontal <= -0.75f)
             {
@@ -49,6 +59,7 @@ public class ControllerChoose : MonoBehaviour
                 uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
                 uiButton.transform.position = buttons[buttonsIndex].transform.position;
                 smooth = 0.25f;
+                audioSource.PlayOneShot(buttonHover);
             }
         }
         else if (!leftRight)
@@ -64,6 +75,7 @@ public class ControllerChoose : MonoBehaviour
                 uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
                 uiButton.transform.position = buttons[buttonsIndex].transform.position;
                 smooth = 0.25f;
+                audioSource.PlayOneShot(buttonHover);
             }
             else if (Horizontal <= -0.75f)
             {
@@ -75,6 +87,7 @@ public class ControllerChoose : MonoBehaviour
                 uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
                 uiButton.transform.position = buttons[buttonsIndex].transform.position;
                 smooth = 0.25f;
+                audioSource.PlayOneShot(buttonHover);
             }
         }
     }
@@ -83,6 +96,9 @@ public class ControllerChoose : MonoBehaviour
     {
         Button button = buttons[buttonsIndex].GetComponent<Button>();
         if (button.interactable)
+        {
+            audioSource.PlayOneShot(buttonClick);
             button.onClick.Invoke();
+        }
     }
 }
