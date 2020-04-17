@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 60024686}
   m_Layer: 5
   m_Name: PlayerColorBar
-  m_TagString: Untagged
+  m_TagString: PlayerColorBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 548134520}
   m_Layer: 0
   m_Name: Directional Light
-  m_TagString: Untagged
+  m_TagString: DirLight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2132,7 +2132,7 @@ GameObject:
   - component: {fileID: 1094290441}
   m_Layer: 5
   m_Name: UmbrellaColorBar
-  m_TagString: Untagged
+  m_TagString: UmbrellaColorBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2887,6 +2887,11 @@ PrefabInstance:
     - target: {fileID: 7370805628559758405, guid: c1a96fe5cff220d44981159c995ba7e3,
         type: 3}
       propertyPath: m_Name
+      value: WinScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370805628559758405, guid: c1a96fe5cff220d44981159c995ba7e3,
+        type: 3}
+      propertyPath: m_TagString
       value: WinScreen
       objectReference: {fileID: 0}
     - target: {fileID: 7370805628559758404, guid: c1a96fe5cff220d44981159c995ba7e3,
@@ -3741,6 +3746,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3402865006216189372, guid: 9f69aafd8b474b04f8f67a4a924a25b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: PauseScreen
+      objectReference: {fileID: 0}
     - target: {fileID: 3402865006216189251, guid: 9f69aafd8b474b04f8f67a4a924a25b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3958,6 +3968,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5763553250083091161, guid: 428b3030f0176014aa5a5261f4852250,
+        type: 3}
+      propertyPath: m_TagString
+      value: DeadScreen
       objectReference: {fileID: 0}
     - target: {fileID: 5763553250083091160, guid: 428b3030f0176014aa5a5261f4852250,
         type: 3}

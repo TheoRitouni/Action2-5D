@@ -41,8 +41,8 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    [SerializeField] private PlayerColorBar barPlayer;
-    [SerializeField] private UmbrellaColorBar barUmbrella;
+    private PlayerColorBar barPlayer;
+    private UmbrellaColorBar barUmbrella;
    // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
@@ -82,6 +82,10 @@ public class Player : MonoBehaviour
 
     private float Horizontal = 0f;
     private float Vertical = 0f;
+
+    // Sound
+    private AudioSource audioSource;
+    private AudioClip walkClip;
 
     private void Awake()
     {
@@ -147,8 +151,6 @@ public class Player : MonoBehaviour
     private void PlayerMovement()
     {  
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
-
-        
 
         Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         if (targetDirection.magnitude != 0)
