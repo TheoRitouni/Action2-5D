@@ -83,6 +83,10 @@ public class Player : MonoBehaviour
     private float Horizontal = 0f;
     private float Vertical = 0f;
 
+    // Sound
+    private AudioSource audioSource;
+    private AudioClip walkClip;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
