@@ -4462,6 +4462,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: PauseScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3402865006216189372, guid: 9f69aafd8b474b04f8f67a4a924a25b1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3402865006216189251, guid: 9f69aafd8b474b04f8f67a4a924a25b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5269,7 +5274,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d0ce96e4d8559c4e9dcbd7195e38ee9, type: 2}
+  - {fileID: 2100000, guid: ba6b2a505488a434f9b46de97e91dace, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5431,6 +5436,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: DeadScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 5763553250083091161, guid: 428b3030f0176014aa5a5261f4852250,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5763553250083091160, guid: 428b3030f0176014aa5a5261f4852250,
         type: 3}

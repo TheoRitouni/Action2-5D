@@ -144,27 +144,13 @@ public class Player : MonoBehaviour
             inShadow = CheckShadow();
             
             ManageCourage();
-            
+            ManageAnimation();
         }
     }
 
     private void PlayerMovement()
     {  
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
-
-        if (Horizontal == 0 && Vertical == 0)
-        {
-            if (animator.GetBool("Walk"))
-                animator.SetBool("Walk", false);
-        }
-        else
-        {
-            bool gc = GroundCheck();
-            if (gc && !animator.GetBool("Walk"))
-                animator.SetBool("Walk", true);
-            else if (!gc && animator.GetBool("Walk"))
-                animator.SetBool("Walk", false);
-        }
 
         Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         if (targetDirection.magnitude != 0)
@@ -186,7 +172,6 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
 
-            //anim.SetBool("JumpAnim", true);
 
             if (!UmbrellaOnIfJump)
             {
@@ -214,7 +199,6 @@ public class Player : MonoBehaviour
         if (GroundCheck())
         {
             jump = 0;
-            //anim.SetBool("JumpAnim", false);
         }
 
     }
@@ -514,5 +498,81 @@ public class Player : MonoBehaviour
 
             }
         }
+    }
+
+    private void ManageAnimation()
+    {
+        // walk animation
+        if (Horizontal == 0 && Vertical == 0)
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+        }
+        else
+        {
+            
+            bool gc = GroundCheck();
+            if (gc && !animator.GetBool("Walk"))
+                animator.SetBool("Walk", true);
+            else if (!gc)
+                animator.SetBool("Walk", false);
+        }
+
+        // glide animation 
+        if(umbrella && !GroundCheck())
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+            if (!animator.GetBool("Glide"))
+                animator.SetBool("Glide", true);
+        }
+        
+        // jump animation 
+        if(Input.GetButtonDown("Jump"))
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+            if (!animator.GetBool("JumpUp"))
+                animator.SetBool("JumpUp", true);
+            if (animator.GetBool("JumpDown"))
+                animator.SetBool("JumpDown", false);
+        }
+        else
+        {
+            if (animator.GetBool("JumpUp"))
+                animator.SetBool("JumpUp", false);
+        }
+
+        //RaycastHit hit;
+        //if (Physics.Raycast(gameObject.transform.position, transform.TransformDirection(-Vector3.up), out hit, 1.5f))
+        //{
+        //
+        //}
+
+            // reset some animation 
+        if (GroundCheck())
+        {
+            if (animator.GetBool("Glide"))
+                animator.SetBool("Glide", false);
+
+            if (!animator.GetBool("JumpDown"))
+            {
+                animator.SetBool("Walk", false);
+                animator.SetBool("JumpDown", true);
+            }
+        }
+
+        // Squat animation 
+        if(squat)
+        {
+            if (!animator.GetBool("CrouchDown"))
+                animator.SetBool("CrouchDown", true);
+        }
+        else
+        {
+            if (animator.GetBool("CrouchDown"))
+                animator.SetBool("CrouchDown", false);
+        }
+
     }
 }
