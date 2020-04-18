@@ -5,6 +5,11 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     private LaunchLevel launchManager;
+    private Player playerScript;
+    private GameObject player;
+
+    public List<Vector3> posCollectibles = new List<Vector3>();
+    public float timeInLightSave = 0f;
 
     public bool dead = false;
     public bool pause = false;
@@ -18,6 +23,14 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         launchManager = FindObjectOfType<LaunchLevel>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        //foreach (GameObject collect in GameObject.FindGameObjectsWithTag("Collectible"))
+        //{
+        //    collectibles.Add(collect);
+        //}
+
     }
 
     // Update is called once per frame
@@ -54,5 +67,31 @@ public class LevelManager : MonoBehaviour
     public void NextLevel()
     {
         launchManager.LoadnextLevel();
+    }
+
+    public void Checkpoint()
+    {
+        if (playerScript.CheckPoint != new Vector3(0,0,0))
+        {
+
+            foreach(GameObject collectibles in GameObject.FindGameObjectsWithTag("Collectible"))
+            {
+                Destroy(collectibles);
+            }
+            for(int i = 0; i < posCollectibles.Count; i++)
+            {
+                Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],Quaternion.identity);             
+            }
+
+            playerScript.timerInLight = timeInLightSave;
+            player.transform.position = playerScript.CheckPoint;
+            dead = false;
+            deadScreen.SetActive(false);
+        }
+        else
+        {
+            launchManager.RestartLevel();
+        }
+
     }
 }

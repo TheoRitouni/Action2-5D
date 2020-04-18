@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [Tooltip("Time in sec to be completely Black")]
     [SerializeField] private float                          timerInShadow = 2f;
     [Tooltip("Time in sec to be completely White")]
-    [SerializeField] private float                          timerInLight = 6f;
+     public float                          timerInLight = 6f;
 
 
     private bool umbrella = false;
@@ -79,6 +79,10 @@ public class Player : MonoBehaviour
     [Space]
     [SerializeField] private bool debug = false;
     [SerializeField] private bool checkPoint = false;
+    private Vector3 checkPointPos = new Vector3 (0,0,0);
+
+
+    public Vector3 CheckPoint { get { return checkPointPos ;  } set { checkPointPos = value; } }
 
     private float Horizontal = 0f;
     private float Vertical = 0f;
@@ -104,6 +108,7 @@ public class Player : MonoBehaviour
         SetBasicShadowPos();
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
+
 
         if (checkPoint)
         {

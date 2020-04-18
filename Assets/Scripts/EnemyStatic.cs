@@ -25,9 +25,10 @@ public class EnemyStatic : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private bool dirX;
     [SerializeField] private bool MovementOnX = false;
+    [SerializeField] [Range(0f, 89f)] private float maxRotationX;
     [SerializeField] private bool dirY;
     [SerializeField] private float speedMove = 1f;
-    [SerializeField] [Range(0f, 55f)] private float maxRotation;
+    [SerializeField] [Range(0f, 360f)] private float maxRotationY;
     [SerializeField] private bool positive, negative;
 
     private float rotationValue = 0f;
@@ -133,41 +134,84 @@ public class EnemyStatic : MonoBehaviour
 
     private void MovementCalc()
     {
-        if(positive && !negative)
+        if (dirX)
         {
-            if (rotationValue > maxRotation)
-                direction = true;
-            if (rotationValue <  0)
-                direction = false;
+            if (positive && !negative)
+            {
+                if (rotationValue > maxRotationX)
+                    direction = true;
+                if (rotationValue < 0)
+                    direction = false;
 
-            if(direction)
-                rotationValue -= speedMove * Time.deltaTime;
-            else
-                rotationValue += speedMove * Time.deltaTime;
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
+            if (!positive && negative)
+            {
+                if (rotationValue < -maxRotationX)
+                    direction = true;
+                if (rotationValue > 0)
+                    direction = false;
+
+                if (direction)
+                    rotationValue += speedMove * Time.deltaTime;
+                else
+                    rotationValue -= speedMove * Time.deltaTime;
+            }
+            if (positive && negative)
+            {
+                if (rotationValue > maxRotationX)
+                    direction = true;
+                if (rotationValue < -maxRotationX)
+                    direction = false;
+
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
         }
-        if (!positive && negative)
-        {
-            if (rotationValue < -maxRotation)
-                direction = true;
-            if (rotationValue > 0)
-                direction = false;
 
-            if (direction)
-                rotationValue += speedMove * Time.deltaTime;
-            else
-                rotationValue -= speedMove * Time.deltaTime;
-        }
-        if (positive && negative)
+        if(dirY)
         {
-            if (rotationValue > maxRotation)
-                direction = true;
-            if (rotationValue < -maxRotation)
-                direction = false;
+            if (positive && !negative)
+            {
+                if (rotationValue > maxRotationY)
+                    direction = true;
+                if (rotationValue < 0)
+                    direction = false;
 
-            if (direction)
-                rotationValue -= speedMove * Time.deltaTime;
-            else
-                rotationValue += speedMove * Time.deltaTime;
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
+            if (!positive && negative)
+            {
+                if (rotationValue < -maxRotationY)
+                    direction = true;
+                if (rotationValue > 0)
+                    direction = false;
+
+                if (direction)
+                    rotationValue += speedMove * Time.deltaTime;
+                else
+                    rotationValue -= speedMove * Time.deltaTime;
+            }
+            if (positive && negative)
+            {
+                if (rotationValue > maxRotationY)
+                    direction = true;
+                if (rotationValue < -maxRotationY)
+                    direction = false;
+
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
         }
     }
 
