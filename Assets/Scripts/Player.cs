@@ -98,6 +98,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        walkClip = Resources.Load("Sounds/Walk") as AudioClip;
+
         animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
         barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
@@ -502,6 +505,19 @@ public class Player : MonoBehaviour
                 speed = speed * divSpeedPlayer;
 
             }
+        }
+    }
+
+    private void ManageSounds()
+    {
+        if (Horizontal != 0 && Vertical != 0 && GroundCheck())
+        {
+            if (audioSource.clip == null || audioSource.clip != walkClip)
+            {
+                audioSource.clip = walkClip;
+            }
+
+            audioSource.Play();
         }
     }
 
