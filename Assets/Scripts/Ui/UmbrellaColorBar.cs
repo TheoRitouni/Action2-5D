@@ -5,42 +5,18 @@ using UnityEngine.UI;
 
 public class UmbrellaColorBar : MonoBehaviour
 {
-    private LevelManager levelManager;
+    [SerializeField] private Text text;
+    [SerializeField] private Player player;
 
-    [SerializeField] private Image colorImageBar;
-
-    [SerializeField] private RectTransform rectWhiteBar;
-    private Player player;
-    public float part;
-
-    private float timer = 0.75f;
-
-    void Awake()
+    // Start is called before the first frame update
+    private void Awake()
     {
-
+        text = GetComponentInChildren<Text>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        part = rectWhiteBar.sizeDelta.y / player.maxCourage;
-        levelManager = FindObjectOfType<LevelManager>();
-    }
-
-    private void Update()
-    {
-        if (!levelManager.pause)
-        {
-            if (timer > 0f)
-                timer -= Time.deltaTime;
-            else
-            {
-                timer = 0.75f;
-                colorImageBar.color = Random.ColorHSV(0, 1, 1, 1, 0.75f, 1, 1, 1);
-            }
-        }
     }
 
     public void RefreshBar()
     {
-        float calcul = part * player.Courage;
-
-        rectWhiteBar.sizeDelta = new Vector2(rectWhiteBar.sizeDelta.x, calcul);
+        text.text = player.Courage.ToString() + " / " + player.maxCourage.ToString();
     }
 }
