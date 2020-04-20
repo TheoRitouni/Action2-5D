@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    private PlayerColorBar barPlayer;
+   // private PlayerColorBar barPlayer;
     private UmbrellaColorBar barUmbrella;
    // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     private float courage = 0f;
     public float Courage { 
         get { return courage; } 
-        set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
+        set { courage = value; barUmbrella.RefreshBar(); } 
     }
 
 
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
 
         animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
-        barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
+        //barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
         barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
         //umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
         managerLevel = FindObjectOfType<LaunchLevel>();
@@ -151,7 +151,6 @@ public class Player : MonoBehaviour
 
             inShadow = CheckShadow();
             
-            ManageCourage();
             ManageAnimation();
         }
     }
@@ -308,7 +307,7 @@ public class Player : MonoBehaviour
             {
                 colorPlayer += 1 / timerInLight * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
         if (materialPlayer.color.r >= 0)
@@ -317,7 +316,7 @@ public class Player : MonoBehaviour
             { 
                 colorPlayer -= 1 / timerInShadow * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
 
@@ -325,14 +324,14 @@ public class Player : MonoBehaviour
         {
             colorPlayer = 1;
             materialPlayer.color = new Color(1, 1, 1, 255);
-            barPlayer.RefreshBar();
+            //barPlayer.RefreshBar();
             Lose();
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
             materialPlayer.color = new Color(0, 0, 0, 255);
-            barPlayer.RefreshBar();
+            //barPlayer.RefreshBar();
         }
 
     }
@@ -422,11 +421,11 @@ public class Player : MonoBehaviour
 
     private void ManageCourage()
     {
-        if ( courage == maxCourage)
+       /* if ( courage == maxCourage)
         {
             Courage = 0;
             timerInLight += secToAddInLight;
-        }
+        }*/
     }
 
     private void ManageUmbrellaBar()
@@ -563,12 +562,6 @@ public class Player : MonoBehaviour
             if (animator.GetBool("JumpUp"))
                 animator.SetBool("JumpUp", false);
         }
-
-        //RaycastHit hit;
-        //if (Physics.Raycast(gameObject.transform.position, transform.TransformDirection(-Vector3.up), out hit, 1.5f))
-        //{
-        //
-        //}
 
             // reset some animation 
         if (GroundCheck())
