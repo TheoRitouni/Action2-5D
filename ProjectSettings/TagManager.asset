@@ -16,6 +16,7 @@ TagManager:
   - DeadScreen
   - PauseScreen
   - WinScreen
+  - Collectible
   layers:
   - Default
   - TransparentFX
