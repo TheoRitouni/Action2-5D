@@ -24,9 +24,11 @@ public class Checkpoint : MonoBehaviour
             foreach (GameObject collect in GameObject.FindGameObjectsWithTag("Collectible"))
             {
                 levelManager.posCollectibles.Add(collect.transform.position);
+                levelManager.rotCollectibles.Add(collect.transform.rotation);
             }
 
             levelManager.timeInLightSave = playerScript.timerInLight;
+            levelManager.courageSave = playerScript.Courage;
 
             if (managerLevel.checkpoint != gameObject.transform.position)
             {
