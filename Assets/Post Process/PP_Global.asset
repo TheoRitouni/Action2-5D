@@ -15,7 +15,6 @@ MonoBehaviour:
   settings:
   - {fileID: 8048098699955164685}
   - {fileID: 4040049024488291900}
-  - {fileID: 5041919402302352529}
 --- !u!114 &4040049024488291900
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -60,6 +59,7 @@ MonoBehaviour:
   opacity:
     overrideState: 0
     value: 1
+<<<<<<< HEAD
 --- !u!114 &5041919402302352529
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -107,6 +107,8 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
+=======
+>>>>>>> 72a7e4ee745de99159385efaa0e25493052c4061
 --- !u!114 &8048098699955164685
 MonoBehaviour:
   m_ObjectHideFlags: 3
