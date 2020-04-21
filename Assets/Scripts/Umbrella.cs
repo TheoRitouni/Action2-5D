@@ -88,28 +88,6 @@ public class Umbrella : MonoBehaviour
                 gameObject.transform.position = savePosUmbrella;
                 gameObject.transform.rotation = Quaternion.Euler(-limitOfUmbrella, saveRotUmbrella.eulerAngles.y, saveRotUmbrella.eulerAngles.z);
             }
-
-            // if you change too fast
-
-            if ((saveRotPlayerH < 90 + 0.5 && saveRotPlayerH > 90 - 0.5) && (rotPlayerY < 270 + 0.5 && rotPlayerY > 270 - 0.5))
-            {
-               //gameObject.transform.position = new Vector3(-0.70f, 0.75f, 0.016f) ;
-               //gameObject.transform.rotation = Quaternion.Euler(-45, 90, 0) ;
-                print("yo");
-            }
-            if ((saveRotPlayerH < 270 + 0.5 && saveRotPlayerH > 270 - 0.5) && (rotPlayerY < 90 + 0.5 && rotPlayerY > 90 - 0.5))
-            {
-                //gameObject.transform.position = new Vector3(-gameObject.transform.position.x, gameObject.transform.position.y, -gameObject.transform.position.z);
-                //gameObject.transform.rotation = Quaternion.Euler(gameObject.transform.rotation.eulerAngles.x, gameObject.transform.rotation.eulerAngles.y, -gameObject.transform.rotation.eulerAngles.z);
-                print("yoppp");
-            }
-
-            //saveRotPlayerH = rotPlayerY;
-            //saveRotPlayerV = rotPlayerY;
-            //Vector3 difpos = new Vector3(player.transform.position.x - gameObject.transform.position.x, player.transform.position.y - gameObject.transform.position.y, player.transform.position.z - gameObject.transform.position.z);
-            //print(difpos);
-            //gameObject.transform.position = new Vector3(player.transform.position.x , player.transform.position.y + 1 , player.transform.position.z );
-            //gameObject.transform.position += difpos;
         }
     }
 }

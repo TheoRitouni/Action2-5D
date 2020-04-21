@@ -484,7 +484,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: RestartLevel
+        m_MethodName: Checkpoint
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -733,13 +733,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5763553250083091160}
   - component: {fileID: 5763553250083091159}
+  - component: {fileID: 896926021}
   m_Layer: 5
   m_Name: DeadScreen
-  m_TagString: Untagged
+  m_TagString: DeadScreen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5763553250083091160
 RectTransform:
   m_ObjectHideFlags: 0
@@ -777,8 +778,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6698fa9e8f8d743b64b1c52e55abf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftRight: 1
+  leftRight: 0
   buttons:
   - {fileID: 5763553249680137461}
   - {fileID: 5763553249542367612}
   uiButton: {fileID: 5763553249921222939}
+--- !u!95 &896926021
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5763553250083091161}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f773fffaa83df064d92d450c4f92f2f2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
