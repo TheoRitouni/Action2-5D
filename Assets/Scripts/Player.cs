@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
     // Sound
     private AudioSource audioSource;
     private AudioClip walkClip;
+    private AudioClip jumpClip;
 
     private void Awake()
     {
@@ -97,6 +98,7 @@ public class Player : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         walkClip = Resources.Load("Sounds/Walk") as AudioClip;
+        jumpClip = Resources.Load("Sounds/Jump") as AudioClip;
 
         animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
@@ -172,8 +174,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
-
-
             if (!UmbrellaOnIfJump)
             {
                 if (jump == 0) // umbrella off if you jump
@@ -502,19 +502,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ManageSounds()
-    {
-        if (Horizontal != 0 && Vertical != 0 && GroundCheck())
-        {
-            if (audioSource.clip == null || audioSource.clip != walkClip)
-            {
-                audioSource.clip = walkClip;
-            }
-
-            audioSource.Play();
-        }
-    }
-
     private void ManageAnimation()
     {
         // walk animation
@@ -522,6 +509,8 @@ public class Player : MonoBehaviour
         {
             if (animator.GetBool("Walk"))
                 animator.SetBool("Walk", false);
+
+            audioSource.Stop();
         }
         else
         {
@@ -531,6 +520,18 @@ public class Player : MonoBehaviour
                 animator.SetBool("Walk", true);
             else if (!gc)
                 animator.SetBool("Walk", false);
+
+            if (gc)
+            {
+                if (audioSource.clip == null || audioSource.clip != walkClip)
+                {
+                    audioSource.Stop();
+                    audioSource.clip = walkClip;
+                }
+
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
+            }
         }
 
         // glide animation 
@@ -551,6 +552,18 @@ public class Player : MonoBehaviour
                 animator.SetBool("JumpUp", true);
             if (animator.GetBool("JumpDown"))
                 animator.SetBool("JumpDown", false);
+
+            if (GroundCheck())
+            {
+                if (audioSource.clip == null || audioSource.clip != jumpClip)
+                {
+                    audioSource.Stop();
+                    audioSource.clip = jumpClip;
+                }
+
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
+            }
         }
         else
         {
