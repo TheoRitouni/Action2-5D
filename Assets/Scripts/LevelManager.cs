@@ -81,6 +81,7 @@ public class LevelManager : MonoBehaviour
             }
 
             playerScript.timerInLight = timeInLightSave;
+            playerScript.colorPlayer = 0;
             player.transform.position = playerScript.CheckPoint;
             playerScript.Courage = courageSave;
             dead = false;

@@ -12,6 +12,7 @@ public class EnemyStatic : MonoBehaviour
 
     [SerializeField] private bool showDebug = false;
     private Transform player;
+    [SerializeField] private Transform umbrella;
 
     [Header("View")]
     [Tooltip("Sphere radius")]
@@ -62,8 +63,12 @@ public class EnemyStatic : MonoBehaviour
                 dirY = false;
             if(dirY)
                 dirX = false;
-
-            playerInFov = InFov();
+            
+            if (!playerScript.debug)
+            {
+                playerInFov = InFov();
+            }
+            
             MovementCalc();
             AddRotationOnAxis();
 
@@ -124,7 +129,7 @@ public class EnemyStatic : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, maxRadius))
             {
-                if (hit.transform == player)
+                if (hit.transform == player && !hit.collider.CompareTag("Umbrella"))
                     return true;
             }
         }
@@ -234,13 +239,14 @@ public class EnemyStatic : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+        if (!playerScript.debug)
+        {
             if (levelManager.dead)
                 return;
 
             if (collision.gameObject.CompareTag("Player"))
                 levelManager.dead = true;
-       
+        }
     }
 
 }

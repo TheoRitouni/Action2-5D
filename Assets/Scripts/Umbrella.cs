@@ -13,10 +13,17 @@ public class Umbrella : MonoBehaviour
     private Player player;
     private Vector3 savePosUmbrella;
     private Quaternion saveRotUmbrella;
+    private Quaternion rotation;
 
     private void Awake()
     {
+        //rotation = transform.rotation;
         levelManager = FindObjectOfType<LevelManager>();
+    }
+
+    void LateUpdate()
+    {
+        //transform.rotation = rotation;
     }
 
     // Start is called before the first frame update
