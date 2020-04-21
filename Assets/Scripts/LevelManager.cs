@@ -9,7 +9,9 @@ public class LevelManager : MonoBehaviour
     private GameObject player;
 
     public List<Vector3> posCollectibles = new List<Vector3>();
+    public List<Quaternion> rotCollectibles = new List<Quaternion>();
     public float timeInLightSave = 0f;
+    public float courageSave = 0f;
 
     public bool dead = false;
     public bool pause = false;
@@ -25,11 +27,6 @@ public class LevelManager : MonoBehaviour
         launchManager = FindObjectOfType<LaunchLevel>();
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player = GameObject.FindGameObjectWithTag("Player");
-
-        //foreach (GameObject collect in GameObject.FindGameObjectsWithTag("Collectible"))
-        //{
-        //    collectibles.Add(collect);
-        //}
 
     }
 
@@ -80,11 +77,13 @@ public class LevelManager : MonoBehaviour
             }
             for(int i = 0; i < posCollectibles.Count; i++)
             {
-                Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],Quaternion.identity);             
+                Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],rotCollectibles[i]);             
             }
 
             playerScript.timerInLight = timeInLightSave;
+            playerScript.colorPlayer = 0;
             player.transform.position = playerScript.CheckPoint;
+            playerScript.Courage = courageSave;
             dead = false;
             deadScreen.SetActive(false);
         }

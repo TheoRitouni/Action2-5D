@@ -41,15 +41,13 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    private PlayerColorBar barPlayer;
+   // private PlayerColorBar barPlayer;
     private UmbrellaColorBar barUmbrella;
    // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
     [SerializeField] private bool UmbrellaOnIfJump = false;
-    [SerializeField] private float umbrellaTimeOpen = 5f;
-    [SerializeField] private float reloadUmbrellaTime = 2f;
     private bool umbrellaForcON = false;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
@@ -61,11 +59,10 @@ public class Player : MonoBehaviour
     [Space]
     [Header("Courage")]
     public float maxCourage = 0f;
-    [SerializeField] private float secToAddInLight = 1f;
     private float courage = 0f;
     public float Courage { 
         get { return courage; } 
-        set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
+        set { courage = value; barUmbrella.RefreshBar(); } 
     }
 
 
@@ -77,7 +74,7 @@ public class Player : MonoBehaviour
     private float sizeSquat = 0.5f;
 
     [Space]
-    [SerializeField] private bool debug = false;
+    public bool debug = false;
     [SerializeField] private bool checkPoint = false;
     private Vector3 checkPointPos = new Vector3 (0,0,0);
 
@@ -105,7 +102,7 @@ public class Player : MonoBehaviour
 
         animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
-        barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
+        //barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
         barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
         //umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
         managerLevel = FindObjectOfType<LaunchLevel>();
@@ -153,8 +150,8 @@ public class Player : MonoBehaviour
 
             inShadow = CheckShadow();
             
-            ManageCourage();
             ManageAnimation();
+            InputGodMode();
         }
     }
 
@@ -166,11 +163,7 @@ public class Player : MonoBehaviour
         if (targetDirection.magnitude != 0)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
-
-            
             gameObject.transform.localRotation = targetRotation;
-            
-
         }
 
         if (rig.velocity.y < 0f && !umbrella)
@@ -308,7 +301,7 @@ public class Player : MonoBehaviour
             {
                 colorPlayer += 1 / timerInLight * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
         if (materialPlayer.color.r >= 0)
@@ -317,7 +310,7 @@ public class Player : MonoBehaviour
             { 
                 colorPlayer -= 1 / timerInShadow * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
 
@@ -325,14 +318,14 @@ public class Player : MonoBehaviour
         {
             colorPlayer = 1;
             materialPlayer.color = new Color(1, 1, 1, 255);
-            barPlayer.RefreshBar();
+            //barPlayer.RefreshBar();
             Lose();
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
             materialPlayer.color = new Color(0, 0, 0, 255);
-            barPlayer.RefreshBar();
+            //barPlayer.RefreshBar();
         }
 
     }
@@ -397,6 +390,7 @@ public class Player : MonoBehaviour
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
                 umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
                 speed = speed * divSpeedPlayer;
+                
             }
 
             // squat
@@ -422,11 +416,11 @@ public class Player : MonoBehaviour
 
     private void ManageCourage()
     {
-        if ( courage == maxCourage)
+       /* if ( courage == maxCourage)
         {
             Courage = 0;
             timerInLight += secToAddInLight;
-        }
+        }*/
     }
 
     private void ManageUmbrellaBar()
@@ -575,12 +569,6 @@ public class Player : MonoBehaviour
                 animator.SetBool("JumpUp", false);
         }
 
-        //RaycastHit hit;
-        //if (Physics.Raycast(gameObject.transform.position, transform.TransformDirection(-Vector3.up), out hit, 1.5f))
-        //{
-        //
-        //}
-
             // reset some animation 
         if (GroundCheck())
         {
@@ -606,5 +594,14 @@ public class Player : MonoBehaviour
                 animator.SetBool("CrouchDown", false);
         }
 
+    }
+
+    private void InputGodMode()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+            debug = !debug;
+
+        if (Input.GetKeyDown(KeyCode.F2))
+            levelManager.NextLevel();
     }
 }

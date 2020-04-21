@@ -45,7 +45,8 @@ public class Collectible : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             player.Courage += addCourage;
-            Destroy(gameObject);
+            Destroy(gameObject.transform.parent.gameObject);
+            
         }
     }
 
