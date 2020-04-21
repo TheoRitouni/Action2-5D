@@ -51,7 +51,10 @@ public class Enemy : MonoBehaviour
     {
         if (!levelManager.pause && !levelManager.win)
         {
-            playerInFov = InFov();
+            if (!playerScript.debug)
+            {
+                playerInFov = InFov();
+            }
 
             if (navAgent.speed != speed && !playerInFov)
                 navAgent.speed = speed;
@@ -206,10 +209,13 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (levelManager.dead)
-            return;
+        if (!playerScript.debug)
+        {
+            if (levelManager.dead)
+                return;
 
-        if (collision.gameObject.CompareTag("Player"))
-            levelManager.dead = true;
+            if (collision.gameObject.CompareTag("Player"))
+                levelManager.dead = true;
+        }
     }
 }

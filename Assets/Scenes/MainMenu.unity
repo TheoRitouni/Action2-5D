@@ -1391,6 +1391,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1242864056}
   uiButton: {fileID: 1496562599}
+  launchlevel: {fileID: 0}
 --- !u!1 &817879718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,6 +1537,7 @@ MonoBehaviour:
   - {fileID: 727634915}
   - {fileID: 1331549396}
   uiButton: {fileID: 1630824648}
+  launchlevel: {fileID: 767663376}
 --- !u!1 &1085636671
 GameObject:
   m_ObjectHideFlags: 0
