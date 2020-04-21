@@ -509,6 +509,8 @@ public class Player : MonoBehaviour
         {
             if (animator.GetBool("Walk"))
                 animator.SetBool("Walk", false);
+
+            audioSource.Stop();
         }
         else
         {
