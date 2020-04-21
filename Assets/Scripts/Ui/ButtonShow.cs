@@ -21,6 +21,18 @@ public class ButtonShow : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F4) && PlayerPrefs.GetInt("levelAt") != 6)
+        {
+            PlayerPrefs.SetInt("levelAt", 6);
+            for (int i = 0; i < buttonsSelection.Count; i++)
+            {
+                    buttonsSelection[i].interactable = true;
+            }
+        }
+    }
+
     public void ShowMenu()
     {
         firstMenu.SetActive(!firstMenu.activeSelf);

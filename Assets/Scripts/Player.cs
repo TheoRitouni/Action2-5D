@@ -495,7 +495,7 @@ public class Player : MonoBehaviour
                     speed = speed / speedOfPlaner;
                 }
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
-                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
+                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1f, gameObject.transform.position.z);
                 speed = speed * divSpeedPlayer;
 
             }
