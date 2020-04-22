@@ -157,6 +157,15 @@ public class Player : MonoBehaviour
             ManageAnimation();
             InputGodMode();
         }
+        else
+        {
+            if (asWalk.isPlaying)
+                asWalk.Stop();
+            if (asJump.isPlaying)
+                asJump.Stop();
+            if (asOpenUmbrella.isPlaying)
+                asOpenUmbrella.Stop();
+        }
     }
 
     private void PlayerMovement()
