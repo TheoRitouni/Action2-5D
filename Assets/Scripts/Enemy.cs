@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] [Range(1f, 85f)] private float maxAngle = 0f;
 
     [Header("Sounds")]
-    [SerializeField] private AudioSource asEnnemyChase;
+    [SerializeField] private AudioSource asEnnemyTrigger;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        asEnnemyChase.clip = Resources.Load("Sounds/EnnemyChase") as AudioClip;
+        asEnnemyTrigger.clip = Resources.Load("Sounds/EnnemyTrigger") as AudioClip;
 
         navAgent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -70,13 +70,11 @@ public class Enemy : MonoBehaviour
 					navAgent.speed = speedFollowPlayer;
 				
                 navAgent.SetDestination(player.position);
-                if (!asEnnemyChase.isPlaying)
-                    asEnnemyChase.Play();
             }
             else if (pathA && movementPointA.Length > 1)
             {
-                if (asEnnemyChase.isPlaying)
-                    asEnnemyChase.Stop();
+                if (asEnnemyTrigger.isPlaying)
+                    asEnnemyTrigger.Stop();
                 if (IsOnMovementPoint())
                 {
                     indexMovementA++;
@@ -197,7 +195,11 @@ public class Enemy : MonoBehaviour
             if (Physics.Raycast(ray, out hit, maxRadius))
             {
                 if (hit.transform == player)
+                {
+                    if (!playerScript.inShadow && !asEnnemyTrigger.isPlaying && !playerInFov)
+                        asEnnemyTrigger.Play();
                     return true;
+                }
             }
         }
         return false;
