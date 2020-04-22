@@ -78,7 +78,6 @@ public class Platform : MonoBehaviour
             if(boxCollOk)
             {
                 boxCollOk = false;
-                print(child.localScale);
                 boxCollider.size = child.localScale;
             }
 

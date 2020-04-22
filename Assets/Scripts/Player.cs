@@ -89,6 +89,10 @@ public class Player : MonoBehaviour
     private AudioClip walkClip;
     private AudioClip jumpClip;
 
+    // death 
+    private bool death = false;
+
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -133,7 +137,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
+        if ((!levelManager.dead && !levelManager.pause && !levelManager.win ) && !death) // If player is alive
         {
             if (!squat && !roofAbovePlayer)
             {
@@ -152,6 +156,12 @@ public class Player : MonoBehaviour
             
             ManageAnimation();
             InputGodMode();
+        }
+
+        if(death)
+        {
+            rig.velocity = new Vector3(0, 0, 0);
+            Lose();
         }
     }
 
@@ -334,7 +344,16 @@ public class Player : MonoBehaviour
     {
         if (!debug)
         {
-            levelManager.dead = true;
+            if (!levelManager.dead)
+            {
+                death = true;
+
+                if(!animator.GetBool("Death"))
+                    animator.SetBool("Death", true);
+
+                StartCoroutine(Anim());
+                
+            }
         }
     }
 
@@ -605,5 +624,20 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F2))
             levelManager.NextLevel();
+    }
+
+    IEnumerator Anim()
+    {
+        yield return new WaitForSeconds(2);
+
+        levelManager.dead = true;
+
+        yield return new WaitForSeconds(2);
+
+        if (animator.GetBool("Death"))
+            animator.SetBool("Death", false);
+
+        death = false;
+
     }
 }

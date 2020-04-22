@@ -209,13 +209,12 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!playerScript.debug)
-        {
-            if (levelManager.dead)
-                return;
+        
+        if (levelManager.dead)
+            return;
 
-            if (collision.gameObject.CompareTag("Player"))
-                levelManager.dead = true;
-        }
+        if (collision.gameObject.CompareTag("Player"))
+            playerScript.Lose();
+        
     }
 }
