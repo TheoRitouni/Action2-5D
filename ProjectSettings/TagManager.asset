@@ -17,6 +17,7 @@ TagManager:
   - PauseScreen
   - WinScreen
   - Collectible
+  - Flag
   layers:
   - Default
   - TransparentFX
