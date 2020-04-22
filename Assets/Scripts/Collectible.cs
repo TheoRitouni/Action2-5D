@@ -23,6 +23,7 @@ public class Collectible : MonoBehaviour
     private bool direction = false;
 
     private AudioSource asCollectible;
+    private ParticleSystem particle;
 
     void Start()
     {
@@ -35,6 +36,7 @@ public class Collectible : MonoBehaviour
         b = 1;
         r = maxColor;
         initialPos = gameObject.transform.position;
+        particle = gameObject.transform.parent.GetChild(1).gameObject.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -48,6 +50,8 @@ public class Collectible : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            particle.Play();
+
             player.Courage += addCourage;
             asCollectible.PlayOneShot(asCollectible.clip);
             gameObject.GetComponent<BoxCollider>().enabled = false;
