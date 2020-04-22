@@ -14,6 +14,8 @@ public class Umbrella : MonoBehaviour
     private Vector3 savePosUmbrella;
     private Quaternion saveRotUmbrella;
     private Quaternion rotation;
+    private float saveRotPlayerH = 0f;
+    private float saveRotPlayerV = 0f;
 
     private void Awake()
     {
@@ -30,6 +32,7 @@ public class Umbrella : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z);
     }
 
     // Update is called once per frame
@@ -39,6 +42,8 @@ public class Umbrella : MonoBehaviour
         {
             float horizontalLeft = Input.GetAxis("JoystickRightHorizontal") * speedOfUmbrella;
             float verticalLeft = Input.GetAxis("JoystickRightVertical") * speedOfUmbrella;
+
+            float rotPlayerY = player.transform.rotation.eulerAngles.y;
 
             if (Input.GetKey(KeyCode.M))
                 horizontalLeft = -1;
@@ -54,11 +59,11 @@ public class Umbrella : MonoBehaviour
 
             if (horizontalLeft != 0)
             {
-                gameObject.transform.RotateAround(player.transform.position, Vector3.forward, horizontalLeft);
+                gameObject.transform.RotateAround(gameObject.transform.parent.position, Vector3.forward, horizontalLeft);
             }
             if (verticalLeft != 0)
             {
-                gameObject.transform.RotateAround(player.transform.position, Vector3.right, verticalLeft);
+                gameObject.transform.RotateAround(gameObject.transform.parent.position, Vector3.right, verticalLeft);
             }
 
             if (gameObject.transform.rotation.eulerAngles.z > limitOfUmbrella && gameObject.transform.rotation.eulerAngles.z < 180)

@@ -33,6 +33,9 @@ public class Enemy : MonoBehaviour
     [Tooltip("Between the purple vector and one of blue vector, so the ° between the 2 blue vectors is (Max Radius x2)")]
     [SerializeField] [Range(1f, 85f)] private float maxAngle = 0f;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource asEnnemyTrigger;
+
     private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
@@ -40,6 +43,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        asEnnemyTrigger.clip = Resources.Load("Sounds/EnnemyTrigger") as AudioClip;
+
         navAgent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -68,6 +73,8 @@ public class Enemy : MonoBehaviour
             }
             else if (pathA && movementPointA.Length > 1)
             {
+                if (asEnnemyTrigger.isPlaying)
+                    asEnnemyTrigger.Stop();
                 if (IsOnMovementPoint())
                 {
                     indexMovementA++;
@@ -176,34 +183,25 @@ public class Enemy : MonoBehaviour
 
     private bool InFov()
     {
-        /*Collider[] overlaps = Physics.OverlapSphere(transform.position, maxRadius);
+        Vector3 directionBetween = (player.position - transform.position).normalized;
 
-        for (int i = 0; i < overlaps.Length; i++)
+        float angle = Vector3.Angle(transform.forward, directionBetween);
+
+        if (angle <= maxAngle)
         {
-            if (overlaps[i] != null)
+            Ray ray = new Ray(transform.position, player.position - transform.position);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, maxRadius))
             {
-                if (overlaps[i].transform == player)
-                {*/
-                    Vector3 directionBetween = (player.position - transform.position).normalized;
-
-                    float angle = Vector3.Angle(transform.forward, directionBetween);
-
-                    if (angle <= maxAngle)
-                    {
-                        Ray ray = new Ray(transform.position, player.position - transform.position);
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(ray, out hit, maxRadius))
-                        {
-                            if (hit.transform == player)
-                                return true;
-                        }
-                    }
-
-               /* }
+                if (hit.transform == player)
+                {
+                    if (!playerScript.inShadow && !asEnnemyTrigger.isPlaying && !playerInFov)
+                        asEnnemyTrigger.Play();
+                    return true;
+                }
             }
-        }*/
-
+        }
         return false;
     }
 
