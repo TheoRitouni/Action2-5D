@@ -141,6 +141,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Vector3 posplayer = transform.position;
+
         if ((!levelManager.dead && !levelManager.pause && !levelManager.win ) && !death) // If player is alive
         {
             if (!squat && !roofAbovePlayer)
@@ -173,6 +175,15 @@ public class Player : MonoBehaviour
         {
             rig.velocity = new Vector3(0, 0, 0);
             Lose();
+        }
+
+        if(levelManager.pause || levelManager.win)
+        {
+            transform.position = posplayer;
+            rig.velocity = new Vector3(0, 0, 0);
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+
         }
     }
 

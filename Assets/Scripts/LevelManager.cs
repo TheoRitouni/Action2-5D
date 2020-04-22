@@ -103,4 +103,10 @@ public class LevelManager : MonoBehaviour
         }
 
     }
+
+    public void Continue()
+    {
+        pause = false;
+        pauseScreen.SetActive(false);
+    }
 }

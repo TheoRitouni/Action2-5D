@@ -980,6 +980,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3772010476515802303, guid: 43fd492be03b5aa4ab8f3626dfd93824,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43fd492be03b5aa4ab8f3626dfd93824, type: 3}
 --- !u!224 &473830214 stripped
@@ -1807,6 +1812,7 @@ MonoBehaviour:
   uiButton: {fileID: 1496562599}
   buttonBack: {fileID: 1242864058}
   launchlevel: {fileID: 0}
+  option: {fileID: 0}
 --- !u!1 &817879718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,6 +1960,7 @@ MonoBehaviour:
   uiButton: {fileID: 1630824648}
   buttonBack: {fileID: 1331549398}
   launchlevel: {fileID: 767663376}
+  option: {fileID: 1743155792}
 --- !u!1 &1085636671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3516,6 +3523,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1743155792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2799374865566148915, guid: 43fd492be03b5aa4ab8f3626dfd93824,
+    type: 3}
+  m_PrefabInstance: {fileID: 473830213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1786216673
 GameObject:
   m_ObjectHideFlags: 0

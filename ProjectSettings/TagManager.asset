@@ -18,6 +18,7 @@ TagManager:
   - WinScreen
   - Collectible
   - Flag
+  - Option
   layers:
   - Default
   - TransparentFX
