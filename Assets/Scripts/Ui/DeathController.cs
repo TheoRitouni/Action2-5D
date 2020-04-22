@@ -128,6 +128,7 @@ public class DeathController : MonoBehaviour
                     option.SetActive(onOption);
                 }
             }
+
         }
     }
 
