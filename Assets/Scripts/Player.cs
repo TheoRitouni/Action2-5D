@@ -167,8 +167,6 @@ public class Player : MonoBehaviour
                 asWalk.Stop();
             if (asJump.isPlaying)
                 asJump.Stop();
-            if (asOpenUmbrella.isPlaying)
-                asOpenUmbrella.Stop();
         }
 
         if (death)
@@ -361,8 +359,12 @@ public class Player : MonoBehaviour
             {
                 death = true;
 
-                if(!animator.GetBool("Death"))
+                if (!animator.GetBool("Death"))
+                {
                     animator.SetBool("Death", true);
+                    AudioClip deathClip = Resources.Load("Sounds/GameLose") as AudioClip;
+                    asOpenUmbrella.PlayOneShot(deathClip);
+                }
 
                 StartCoroutine(Anim());
                 

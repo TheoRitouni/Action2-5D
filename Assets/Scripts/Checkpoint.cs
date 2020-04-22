@@ -10,13 +10,15 @@ public class Checkpoint : MonoBehaviour
     private bool check = true;
     private MeshRenderer flag;
 
+    private AudioSource asCheckpoint;
+
     void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
         managerLevel = FindObjectOfType<LaunchLevel>();
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         flag = gameObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>();
-        
+        asCheckpoint = gameObject.AddComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,6 +51,8 @@ public class Checkpoint : MonoBehaviour
 
 
             flag.material.color = new Color(0, 255, 0);
+
+            asCheckpoint.PlayOneShot(Resources.Load("Sounds/Checkpoint") as AudioClip);
 
             check = false;
         }
