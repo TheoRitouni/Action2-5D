@@ -522,7 +522,7 @@ MonoBehaviour:
   - {fileID: 8528414319522539562}
   directionalLight: {fileID: 0}
   timerInShadow: 1.5
-  timerInLight: 4
+  timerInLight: 5
   umbrel: {fileID: 0}
   timerUmbrella: 0.5
   fallOfPlaner: 1.2
@@ -539,6 +539,7 @@ MonoBehaviour:
   asWalk: {fileID: 523682325}
   asJump: {fileID: 523682324}
   asOpenUmbrella: {fileID: 523682323}
+  death: 0
 --- !u!95 &3966374337936591715
 Animator:
   serializedVersion: 3
