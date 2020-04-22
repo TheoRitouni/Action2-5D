@@ -5,6 +5,16 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     private LaunchLevel launchManager;
+    private Player playerScript;
+    private GameObject player;
+
+    public List<Vector3> posCollectibles = new List<Vector3>();
+    public List<Vector3> localposCollectibles = new List<Vector3>();
+    public List<Vector3> scaleCollectibles = new List<Vector3>();
+    public List<Quaternion> rotCollectibles = new List<Quaternion>();
+    public List<Transform> parentCollectibles = new List<Transform>();
+    public float timeInLightSave = 0f;
+    public float courageSave = 0f;
 
     public bool dead = false;
     public bool pause = false;
@@ -18,6 +28,9 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         launchManager = FindObjectOfType<LaunchLevel>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
@@ -54,5 +67,46 @@ public class LevelManager : MonoBehaviour
     public void NextLevel()
     {
         launchManager.LoadnextLevel();
+    }
+
+    public void Checkpoint()
+    {
+        if (playerScript.CheckPoint != new Vector3(0, 0, 0))
+        {
+
+            foreach (GameObject collectibles in GameObject.FindGameObjectsWithTag("Collectible"))
+            {
+                Destroy(collectibles);
+            }
+            for (int i = 0; i < posCollectibles.Count; i++)
+            {
+                GameObject tempObject = Instantiate(Resources.Load("Prefabs/Pref_Collectible"), posCollectibles[i], rotCollectibles[i]) as GameObject;
+                tempObject.tag = "Collectible";
+                tempObject.transform.localScale = scaleCollectibles[i];
+                tempObject.transform.parent = parentCollectibles[i];
+                if (tempObject.transform.parent != null)
+                {
+                    tempObject.transform.localPosition = localposCollectibles[i];
+                }
+            }
+
+            playerScript.timerInLight = timeInLightSave;
+            playerScript.colorPlayer = 0;
+            player.transform.position = playerScript.CheckPoint;
+            playerScript.Courage = courageSave;
+            dead = false;
+            deadScreen.SetActive(false);
+        }
+        else
+        {
+            launchManager.RestartLevel();
+        }
+        
+    }
+
+    public void Continue()
+    {
+        pause = false;
+        pauseScreen.SetActive(false);
     }
 }

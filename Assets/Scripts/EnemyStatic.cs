@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyStatic : MonoBehaviour
 {
+    private Player playerScript;
     private LevelManager levelManager;
     private Light spotlight;
     private bool playerInFov = false;
@@ -11,6 +12,7 @@ public class EnemyStatic : MonoBehaviour
 
     [SerializeField] private bool showDebug = false;
     private Transform player;
+    [SerializeField] private Transform umbrella;
 
     [Header("View")]
     [Tooltip("Sphere radius")]
@@ -24,9 +26,10 @@ public class EnemyStatic : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private bool dirX;
     [SerializeField] private bool MovementOnX = false;
+    [SerializeField] [Range(0f, 89f)] private float maxRotationX;
     [SerializeField] private bool dirY;
     [SerializeField] private float speedMove = 1f;
-    [SerializeField] [Range(0f, 55f)] private float maxRotation;
+    [SerializeField] [Range(0f, 360f)] private float maxRotationY;
     [SerializeField] private bool positive, negative;
 
     private float rotationValue = 0f;
@@ -37,6 +40,7 @@ public class EnemyStatic : MonoBehaviour
     void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         spotlight = gameObject.GetComponentInChildren<Light>();
         spotlight.range = maxRadius;
@@ -59,17 +63,21 @@ public class EnemyStatic : MonoBehaviour
                 dirY = false;
             if(dirY)
                 dirX = false;
-
-            playerInFov = InFov();
+            
+            if (!playerScript.debug)
+            {
+                playerInFov = InFov();
+            }
+            
             MovementCalc();
             AddRotationOnAxis();
 
-            if (playerInFov)
+            if (playerInFov && playerScript.colorPlayer != 0)
             {
                 if (levelManager.dead)
                     return;
 
-                levelManager.dead = true;
+                playerScript.death = true;
             }
         }
     }
@@ -121,7 +129,7 @@ public class EnemyStatic : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, maxRadius))
             {
-                if (hit.transform == player)
+                if (hit.transform == player && !hit.collider.CompareTag("Umbrella"))
                     return true;
             }
         }
@@ -131,41 +139,84 @@ public class EnemyStatic : MonoBehaviour
 
     private void MovementCalc()
     {
-        if(positive && !negative)
+        if (dirX)
         {
-            if (rotationValue > maxRotation)
-                direction = true;
-            if (rotationValue <  0)
-                direction = false;
+            if (positive && !negative)
+            {
+                if (rotationValue > maxRotationX)
+                    direction = true;
+                if (rotationValue < 0)
+                    direction = false;
 
-            if(direction)
-                rotationValue -= speedMove * Time.deltaTime;
-            else
-                rotationValue += speedMove * Time.deltaTime;
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
+            if (!positive && negative)
+            {
+                if (rotationValue < -maxRotationX)
+                    direction = true;
+                if (rotationValue > 0)
+                    direction = false;
+
+                if (direction)
+                    rotationValue += speedMove * Time.deltaTime;
+                else
+                    rotationValue -= speedMove * Time.deltaTime;
+            }
+            if (positive && negative)
+            {
+                if (rotationValue > maxRotationX)
+                    direction = true;
+                if (rotationValue < -maxRotationX)
+                    direction = false;
+
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
         }
-        if (!positive && negative)
-        {
-            if (rotationValue < -maxRotation)
-                direction = true;
-            if (rotationValue > 0)
-                direction = false;
 
-            if (direction)
-                rotationValue += speedMove * Time.deltaTime;
-            else
-                rotationValue -= speedMove * Time.deltaTime;
-        }
-        if (positive && negative)
+        if(dirY)
         {
-            if (rotationValue > maxRotation)
-                direction = true;
-            if (rotationValue < -maxRotation)
-                direction = false;
+            if (positive && !negative)
+            {
+                if (rotationValue > maxRotationY)
+                    direction = true;
+                if (rotationValue < 0)
+                    direction = false;
 
-            if (direction)
-                rotationValue -= speedMove * Time.deltaTime;
-            else
-                rotationValue += speedMove * Time.deltaTime;
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
+            if (!positive && negative)
+            {
+                if (rotationValue < -maxRotationY)
+                    direction = true;
+                if (rotationValue > 0)
+                    direction = false;
+
+                if (direction)
+                    rotationValue += speedMove * Time.deltaTime;
+                else
+                    rotationValue -= speedMove * Time.deltaTime;
+            }
+            if (positive && negative)
+            {
+                if (rotationValue > maxRotationY)
+                    direction = true;
+                if (rotationValue < -maxRotationY)
+                    direction = false;
+
+                if (direction)
+                    rotationValue -= speedMove * Time.deltaTime;
+                else
+                    rotationValue += speedMove * Time.deltaTime;
+            }
         }
     }
 
@@ -184,6 +235,17 @@ public class EnemyStatic : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, (transform.rotation.y + rotationValue) + initialYValue, transform.rotation.eulerAngles.z);
             
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        if (levelManager.dead)
+            return;
+
+        if (collision.gameObject.CompareTag("Player"))
+            playerScript.death = true;
+        
     }
 
 }

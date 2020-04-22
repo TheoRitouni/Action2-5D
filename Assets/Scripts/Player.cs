@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     private LevelManager levelManager;
 
+    private Animator                                        animator;
     private Rigidbody                                       rig;
     private int                                             jump = 0;
     private bool                                            isJumping = false;
@@ -15,10 +16,10 @@ public class Player : MonoBehaviour
     private LaunchLevel managerLevel;
 
     [Header("Movements")]
-    [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
+    [SerializeField] [Range(0f, 1000f)] private float       speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
-    [SerializeField] [Range(0f, 300f)] private float         gravityModifier = 100f;
+    [SerializeField] [Range(0f, 300f)] private float        gravityModifier = 100f;
     [SerializeField] private bool                           jumpWithSquat = false;
     //[SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
 
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
     [Tooltip("Time in sec to be completely Black")]
     [SerializeField] private float                          timerInShadow = 2f;
     [Tooltip("Time in sec to be completely White")]
-    [SerializeField] private float                          timerInLight = 6f;
+    public float                                            timerInLight = 6f;
 
 
     private bool umbrella = false;
@@ -40,15 +41,13 @@ public class Player : MonoBehaviour
     [Header("Umbrella")]
     [SerializeField] private GameObject umbrel = null;
     [SerializeField] private float timerUmbrella = 1f;
-    [SerializeField] private PlayerColorBar barPlayer;
-    [SerializeField] private UmbrellaColorBar barUmbrella;
-    [SerializeField] private UmbrellaBar umbrellaBar;
+   // private PlayerColorBar barPlayer;
+    private UmbrellaColorBar barUmbrella;
+   // [SerializeField] private UmbrellaBar umbrellaBar;
     [SerializeField] [Range(1f,2f)] private float fallOfPlaner = 1.2f;
     [SerializeField] [Range(1f, 7f)] private float speedOfPlaner = 2f;
     [SerializeField] private float divSpeedPlayer = 1f;
     [SerializeField] private bool UmbrellaOnIfJump = false;
-    [SerializeField] private float umbrellaTimeOpen = 5f;
-    [SerializeField] private float reloadUmbrellaTime = 2f;
     private bool umbrellaForcON = false;
     private float initialTimerUmbrella = 0f;
     private bool planer = false;
@@ -60,11 +59,10 @@ public class Player : MonoBehaviour
     [Space]
     [Header("Courage")]
     public float maxCourage = 0f;
-    [SerializeField] private float secToAddInLight = 1f;
     private float courage = 0f;
     public float Courage { 
         get { return courage; } 
-        set { if (value > maxCourage) courage = maxCourage; else courage = value; barUmbrella.RefreshBar(); } 
+        set { courage = value; barUmbrella.RefreshBar(); } 
     }
 
 
@@ -76,11 +74,24 @@ public class Player : MonoBehaviour
     private float sizeSquat = 0.5f;
 
     [Space]
-    [SerializeField] private bool debug = false;
+    public bool debug = false;
     [SerializeField] private bool checkPoint = false;
+    private Vector3 checkPointPos = new Vector3 (0,0,0);
+
+
+    public Vector3 CheckPoint { get { return checkPointPos ;  } set { checkPointPos = value; } }
 
     private float Horizontal = 0f;
     private float Vertical = 0f;
+
+    // Sound
+    [SerializeField] private AudioSource asWalk;
+    [SerializeField] private AudioSource asJump;
+    [SerializeField] private AudioSource asOpenUmbrella;
+
+    // death 
+    public bool death = false;
+
 
     private void Awake()
     {
@@ -89,15 +100,25 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        /* Start sound Part */
+
+        asWalk.clip = Resources.Load("Sounds/Walk") as AudioClip;
+        asJump.clip = Resources.Load("Sounds/Jump") as AudioClip;
+        asOpenUmbrella.clip = Resources.Load("Sounds/OpenUmbrella") as AudioClip;
+
+        /* End sound Part */
+
+        animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
-        barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
+        //barPlayer = GameObject.FindGameObjectWithTag("PlayerColorBar").GetComponent<PlayerColorBar>();
         barUmbrella = GameObject.FindGameObjectWithTag("UmbrellaColorBar").GetComponent<UmbrellaColorBar>();
-        umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
+        //umbrellaBar = GameObject.FindGameObjectWithTag("UmbrellaBar").GetComponent<UmbrellaBar>();
         managerLevel = FindObjectOfType<LaunchLevel>();
         rig = GetComponent<Rigidbody>();
         SetBasicShadowPos();
         initialTimerUmbrella = timerUmbrella;
         Courage = 0;
+
 
         if (checkPoint)
         {
@@ -108,14 +129,21 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
-        Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;     
-     
+        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
+        {
+            Horizontal = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime; // Used to move player
+            Vertical = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
+
+            ColorOfPlayer();
+        }
+
     }
 
     void Update()
     {
-        if (!levelManager.dead && !levelManager.pause && !levelManager.win) // If player is alive
+        Vector3 posplayer = transform.position;
+
+        if ((!levelManager.dead && !levelManager.pause && !levelManager.win ) && !death) // If player is alive
         {
             if (!squat && !roofAbovePlayer)
             {
@@ -131,23 +159,43 @@ public class Player : MonoBehaviour
             }
 
             inShadow = CheckShadow();
-            ColorOfPlayer();
-            ManageCourage();
+            
+            ManageAnimation();
+            InputGodMode();
+        }
+        else
+        {
+            if (asWalk.isPlaying)
+                asWalk.Stop();
+            if (asJump.isPlaying)
+                asJump.Stop();
+        }
+
+        if (death && !levelManager.dead)
+        {
+            rig.velocity = new Vector3(0, 0, 0);
+            Lose();
+        }
+
+        if(levelManager.pause || levelManager.win)
+        {
+            transform.position = posplayer;
+            rig.velocity = new Vector3(0, 0, 0);
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+
         }
     }
 
     private void PlayerMovement()
-    {
-         
+    {  
         rig.velocity = new Vector3(Horizontal , rig.velocity.y , Vertical);
 
-        
         Vector3 targetDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         if (targetDirection.magnitude != 0)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            gameObject.transform.parent = null;
-            gameObject.transform.rotation = targetRotation;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection,Vector3.up);
+            gameObject.transform.localRotation = targetRotation;
         }
 
         if (rig.velocity.y < 0f && !umbrella)
@@ -155,10 +203,9 @@ public class Player : MonoBehaviour
             rig.AddForce(Vector3.down * gravityModifier);
         }
 
+
         if (Input.GetButtonDown("Jump") && (jump < numberOfJump - 1 || GroundCheck() && numberOfJump > 0) && !isJumping)
         {
-            
-
             if (!UmbrellaOnIfJump)
             {
                 if (jump == 0) // umbrella off if you jump
@@ -181,10 +228,12 @@ public class Player : MonoBehaviour
             }
         }
 
+
         if (GroundCheck())
         {
             jump = 0;
         }
+
     }
 
     private bool CheckShadow()
@@ -284,7 +333,7 @@ public class Player : MonoBehaviour
             {
                 colorPlayer += 1 / timerInLight * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
         if (materialPlayer.color.r >= 0)
@@ -293,7 +342,7 @@ public class Player : MonoBehaviour
             { 
                 colorPlayer -= 1 / timerInShadow * Time.fixedDeltaTime;
                 materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
-                barPlayer.RefreshBar();
+                //barPlayer.RefreshBar();
             }
         }
 
@@ -301,14 +350,15 @@ public class Player : MonoBehaviour
         {
             colorPlayer = 1;
             materialPlayer.color = new Color(1, 1, 1, 255);
-            barPlayer.RefreshBar();
-            Lose();
+            //barPlayer.RefreshBar();
+            if (!death)
+                death = true;
         }
         if (colorPlayer < 0f)
         {
             colorPlayer = 0;
             materialPlayer.color = new Color(0, 0, 0, 255);
-            barPlayer.RefreshBar();
+            //barPlayer.RefreshBar();
         }
 
     }
@@ -317,13 +367,25 @@ public class Player : MonoBehaviour
     {
         if (!debug)
         {
-            levelManager.dead = true;
+            if (!levelManager.dead)
+            {
+
+                if (!animator.GetBool("Death"))
+                {
+                    animator.SetBool("Death", true);
+                    AudioClip deathClip = Resources.Load("Sounds/GameLose") as AudioClip;
+                    asOpenUmbrella.PlayOneShot(deathClip);
+                }
+
+                StartCoroutine(Anim());
+                
+            }
         }
     }
 
     public void UmbrellaActiveOrNot()
     {
-        ManageUmbrellaBar();
+        //ManageUmbrellaBar();
         // Umbrella input and condition 
         UmbrellaInput();
         // Planer
@@ -357,8 +419,6 @@ public class Player : MonoBehaviour
     {
         if(Input.GetButtonDown("CircleButton") || Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Transform saveParent = gameObject.transform.parent;
-            gameObject.transform.parent = null;
             //manage umbrella with squat
             if (umbrella == true)
             {
@@ -375,6 +435,7 @@ public class Player : MonoBehaviour
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
                 umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
                 speed = speed * divSpeedPlayer;
+                
             }
 
             // squat
@@ -395,22 +456,21 @@ public class Player : MonoBehaviour
                 speed = speed * 2;
             }
 
-            gameObject.transform.parent = saveParent;
         }
     }
 
     private void ManageCourage()
     {
-        if ( courage == maxCourage)
+       /* if ( courage == maxCourage)
         {
             Courage = 0;
             timerInLight += secToAddInLight;
-        }
+        }*/
     }
 
     private void ManageUmbrellaBar()
     {
-        // manage bar of umbrella 
+       /* // manage bar of umbrella 
         if (umbrella && valueBarUmbrella < 1)
         {
             valueBarUmbrella += 1 / umbrellaTimeOpen * Time.deltaTime;
@@ -427,7 +487,7 @@ public class Player : MonoBehaviour
             umbrellaForcON = true;
         }
         if (valueBarUmbrella < 0)
-            valueBarUmbrella = 0;
+            valueBarUmbrella = 0; */
     }
 
     private void PlanerCalcul()
@@ -452,11 +512,14 @@ public class Player : MonoBehaviour
     {
         if (timerUmbrella > 0)
         {
-            timerUmbrella -= Time.fixedDeltaTime;
+            timerUmbrella -= Time.deltaTime;
         }
         if ((((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0) && valueBarUmbrella < 1)
             || (umbrellaJump == true && umbrella == true) || umbrellaForcON)
         {
+
+            asOpenUmbrella.PlayOneShot(asOpenUmbrella.clip);
+
             umbrellaForcON = false;
             if (umbrellaJump == true)
             {
@@ -480,10 +543,120 @@ public class Player : MonoBehaviour
                     speed = speed / speedOfPlaner;
                 }
                 umbrel.transform.rotation = Quaternion.Euler(0, 0, 0);
-                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z);
+                umbrel.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1f, gameObject.transform.position.z);
                 speed = speed * divSpeedPlayer;
 
             }
         }
+    }
+
+    private void ManageAnimation()
+    {
+        // walk animation
+        if (Horizontal == 0 && Vertical == 0)
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+
+            if (asWalk.isPlaying)
+                asWalk.Stop();
+        }
+        else
+        {
+            
+            bool gc = GroundCheck();
+            if (gc && !animator.GetBool("Walk"))
+            {
+                animator.SetBool("Walk", true);
+            }
+            else if (!gc)
+                animator.SetBool("Walk", false);
+
+            if (gc && !asWalk.isPlaying)
+                asWalk.Play();
+            else if (!gc && asWalk.isPlaying)
+                asWalk.Stop();
+        }
+
+        // glide animation 
+        if(umbrella && !GroundCheck())
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+            if (!animator.GetBool("Glide"))
+                animator.SetBool("Glide", true);
+        }
+        
+        // jump animation 
+        if(Input.GetButtonDown("Jump"))
+        {
+            if (animator.GetBool("Walk"))
+                animator.SetBool("Walk", false);
+            if (!animator.GetBool("JumpUp"))
+                animator.SetBool("JumpUp", true);
+            if (animator.GetBool("JumpDown"))
+                animator.SetBool("JumpDown", false);
+
+            if (GroundCheck() && !asJump.isPlaying)
+                asJump.PlayOneShot(asJump.clip);
+        }
+        else
+        {
+            if (animator.GetBool("JumpUp"))
+                animator.SetBool("JumpUp", false);
+        }
+
+            // reset some animation 
+        if (GroundCheck())
+        {
+            if (animator.GetBool("Glide"))
+                animator.SetBool("Glide", false);
+
+            if (!animator.GetBool("JumpDown"))
+            {
+                animator.SetBool("Walk", false);
+                animator.SetBool("JumpDown", true);
+            }
+        }
+
+        // Squat animation 
+        if(squat)
+        {
+            if (!animator.GetBool("CrouchDown"))
+                animator.SetBool("CrouchDown", true);
+        }
+        else
+        {
+            if (animator.GetBool("CrouchDown"))
+                animator.SetBool("CrouchDown", false);
+        }
+
+    }
+
+    private void InputGodMode()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+            debug = !debug;
+
+        if (Input.GetKeyDown(KeyCode.F2))
+            levelManager.NextLevel();
+    }
+
+    IEnumerator Anim()
+    {
+        yield return new WaitForSeconds(2);
+
+        levelManager.dead = true;
+
+        yield return new WaitForSeconds(1);
+
+        death = false;
+        rig.velocity = new Vector3(0, 0, 0);
+        colorPlayer = 0;
+        materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+
+        if (animator.GetBool("Death"))
+            animator.SetBool("Death", false);
+
     }
 }

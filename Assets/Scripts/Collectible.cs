@@ -22,15 +22,21 @@ public class Collectible : MonoBehaviour
     private Vector3 initialPos ;
     private bool direction = false;
 
+    private AudioSource asCollectible;
+    private ParticleSystem particle;
 
     void Start()
     {
+        asCollectible = GetComponent<AudioSource>();
+        asCollectible.clip = Resources.Load("Sounds/Collectible") as AudioClip;
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         meshRend = gameObject.GetComponent<MeshRenderer>();
         g = 0;
         b = 1;
         r = maxColor;
         initialPos = gameObject.transform.position;
+        particle = gameObject.transform.parent.GetChild(1).gameObject.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -44,8 +50,14 @@ public class Collectible : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            particle.Play();
+
             player.Courage += addCourage;
-            Destroy(gameObject);
+            asCollectible.PlayOneShot(asCollectible.clip);
+            gameObject.GetComponent<BoxCollider>().enabled = false;
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            
+            Destroy(gameObject.transform.parent.gameObject, asCollectible.clip.length);
         }
     }
 
