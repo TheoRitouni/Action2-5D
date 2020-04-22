@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limitOfUmbrella: 45
-  speedOfUmbrella: 3
+  speedOfUmbrella: 1.7
 --- !u!1 &4603049437432097042
 GameObject:
   m_ObjectHideFlags: 0
