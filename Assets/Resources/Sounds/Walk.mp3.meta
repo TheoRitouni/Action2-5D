@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Sounds/Walk.mp3.meta
 guid: 4733ec7ab31c2854e82f53cf7d9c4aed
+=======
+guid: b779c635ff83ee1459737c79a27d27ba
+>>>>>>> 3cb6035eb5f8ad7fcfe8ee1ef47e66995ee637fa:Assets/Resources/Sounds/Walk.wav.meta
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
