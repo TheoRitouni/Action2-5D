@@ -77,7 +77,7 @@ public class EnemyStatic : MonoBehaviour
                 if (levelManager.dead)
                     return;
 
-                playerScript.Lose();
+                playerScript.death = true;
             }
         }
     }
@@ -244,7 +244,7 @@ public class EnemyStatic : MonoBehaviour
             return;
 
         if (collision.gameObject.CompareTag("Player"))
-            playerScript.Lose();
+            playerScript.death = true;
         
     }
 

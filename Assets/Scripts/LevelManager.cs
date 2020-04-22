@@ -71,22 +71,22 @@ public class LevelManager : MonoBehaviour
 
     public void Checkpoint()
     {
-        if (playerScript.CheckPoint != new Vector3(0,0,0))
+        if (playerScript.CheckPoint != new Vector3(0, 0, 0))
         {
 
-            foreach(GameObject collectibles in GameObject.FindGameObjectsWithTag("Collectible"))
+            foreach (GameObject collectibles in GameObject.FindGameObjectsWithTag("Collectible"))
             {
                 Destroy(collectibles);
             }
-            for(int i = 0; i < posCollectibles.Count; i++)
+            for (int i = 0; i < posCollectibles.Count; i++)
             {
-                GameObject tempObject = Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],rotCollectibles[i]) as GameObject;
+                GameObject tempObject = Instantiate(Resources.Load("Prefabs/Pref_Collectible"), posCollectibles[i], rotCollectibles[i]) as GameObject;
                 tempObject.tag = "Collectible";
                 tempObject.transform.localScale = scaleCollectibles[i];
                 tempObject.transform.parent = parentCollectibles[i];
-                if(tempObject.transform.parent != null)
+                if (tempObject.transform.parent != null)
                 {
-                    tempObject.transform.localPosition = localposCollectibles[i]; 
+                    tempObject.transform.localPosition = localposCollectibles[i];
                 }
             }
 
@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour
         {
             launchManager.RestartLevel();
         }
-
+        
     }
 
     public void Continue()

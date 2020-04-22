@@ -35,87 +35,91 @@ public class ControllerChoose : MonoBehaviour
 
     void Update()
     {
-
-        if (!onOption)
-        {
-            if (Input.GetButtonDown("ButtonY"))
+            if (!onOption)
             {
-                onOption = !onOption;
-                option.SetActive(onOption);
+                if (Input.GetButtonDown("ButtonY"))
+                {
+                    onOption = !onOption;
+                    option.SetActive(onOption);
+                }
+
+                if (Input.GetButtonDown("Jump"))
+                {
+                    ButtonClick();
+                }
+                else if (Input.GetButtonDown("CircleButton") && buttonBack != null)
+                {
+                    buttonBack.onClick.Invoke();
+                }
+
+                if (smooth > 0f)
+                    smooth -= Time.deltaTime;
+                else if (leftRight)
+                {
+                    float Horizontal = Input.GetAxis("Horizontal");
+                    if (Horizontal >= 0.75f)
+                    {
+                        if (buttonsIndex + 1 == buttons.Count)
+                            buttonsIndex = 0;
+                        else
+                            buttonsIndex++;
+
+                        uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
+                        uiButton.transform.position = buttons[buttonsIndex].transform.position;
+                        smooth = 0.25f;
+                        audioSource.PlayOneShot(buttonHover);
+                    }
+                    else if (Horizontal <= -0.75f)
+                    {
+                        if (buttonsIndex - 1 == -1)
+                            buttonsIndex = buttons.Count - 1;
+                        else
+                            buttonsIndex--;
+
+                        uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
+                        uiButton.transform.position = buttons[buttonsIndex].transform.position;
+                        smooth = 0.25f;
+                        audioSource.PlayOneShot(buttonHover);
+                    }
+                }
+                else if (!leftRight)
+                {
+                    float Horizontal = -Input.GetAxis("Vertical");
+                    if (Horizontal >= 0.75f)
+                    {
+                        if (buttonsIndex + 1 == buttons.Count)
+                            buttonsIndex = 0;
+                        else
+                            buttonsIndex++;
+
+                        uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
+                        uiButton.transform.position = buttons[buttonsIndex].transform.position;
+                        smooth = 0.25f;
+                        audioSource.PlayOneShot(buttonHover);
+                    }
+                    else if (Horizontal <= -0.75f)
+                    {
+                        if (buttonsIndex - 1 == -1)
+                            buttonsIndex = buttons.Count - 1;
+                        else
+                            buttonsIndex--;
+
+                        uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
+                        uiButton.transform.position = buttons[buttonsIndex].transform.position;
+                        smooth = 0.25f;
+                        audioSource.PlayOneShot(buttonHover);
+                    }
+                }
             }
-
-            if (Input.GetButtonDown("Jump"))
-                ButtonClick();
-            else if (Input.GetButtonDown("CircleButton") && buttonBack != null)
-                buttonBack.onClick.Invoke();
-
-            if (smooth > 0f)
-                smooth -= Time.deltaTime;
-            else if (leftRight)
+            else
             {
-                float Horizontal = Input.GetAxis("Horizontal");
-                if (Horizontal >= 0.75f)
+                if (Input.GetButtonDown("ButtonY") || Input.GetButtonDown("CircleButton"))
                 {
-                    if (buttonsIndex + 1 == buttons.Count)
-                        buttonsIndex = 0;
-                    else
-                        buttonsIndex++;
-
-                    uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
-                    uiButton.transform.position = buttons[buttonsIndex].transform.position;
-                    smooth = 0.25f;
-                    audioSource.PlayOneShot(buttonHover);
-                }
-                else if (Horizontal <= -0.75f)
-                {
-                    if (buttonsIndex - 1 == -1)
-                        buttonsIndex = buttons.Count - 1;
-                    else
-                        buttonsIndex--;
-
-                    uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
-                    uiButton.transform.position = buttons[buttonsIndex].transform.position;
-                    smooth = 0.25f;
-                    audioSource.PlayOneShot(buttonHover);
+                    onOption = !onOption;
+                    option.SetActive(onOption);
                 }
             }
-            else if (!leftRight)
-            {
-                float Horizontal = -Input.GetAxis("Vertical");
-                if (Horizontal >= 0.75f)
-                {
-                    if (buttonsIndex + 1 == buttons.Count)
-                        buttonsIndex = 0;
-                    else
-                        buttonsIndex++;
-
-                    uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
-                    uiButton.transform.position = buttons[buttonsIndex].transform.position;
-                    smooth = 0.25f;
-                    audioSource.PlayOneShot(buttonHover);
-                }
-                else if (Horizontal <= -0.75f)
-                {
-                    if (buttonsIndex - 1 == -1)
-                        buttonsIndex = buttons.Count - 1;
-                    else
-                        buttonsIndex--;
-
-                    uiButton.GetComponent<RectTransform>().sizeDelta = buttons[buttonsIndex].GetComponent<RectTransform>().sizeDelta + new Vector2(20f, 20f);
-                    uiButton.transform.position = buttons[buttonsIndex].transform.position;
-                    smooth = 0.25f;
-                    audioSource.PlayOneShot(buttonHover);
-                }
-            }
-        }
-        else 
-        {
-            if (Input.GetButtonDown("ButtonY") || Input.GetButtonDown("CircleButton"))
-            {
-                onOption = !onOption;
-                option.SetActive(onOption);
-            }
-        }
+        
     }
 
     private void ButtonClick()
