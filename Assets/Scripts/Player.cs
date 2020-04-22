@@ -654,6 +654,7 @@ public class Player : MonoBehaviour
             animator.SetBool("Death", false);
 
         death = false;
+        transform.position = checkPointPos;
 
     }
 }
