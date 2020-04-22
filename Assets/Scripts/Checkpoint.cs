@@ -52,6 +52,7 @@ public class Checkpoint : MonoBehaviour
 
             flag.material.color = new Color(0, 255, 0);
 
+            asCheckpoint.volume = 0.1f;
             asCheckpoint.PlayOneShot(Resources.Load("Sounds/Checkpoint") as AudioClip);
 
             check = false;
