@@ -2153,7 +2153,7 @@ MonoBehaviour:
   movementPointB: []
   maxRadius: 5
   maxAngle: 11.5
-  asEnnemyChase: {fileID: 6028337107735559111}
+  asEnnemyTrigger: {fileID: 6028337107735559111}
 --- !u!1 &7555600438234336549
 GameObject:
   m_ObjectHideFlags: 0
