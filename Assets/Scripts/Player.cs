@@ -16,10 +16,10 @@ public class Player : MonoBehaviour
     private LaunchLevel managerLevel;
 
     [Header("Movements")]
-    [SerializeField] [Range(0f, 1000f)] private float        speed = 0f;
+    [SerializeField] [Range(0f, 1000f)] private float       speed = 0f;
     [SerializeField] [Range(100f, 1000f)] private float     jumpForce = 0f;
     [SerializeField] [Range(0, 10)] private int             numberOfJump = 0;
-    [SerializeField] [Range(0f, 300f)] private float         gravityModifier = 100f;
+    [SerializeField] [Range(0f, 300f)] private float        gravityModifier = 100f;
     [SerializeField] private bool                           jumpWithSquat = false;
     //[SerializeField] [Range(0f, 50f)] private float         velocityYmin = 5f;
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     [Tooltip("Time in sec to be completely Black")]
     [SerializeField] private float                          timerInShadow = 2f;
     [Tooltip("Time in sec to be completely White")]
-     public float                          timerInLight = 6f;
+    public float                                            timerInLight = 6f;
 
 
     private bool umbrella = false;
@@ -85,9 +85,9 @@ public class Player : MonoBehaviour
     private float Vertical = 0f;
 
     // Sound
-    private AudioSource audioSource;
-    private AudioClip walkClip;
-    private AudioClip jumpClip;
+    [SerializeField] private AudioSource asWalk;
+    [SerializeField] private AudioSource asJump;
+    [SerializeField] private AudioSource asOpenUmbrella;
 
     // death 
     private bool death = false;
@@ -100,9 +100,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        walkClip = Resources.Load("Sounds/Walk") as AudioClip;
-        jumpClip = Resources.Load("Sounds/Jump") as AudioClip;
+        /* Start sound Part */
+
+        asWalk.clip = Resources.Load("Sounds/Walk") as AudioClip;
+        asJump.clip = Resources.Load("Sounds/Jump") as AudioClip;
+        asOpenUmbrella.clip = Resources.Load("Sounds/OpenUmbrella") as AudioClip;
+
+        /* End sound Part */
 
         animator = GetComponent<Animator>();
         directionalLight = GameObject.FindGameObjectWithTag("DirLight").transform;
@@ -157,8 +161,17 @@ public class Player : MonoBehaviour
             ManageAnimation();
             InputGodMode();
         }
+        else
+        {
+            if (asWalk.isPlaying)
+                asWalk.Stop();
+            if (asJump.isPlaying)
+                asJump.Stop();
+            if (asOpenUmbrella.isPlaying)
+                asOpenUmbrella.Stop();
+        }
 
-        if(death)
+        if (death)
         {
             rig.velocity = new Vector3(0, 0, 0);
             Lose();
@@ -491,6 +504,9 @@ public class Player : MonoBehaviour
         if ((((Input.GetAxis("RightTrigger") > 0 || Input.GetKeyDown(KeyCode.Return)) && timerUmbrella < 0) && valueBarUmbrella < 1)
             || (umbrellaJump == true && umbrella == true) || umbrellaForcON)
         {
+
+            asOpenUmbrella.PlayOneShot(asOpenUmbrella.clip);
+
             umbrellaForcON = false;
             if (umbrellaJump == true)
             {
@@ -529,28 +545,24 @@ public class Player : MonoBehaviour
             if (animator.GetBool("Walk"))
                 animator.SetBool("Walk", false);
 
-            audioSource.Stop();
+            if (asWalk.isPlaying)
+                asWalk.Stop();
         }
         else
         {
             
             bool gc = GroundCheck();
             if (gc && !animator.GetBool("Walk"))
+            {
                 animator.SetBool("Walk", true);
+            }
             else if (!gc)
                 animator.SetBool("Walk", false);
 
-            if (gc)
-            {
-                if (audioSource.clip == null || audioSource.clip != walkClip)
-                {
-                    audioSource.Stop();
-                    audioSource.clip = walkClip;
-                }
-
-                if (!audioSource.isPlaying)
-                    audioSource.Play();
-            }
+            if (gc && !asWalk.isPlaying)
+                asWalk.Play();
+            else if (!gc && asWalk.isPlaying)
+                asWalk.Stop();
         }
 
         // glide animation 
@@ -572,17 +584,8 @@ public class Player : MonoBehaviour
             if (animator.GetBool("JumpDown"))
                 animator.SetBool("JumpDown", false);
 
-            if (GroundCheck())
-            {
-                if (audioSource.clip == null || audioSource.clip != jumpClip)
-                {
-                    audioSource.Stop();
-                    audioSource.clip = jumpClip;
-                }
-
-                if (!audioSource.isPlaying)
-                    audioSource.Play();
-            }
+            if (GroundCheck() && !asJump.isPlaying)
+                asJump.PlayOneShot(asJump.clip);
         }
         else
         {
@@ -632,7 +635,7 @@ public class Player : MonoBehaviour
 
         levelManager.dead = true;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         if (animator.GetBool("Death"))
             animator.SetBool("Death", false);
