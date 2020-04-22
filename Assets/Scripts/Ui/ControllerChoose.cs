@@ -9,6 +9,7 @@ public class ControllerChoose : MonoBehaviour
     public bool leftRight = false;
     [SerializeField] private List<GameObject> buttons;
     [SerializeField] private GameObject uiButton;
+    [SerializeField] private Button buttonBack;
 
     private int buttonsIndex = 0;
     private float smooth = 0.25f;
@@ -32,8 +33,11 @@ public class ControllerChoose : MonoBehaviour
     void Update()
     {
 
+
         if (Input.GetButtonDown("Jump"))
             ButtonClick();
+        else if (Input.GetButtonDown("CircleButton") && buttonBack != null)
+            buttonBack.onClick.Invoke();
 
         if (smooth > 0f)
             smooth -= Time.deltaTime;

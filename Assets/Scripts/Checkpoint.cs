@@ -21,10 +21,19 @@ public class Checkpoint : MonoBehaviour
     {
         if (check)
         {
+            levelManager.posCollectibles.Clear();
+            levelManager.rotCollectibles.Clear();
+            levelManager.scaleCollectibles.Clear();
+            levelManager.parentCollectibles.Clear();
+            levelManager.localposCollectibles.Clear();
+
             foreach (GameObject collect in GameObject.FindGameObjectsWithTag("Collectible"))
             {
                 levelManager.posCollectibles.Add(collect.transform.position);
                 levelManager.rotCollectibles.Add(collect.transform.rotation);
+                levelManager.scaleCollectibles.Add(collect.transform.localScale);
+                levelManager.parentCollectibles.Add(collect.transform.parent);
+                levelManager.localposCollectibles.Add(collect.transform.localPosition);
             }
 
             levelManager.timeInLightSave = playerScript.timerInLight;

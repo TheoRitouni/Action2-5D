@@ -1388,9 +1388,8 @@ MonoBehaviour:
   leftRight: 0
   buttons:
   - {fileID: 1085636671}
-  - {fileID: 0}
-  - {fileID: 1242864056}
   uiButton: {fileID: 1496562599}
+  buttonBack: {fileID: 1242864058}
   launchlevel: {fileID: 0}
 --- !u!1 &817879718
 GameObject:
@@ -1535,8 +1534,8 @@ MonoBehaviour:
   - {fileID: 525629728}
   - {fileID: 1348652974}
   - {fileID: 727634915}
-  - {fileID: 1331549396}
   uiButton: {fileID: 1630824648}
+  buttonBack: {fileID: 1331549398}
   launchlevel: {fileID: 767663376}
 --- !u!1 &1085636671
 GameObject:

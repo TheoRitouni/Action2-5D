@@ -9,7 +9,10 @@ public class LevelManager : MonoBehaviour
     private GameObject player;
 
     public List<Vector3> posCollectibles = new List<Vector3>();
+    public List<Vector3> localposCollectibles = new List<Vector3>();
+    public List<Vector3> scaleCollectibles = new List<Vector3>();
     public List<Quaternion> rotCollectibles = new List<Quaternion>();
+    public List<Transform> parentCollectibles = new List<Transform>();
     public float timeInLightSave = 0f;
     public float courageSave = 0f;
 
@@ -77,7 +80,14 @@ public class LevelManager : MonoBehaviour
             }
             for(int i = 0; i < posCollectibles.Count; i++)
             {
-                Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],rotCollectibles[i]);             
+                GameObject tempObject = Instantiate(Resources.Load("Prefabs/Pref_Collectible"),posCollectibles[i],rotCollectibles[i]) as GameObject;
+                tempObject.tag = "Collectible";
+                tempObject.transform.localScale = scaleCollectibles[i];
+                tempObject.transform.parent = parentCollectibles[i];
+                if(tempObject.transform.parent != null)
+                {
+                    tempObject.transform.localPosition = localposCollectibles[i]; 
+                }
             }
 
             playerScript.timerInLight = timeInLightSave;
