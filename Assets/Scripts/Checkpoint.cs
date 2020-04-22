@@ -8,12 +8,14 @@ public class Checkpoint : MonoBehaviour
     private Player playerScript;
     private LevelManager levelManager;
     private bool check = true;
+    private MeshRenderer flag;
 
     void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
         managerLevel = FindObjectOfType<LaunchLevel>();
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        flag = gameObject.transform.GetChild(0).transform.GetChild(2).GetComponent<MeshRenderer>();
         
     }
 
@@ -44,8 +46,14 @@ public class Checkpoint : MonoBehaviour
                 managerLevel.checkpoint = gameObject.transform.position;
                 playerScript.CheckPoint = gameObject.transform.position;
             }
+
+
+            flag.material.color = new Color(0, 255, 0);
+
             check = false;
         }
     }
+
+   
 
 }
