@@ -212,7 +212,7 @@ public class Enemy : MonoBehaviour
             return;
 
         if (collision.gameObject.CompareTag("Player"))
-            playerScript.Lose();
+            playerScript.death = true;
         
     }
 }

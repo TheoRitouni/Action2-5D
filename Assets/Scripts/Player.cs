@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioSource asOpenUmbrella;
 
     // death 
-    private bool death = false;
+    public bool death = false;
 
 
     private void Awake()
@@ -171,7 +171,7 @@ public class Player : MonoBehaviour
                 asJump.Stop();
         }
 
-        if (death)
+        if (death && !levelManager.dead)
         {
             rig.velocity = new Vector3(0, 0, 0);
             Lose();
@@ -351,7 +351,8 @@ public class Player : MonoBehaviour
             colorPlayer = 1;
             materialPlayer.color = new Color(1, 1, 1, 255);
             //barPlayer.RefreshBar();
-            Lose();
+            if (!death)
+                death = true;
         }
         if (colorPlayer < 0f)
         {
@@ -368,7 +369,6 @@ public class Player : MonoBehaviour
         {
             if (!levelManager.dead)
             {
-                death = true;
 
                 if (!animator.GetBool("Death"))
                 {
@@ -650,10 +650,13 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
+        death = false;
+        rig.velocity = new Vector3(0, 0, 0);
+        colorPlayer = 0;
+        materialPlayer.color = new Color(colorPlayer, colorPlayer, colorPlayer, 255);
+
         if (animator.GetBool("Death"))
             animator.SetBool("Death", false);
-
-        death = false;
 
     }
 }
